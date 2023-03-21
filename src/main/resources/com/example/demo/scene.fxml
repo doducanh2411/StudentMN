@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.chart.BarChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane fx:id="main_form" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo.HelloController">
+   <top>
+      <Pane fx:id="top" prefHeight="20.0" prefWidth="1024.0" styleClass="top" stylesheets="@democss.css" BorderPane.alignment="CENTER">
+         <children>
+            <Button fx:id="close" alignment="CENTER" layoutX="984.0" minHeight="20.0" mnemonicParsing="false" onAction="#close" prefHeight="20.0" prefWidth="40.0" styleClass="close" stylesheets="@democss.css" text="X" />
+            <Button fx:id="minimize" alignment="CENTER" layoutX="944.0" minHeight="20.0" mnemonicParsing="false" onAction="#minimize" prefHeight="20.0" prefWidth="40.0" styleClass="minimize" stylesheets="@democss.css" text="-" />
+            <Label layoutX="67.0" layoutY="2.0" text="Student Management" />
+         </children>
+      </Pane>
+   </top>
+   <left>
+      <Pane prefHeight="690.0" prefWidth="200.0" styleClass="left" stylesheets="@democss.css" BorderPane.alignment="CENTER">
+         <children>
+            <Label id="left-label" alignment="CENTER" prefHeight="60.0" prefWidth="200.0" stylesheets="@democss.css" text="Studify" textAlignment="CENTER" />
+            <Button fx:id="dashBoardButton" layoutY="60.0" mnemonicParsing="false" onAction="#switchForm" prefHeight="50.0" prefWidth="200.0" styleClass="left-button" stylesheets="@democss.css" text="Dashboard" />
+            <Button fx:id="studentButton" layoutY="110.0" mnemonicParsing="false" onAction="#switchForm" prefHeight="50.0" prefWidth="200.0" styleClass="left-button" stylesheets="@democss.css" text="Student" />
+            <Button fx:id="gradeButton" layoutY="160.0" mnemonicParsing="false" onAction="#switchForm" prefHeight="50.0" prefWidth="200.0" styleClass="left-button" stylesheets="@democss.css" text="Grade" />
+            <Button layoutY="210.0" mnemonicParsing="false" onAction="#switchForm" prefHeight="50.0" prefWidth="200.0" styleClass="left-button" stylesheets="@democss.css" text="Course" />
+         </children>
+      </Pane>
+   </left>
+   <center>
+      <Pane prefHeight="200.0" prefWidth="200.0" styleClass="center" stylesheets="@democss.css" BorderPane.alignment="CENTER">
+         <children>
+            <Pane fx:id="dashBoardForm" layoutY="60.0" prefHeight="641.0" prefWidth="824.0" visible="false">
+               <children>
+                  <Pane layoutX="20.0" layoutY="30.0" prefHeight="200.0" prefWidth="230.0" styleClass="center-cen" stylesheets="@democss.css">
+                     <children>
+                        <Label layoutX="90.0" prefHeight="35.0" prefWidth="140.0" text="Total Enrolled Student">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="totalStudentLabel" layoutX="112.0" layoutY="92.0" text="0">
+                           <font>
+                              <Font size="30.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </Pane>
+                  <Pane layoutX="570.0" layoutY="30.0" prefHeight="200.0" prefWidth="230.0" styleClass="center-cen" stylesheets="@democss.css">
+                     <children>
+                        <Label layoutX="76.0" prefHeight="35.0" prefWidth="154.0" text="Enrolled Female Student">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="femaleStudentLabel" layoutX="112.0" layoutY="92.0" text="0">
+                           <font>
+                              <Font size="30.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </Pane>
+                  <Pane layoutX="297.0" layoutY="30.0" prefHeight="200.0" prefWidth="230.0" styleClass="center-cen" stylesheets="@democss.css">
+                     <children>
+                        <Label layoutX="92.0" prefHeight="35.0" prefWidth="138.0" text="Enrolled Male Student">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="maleStudentLabel" layoutX="112.0" layoutY="92.0" text="0">
+                           <font>
+                              <Font size="30.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </Pane>
+                  <BarChart fx:id="gradeChar" layoutX="19.0" layoutY="251.0" prefHeight="379.0" prefWidth="778.0" title="Grade">
+                    <xAxis>
+                      <CategoryAxis side="BOTTOM" />
+                    </xAxis>
+                    <yAxis>
+                      <NumberAxis side="LEFT" />
+                    </yAxis>
+                  </BarChart>
+               </children></Pane>
+            <Pane prefHeight="60.0" prefWidth="824.0" styleClass="center-top" stylesheets="@democss.css">
+               <children>
+                  <Label fx:id="welcomeLabel" layoutX="60.0" prefHeight="60.0" prefWidth="200.0" text="Hi, Nguyễn Trần Gia Bảo" textFill="WHITE">
+                     <font>
+                        <Font name="System Italic" size="18.0" />
+                     </font>
+                  </Label>
+                  <MenuButton fx:id="userButton" layoutX="700.0" layoutY="18.0" mnemonicParsing="false" text="User">
+                    <items>
+                      <MenuItem mnemonicParsing="false" text="Action 1" />
+                      <MenuItem mnemonicParsing="false" text="Action 2" />
+                    </items>
+                  </MenuButton>
+               </children>
+            </Pane>
+            <Pane fx:id="studentForm" layoutX="20.0" layoutY="101.0" prefWidth="805.0" stylesheets="@democss.css" visible="false">
+               <children>
+                  <TextField fx:id="searchStudent" prefHeight="25.0" prefWidth="260.0" />
+                  <Button fx:id="searchButton" layoutX="208.0" mnemonicParsing="false" text="Search" />
+                  <Pane layoutY="49.0" styleClass="center-cen" stylesheets="@democss.css">
+                     <children>
+                        <ScrollPane prefHeight="330.0" prefWidth="784.0">
+                           <content>
+                              <TableView fx:id="studentViewTable" prefHeight="328.0" prefWidth="782.0">
+                                <columns>
+                                  <TableColumn prefWidth="70.0" text="Student #" />
+                                  <TableColumn prefWidth="170.0" text="Full Name" />
+                                    <TableColumn prefWidth="70.0" text="Gender" />
+                                    <TableColumn prefWidth="100.0" text="Date of Birth" />
+                                    <TableColumn prefWidth="150.0" text="Email" />
+                                    <TableColumn prefWidth="150.0" text="Phone" />
+                                    <TableColumn prefWidth="71.0" text="Class" />
+                                </columns>
+                              </TableView>
+                           </content>
+                        </ScrollPane>
+                        <Label layoutX="20.0" layoutY="357.0" prefHeight="25.0" prefWidth="65.0" text="Student #:" />
+                        <Label layoutX="20.0" layoutY="395.0" prefHeight="25.0" prefWidth="65.0" text="Full Name:" />
+                        <Label layoutX="20.0" layoutY="435.0" prefHeight="25.0" prefWidth="65.0" text="Gender:" />
+                        <Label layoutX="280.0" layoutY="395.0" prefHeight="25.0" prefWidth="70.0" text="Phone:" />
+                        <Label layoutX="280.0" layoutY="435.0" prefHeight="25.0" prefWidth="70.0" text="Email:" />
+                        <Label layoutX="280.0" layoutY="357.0" prefHeight="25.0" prefWidth="70.0" text="Date of Birth:" />
+                        <Label layoutX="208.0" layoutY="498.0" text="Class" />
+                        <TextField fx:id="getStudentId" layoutX="85.0" layoutY="357.0" />
+                        <TextField fx:id="getName" layoutX="85.0" layoutY="395.0" />
+                        <MenuButton fx:id="getGender" layoutX="85.0" layoutY="435.0" mnemonicParsing="false" text="MenuButton">
+                          <items>
+                            <MenuItem mnemonicParsing="false" text="Action 1" />
+                            <MenuItem mnemonicParsing="false" text="Action 2" />
+                          </items>
+                        </MenuButton>
+                        <DatePicker fx:id="getDateOfBirth" layoutX="350.0" layoutY="357.0" />
+                        <TextField fx:id="getPhone" layoutX="350.0" layoutY="396.0" />
+                        <TextField fx:id="getEmail" layoutX="350.0" layoutY="433.0" />
+                        <Button fx:id="insertButton" layoutX="571.0" layoutY="372.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="70.0" text="Insert" />
+                        <Button fx:id="updateButton" layoutX="571.0" layoutY="427.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="70.0" text="Update" />
+                        <Button fx:id="deleteButton" layoutX="674.0" layoutY="372.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="70.0" text="Delete" />
+                        <Button fx:id="clearButton" layoutX="674.0" layoutY="427.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="70.0" text="Clear" />
+                        <TextField fx:id="getClass" layoutX="254.0" layoutY="495.0" />
+                     </children>
+                  </Pane>
+               </children>
+            </Pane>
+            <Pane fx:id="gradeForm" layoutY="60.0" prefHeight="641.0" prefWidth="824.0">
+               <children>
+                  <Pane prefHeight="640.0" prefWidth="250.0">
+                     <children>
+                        <Label layoutX="10.0" layoutY="75.0" prefHeight="25.0" prefWidth="70.0" text="Student #" />
+                        <Label layoutX="10.0" layoutY="110.0" prefHeight="25.0" prefWidth="70.0" text="Full name" />
+                        <Label layoutX="10.0" layoutY="145.0" prefHeight="25.0" prefWidth="70.0" text="Math" />
+                        <Label layoutX="10.0" layoutY="180.0" prefHeight="25.0" prefWidth="70.0" text="Literature" />
+                        <Label layoutX="10.0" layoutY="215.0" prefHeight="25.0" prefWidth="70.0" text="English" />
+                        <TextField fx:id="getGradeStudentId" layoutX="85.0" layoutY="75.0" />
+                        <TextField fx:id="getGradeStudentName" layoutX="85.0" layoutY="110.0" />
+                        <TextField fx:id="getMath" layoutX="85.0" layoutY="145.0" />
+                        <TextField fx:id="getLiterature" layoutX="85.0" layoutY="180.0" />
+                        <TextField fx:id="getEnglish" layoutX="85.0" layoutY="215.0" />
+                        <Button fx:id="insertGrade" layoutX="30.0" layoutY="280.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="70.0" text="Insert" />
+                        <Button fx:id="clearGrade" layoutX="30.0" layoutY="325.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="70.0" text="Clear" />
+                        <Button fx:id="updateGrade" layoutX="142.0" layoutY="280.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="70.0" text="Update" />
+                        <TextField fx:id="getGradeStudent" layoutX="11.0" layoutY="29.0" prefHeight="25.0" prefWidth="218.0" />
+                        <Button fx:id="searchBut" layoutX="182.0" layoutY="29.0" mnemonicParsing="false" text="Search" />
+                     </children>
+                  </Pane>
+                  <ScrollPane layoutX="250.0" prefHeight="640.0" prefWidth="574.0">
+                     <content>
+                        <TableView fx:id="gradeViewTable" prefHeight="638.0" prefWidth="572.0">
+                          <columns>
+                            <TableColumn prefWidth="75.0" text="Student #" />
+                            <TableColumn minWidth="0.0" prefWidth="200.0" text="Full name" />
+                              <TableColumn minWidth="0.0" prefWidth="100.0" text="Math" />
+                              <TableColumn minWidth="0.0" prefWidth="100.0" text="Literature" />
+                              <TableColumn minWidth="0.0" prefWidth="100.0" text="English" />
+                          </columns>
+                        </TableView>
+                     </content>
+                  </ScrollPane>
+               </children>
+            </Pane>
+         </children>
+      </Pane>
+   </center>
+</BorderPane>
