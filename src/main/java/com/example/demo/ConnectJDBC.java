@@ -4,7 +4,7 @@ public class ConnectJDBC {
     public static Connection getConnection(){
         Connection connection = null;
         try{
-            String url = "jdbc:mysql://localhost:3306/studentmn";
+            String url = "jdbc:mysql://localhost/studentmn";
             String user = "root";
             String pass = "";
             connection = DriverManager.getConnection(url, user, pass);
@@ -13,5 +13,4 @@ public class ConnectJDBC {
         }
         return connection;
     }
-
 }
