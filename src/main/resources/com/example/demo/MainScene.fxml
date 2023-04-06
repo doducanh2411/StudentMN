@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.chart.BarChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane fx:id="main_form" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo.MainSceneController">
+   <top>
+      <Pane fx:id="top" prefHeight="20.0" prefWidth="1024.0" styleClass="top" stylesheets="@mainscene.css" BorderPane.alignment="CENTER">
+         <children>
+            <Button fx:id="close" alignment="CENTER" layoutX="984.0" minHeight="20.0" mnemonicParsing="false" onAction="#close" prefHeight="20.0" prefWidth="40.0" styleClass="close" stylesheets="@mainscene.css" text="X" />
+            <Button fx:id="minimize" alignment="CENTER" layoutX="944.0" minHeight="20.0" mnemonicParsing="false" onAction="#minimize" prefHeight="20.0" prefWidth="40.0" styleClass="minimize" stylesheets="@mainscene.css" text="-" />
+            <Label layoutX="67.0" layoutY="2.0" text="Student Management" />
+         </children>
+      </Pane>
+   </top>
+   <left>
+      <Pane prefHeight="690.0" prefWidth="200.0" styleClass="left" stylesheets="@mainscene.css" BorderPane.alignment="CENTER">
+         <children>
+            <Label id="left-label" alignment="CENTER" prefHeight="60.0" prefWidth="200.0" stylesheets="@mainscene.css" text="Studify" textAlignment="CENTER" />
+            <Button fx:id="dashBoardButton" layoutY="60.0" mnemonicParsing="false" onAction="#switchForm" prefHeight="50.0" prefWidth="200.0" styleClass="left-button" stylesheets="@mainscene.css" text="Dashboard" />
+            <Button fx:id="studentButton" layoutY="110.0" mnemonicParsing="false" onAction="#switchForm" prefHeight="50.0" prefWidth="200.0" styleClass="left-button" stylesheets="@mainscene.css" text="Student" />
+            <Button fx:id="gradeButton" layoutY="160.0" mnemonicParsing="false" onAction="#switchForm" prefHeight="50.0" prefWidth="200.0" styleClass="left-button" stylesheets="@mainscene.css" text="Grade" />
+            <Button layoutY="210.0" mnemonicParsing="false" onAction="#switchForm" prefHeight="50.0" prefWidth="200.0" styleClass="left-button" stylesheets="@mainscene.css" text="Course" />
+         </children>
+      </Pane>
+   </left>
+   <center>
+      <Pane prefHeight="200.0" prefWidth="200.0" styleClass="center" stylesheets="@mainscene.css" BorderPane.alignment="CENTER">
+         <children>
+            <Pane fx:id="dashBoardForm" layoutY="60.0" prefHeight="641.0" prefWidth="824.0" visible="false">
+               <children>
+                  <Pane layoutX="20.0" layoutY="30.0" prefHeight="200.0" prefWidth="230.0" styleClass="center-cen" stylesheets="@mainscene.css">
+                     <children>
+                        <Label layoutX="90.0" prefHeight="35.0" prefWidth="140.0" text="Total Enrolled Student">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="totalStudentLabel" layoutX="112.0" layoutY="92.0" text="0">
+                           <font>
+                              <Font size="30.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </Pane>
+                  <Pane layoutX="570.0" layoutY="30.0" prefHeight="200.0" prefWidth="230.0" styleClass="center-cen" stylesheets="@mainscene.css">
+                     <children>
+                        <Label layoutX="76.0" prefHeight="35.0" prefWidth="154.0" text="Enrolled Female Student">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="femaleStudentLabel" layoutX="112.0" layoutY="92.0" text="0">
+                           <font>
+                              <Font size="30.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </Pane>
+                  <Pane layoutX="297.0" layoutY="30.0" prefHeight="200.0" prefWidth="230.0" styleClass="center-cen" stylesheets="@mainscene.css">
+                     <children>
+                        <Label layoutX="92.0" prefHeight="35.0" prefWidth="138.0" text="Enrolled Male Student">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="maleStudentLabel" layoutX="112.0" layoutY="92.0" text="0">
+                           <font>
+                              <Font size="30.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </Pane>
+                  <BarChart fx:id="gradeChar" layoutX="19.0" layoutY="251.0" prefHeight="379.0" prefWidth="778.0" title="Grade">
+                    <xAxis>
+                      <CategoryAxis side="BOTTOM" />
+                    </xAxis>
+                    <yAxis>
+                      <NumberAxis side="LEFT" />
+                    </yAxis>
+                  </BarChart>
+               </children></Pane>
+            <Pane prefHeight="60.0" prefWidth="824.0" styleClass="center-top" stylesheets="@mainscene.css">
+               <children>
+                  <Label fx:id="welcomeLabel" layoutX="60.0" prefHeight="60.0" prefWidth="200.0" text="Hi" textFill="WHITE">
+                     <font>
+                        <Font name="System Italic" size="18.0" />
+                     </font>
+                  </Label>
+                  <MenuButton fx:id="userButton" layoutX="700.0" layoutY="18.0" mnemonicParsing="false" text="User">
+                    <items>
+                      <MenuItem mnemonicParsing="false" text="Action 1" />
+                      <MenuItem mnemonicParsing="false" text="Action 2" />
+                    </items>
+                  </MenuButton>
+               </children>
+            </Pane>
+            <Pane fx:id="studentForm" layoutX="20.0" layoutY="135.0" prefHeight="500.0" prefWidth="785.0" styleClass="center-cen" stylesheets="@mainscene.css" visible="false">
+               <children>
+                  <TextField fx:id="searchStudent" layoutX="25.0" layoutY="13.0" onKeyPressed="#searchStudent" prefHeight="25.0" prefWidth="260.0" promptText="Seach" />
+                  <Pane layoutY="49.0" prefHeight="495.0" prefWidth="784.0" styleClass="center-cen" stylesheets="@mainscene.css">
+                     <children>
+                        <ScrollPane prefHeight="330.0" prefWidth="784.0">
+                           <content>
+                              <TableView fx:id="studentViewTable" onMouseClicked="#studentSelect" prefHeight="328.0" prefWidth="782.0">
+                                <columns>
+                                  <TableColumn fx:id="student_id_col" prefWidth="70.0" text="Student #" />
+                                  <TableColumn fx:id="student_name_col" prefWidth="170.0" text="Full Name" />
+                                    <TableColumn fx:id="student_gender_col" prefWidth="70.0" text="Gender" />
+                                    <TableColumn fx:id="student_birth_col" prefWidth="100.0" text="Date of Birth" />
+                                    <TableColumn fx:id="student_email_col" prefWidth="108.7999267578125" text="Email" />
+                                    <TableColumn fx:id="student_phone_col" prefWidth="125.5999755859375" text="Phone" />
+                                    <TableColumn fx:id="student_class_col" prefWidth="64.0" text="Class" />
+                                </columns>
+                              </TableView>
+                           </content>
+                        </ScrollPane>
+                        <Label layoutX="20.0" layoutY="357.0" prefHeight="25.0" prefWidth="65.0" text="Student #:" />
+                        <Label layoutX="20.0" layoutY="395.0" prefHeight="25.0" prefWidth="65.0" text="Full Name:" />
+                        <Label layoutX="20.0" layoutY="435.0" prefHeight="25.0" prefWidth="65.0" text="Gender:" />
+                        <Label layoutX="280.0" layoutY="395.0" prefHeight="25.0" prefWidth="70.0" text="Phone:" />
+                        <Label layoutX="280.0" layoutY="435.0" prefHeight="25.0" prefWidth="70.0" text="Email:" />
+                        <Label layoutX="280.0" layoutY="357.0" prefHeight="25.0" prefWidth="70.0" text="Date of Birth:" />
+                        <Label layoutX="207.0" layoutY="473.0" text="Class" />
+                        <TextField fx:id="getStudentId" layoutX="85.0" layoutY="357.0" />
+                        <TextField fx:id="getStudentName" layoutX="85.0" layoutY="395.0" />
+                        <DatePicker fx:id="getStudentBirth" layoutX="350.0" layoutY="357.0" />
+                        <TextField fx:id="getStudentPhone" layoutX="350.0" layoutY="396.0" />
+                        <TextField fx:id="getStudentEmail" layoutX="350.0" layoutY="433.0" />
+                        <Button fx:id="insertButton" layoutX="571.0" layoutY="372.0" mnemonicParsing="false" onAction="#addStudent" prefHeight="35.0" prefWidth="70.0" text="Insert" />
+                        <Button fx:id="updateButton" layoutX="571.0" layoutY="427.0" mnemonicParsing="false" onAction="#updateStudent" prefHeight="35.0" prefWidth="70.0" text="Update" />
+                        <Button fx:id="deleteButton" layoutX="674.0" layoutY="372.0" mnemonicParsing="false" onAction="#deleteStudent" prefHeight="35.0" prefWidth="70.0" text="Delete" />
+                        <Button fx:id="clearButton" layoutX="674.0" layoutY="427.0" mnemonicParsing="false" onAction="#clearSelected" prefHeight="35.0" prefWidth="70.0" text="Clear" />
+                        <TextField fx:id="getStudentClass" layoutX="264.0" layoutY="469.0" prefHeight="0.0" prefWidth="149.0" />
+                        <ComboBox fx:id="getStudentGender" layoutX="84.0" layoutY="435.0" prefWidth="150.0" />
+                     </children>
+                  </Pane>
+               </children>
+            </Pane>
+            <Pane fx:id="gradeForm" layoutY="100.0" prefHeight="641.0" prefWidth="824.0">
+               <children>
+                  <Pane layoutX="20.0" layoutY="20.0" prefHeight="548.0" prefWidth="250.0" styleClass="center-cen" stylesheets="@mainscene.css">
+                     <children>
+                        <Label layoutX="10.0" layoutY="75.0" prefHeight="25.0" prefWidth="70.0" text="Student #" />
+                        <Label layoutX="10.0" layoutY="110.0" prefHeight="25.0" prefWidth="70.0" text="Full name" />
+                        <Label layoutX="10.0" layoutY="196.0" prefHeight="25.0" prefWidth="70.0" text="Component" />
+                        <Label layoutX="10.0" layoutY="231.0" prefHeight="25.0" prefWidth="70.0" text="Mid" />
+                        <Label layoutX="10.0" layoutY="266.0" prefHeight="25.0" prefWidth="70.0" text="End" />
+                        <TextField fx:id="getGradeStudentId" layoutX="85.0" layoutY="75.0" />
+                        <TextField fx:id="getGradeStudentName" layoutX="85.0" layoutY="110.0" />
+                        <TextField fx:id="getMath" layoutX="85.0" layoutY="196.0" />
+                        <TextField fx:id="getLiterature" layoutX="85.0" layoutY="231.0" />
+                        <TextField fx:id="getEnglish" layoutX="85.0" layoutY="266.0" />
+                        <Button fx:id="insertGrade" layoutX="20.0" layoutY="331.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="70.0" text="Insert" />
+                        <Button fx:id="clearGrade" layoutX="20.0" layoutY="412.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="70.0" text="Clear" />
+                        <Button fx:id="updateGrade" layoutX="132.0" layoutY="331.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="70.0" text="Update" />
+                        <TextField fx:id="getGradeStudent" layoutX="10.0" layoutY="20.0" prefHeight="25.0" prefWidth="166.0" promptText="Search" />
+                        <ComboBox fx:id="getSubjectList" layoutX="84.0" layoutY="149.0" prefWidth="150.0" />
+                        <Label layoutX="10.0" layoutY="149.0" prefHeight="25.0" prefWidth="70.0" text="Subject" />
+                     </children>
+                  </Pane>
+                  <ScrollPane layoutX="300.0" layoutY="20.0" prefHeight="548.0" prefWidth="524.0" styleClass="center-cen" stylesheets="@mainscene.css">
+                     <content>
+                        <TableView fx:id="gradeViewTable" prefHeight="546.0" prefWidth="516.0" stylesheets="@mainscene.css" />
+                     </content>
+                  </ScrollPane>
+               </children>
+            </Pane>
+            <Pane layoutY="60.0" prefHeight="40.0" prefWidth="824.0" style="-fx-background-color: white;">
+               <children>
+                  <Hyperlink fx:id="link" layoutX="628.0" prefHeight="40.0" prefWidth="76.0" text="Dashboard" />
+                  <Label layoutX="697.0" prefHeight="40.0" text="&gt;" />
+                  <Label fx:id="PaneLable" layoutX="40.0" prefHeight="40.0" prefWidth="192.0" text="GRADE" />
+                  <Hyperlink fx:id="sub_link" layoutX="711.0" prefHeight="40.0" text="Student" />
+               </children>
+            </Pane>
+         </children>
+      </Pane>
+   </center>
+</BorderPane>

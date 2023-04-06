@@ -76,4 +76,5 @@ public class Student {
     public void setClass_id(int class_id) {
         this.class_id = class_id;
     }
+
 }
