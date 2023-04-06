@@ -42,9 +42,9 @@
    <center>
       <Pane prefHeight="200.0" prefWidth="200.0" styleClass="center" stylesheets="@mainscene.css" BorderPane.alignment="CENTER">
          <children>
-            <Pane fx:id="dashBoardForm" layoutY="60.0" prefHeight="641.0" prefWidth="824.0" visible="false">
+            <Pane fx:id="dashBoardForm" layoutY="60.0" prefHeight="641.0" prefWidth="824.0">
                <children>
-                  <Pane layoutX="20.0" layoutY="30.0" prefHeight="200.0" prefWidth="230.0" styleClass="center-cen" stylesheets="@mainscene.css">
+                  <Pane layoutX="26.0" layoutY="47.0" prefHeight="200.0" prefWidth="230.0" styleClass="center-cen" stylesheets="@mainscene.css">
                      <children>
                         <Label layoutX="90.0" prefHeight="35.0" prefWidth="140.0" text="Total Enrolled Student">
                            <font>
@@ -58,7 +58,7 @@
                         </Label>
                      </children>
                   </Pane>
-                  <Pane layoutX="570.0" layoutY="30.0" prefHeight="200.0" prefWidth="230.0" styleClass="center-cen" stylesheets="@mainscene.css">
+                  <Pane layoutX="576.0" layoutY="47.0" prefHeight="200.0" prefWidth="230.0" styleClass="center-cen" stylesheets="@mainscene.css">
                      <children>
                         <Label layoutX="76.0" prefHeight="35.0" prefWidth="154.0" text="Enrolled Female Student">
                            <font>
@@ -72,7 +72,7 @@
                         </Label>
                      </children>
                   </Pane>
-                  <Pane layoutX="297.0" layoutY="30.0" prefHeight="200.0" prefWidth="230.0" styleClass="center-cen" stylesheets="@mainscene.css">
+                  <Pane layoutX="303.0" layoutY="47.0" prefHeight="200.0" prefWidth="230.0" styleClass="center-cen" stylesheets="@mainscene.css">
                      <children>
                         <Label layoutX="92.0" prefHeight="35.0" prefWidth="138.0" text="Enrolled Male Student">
                            <font>
@@ -136,8 +136,7 @@
                         <Label layoutX="280.0" layoutY="395.0" prefHeight="25.0" prefWidth="70.0" text="Phone:" />
                         <Label layoutX="280.0" layoutY="435.0" prefHeight="25.0" prefWidth="70.0" text="Email:" />
                         <Label layoutX="280.0" layoutY="357.0" prefHeight="25.0" prefWidth="70.0" text="Date of Birth:" />
-                        <Label layoutX="207.0" layoutY="473.0" text="Class" />
-                        <TextField fx:id="getStudentId" layoutX="85.0" layoutY="357.0" />
+                        <TextField fx:id="getStudentId" layoutX="85.0" layoutY="357.0" promptText="AUTO_INCREMENT" />
                         <TextField fx:id="getStudentName" layoutX="85.0" layoutY="395.0" />
                         <DatePicker fx:id="getStudentBirth" layoutX="350.0" layoutY="357.0" />
                         <TextField fx:id="getStudentPhone" layoutX="350.0" layoutY="396.0" />
@@ -146,13 +145,12 @@
                         <Button fx:id="updateButton" layoutX="571.0" layoutY="427.0" mnemonicParsing="false" onAction="#updateStudent" prefHeight="35.0" prefWidth="70.0" text="Update" />
                         <Button fx:id="deleteButton" layoutX="674.0" layoutY="372.0" mnemonicParsing="false" onAction="#deleteStudent" prefHeight="35.0" prefWidth="70.0" text="Delete" />
                         <Button fx:id="clearButton" layoutX="674.0" layoutY="427.0" mnemonicParsing="false" onAction="#clearSelected" prefHeight="35.0" prefWidth="70.0" text="Clear" />
-                        <TextField fx:id="getStudentClass" layoutX="264.0" layoutY="469.0" prefHeight="0.0" prefWidth="149.0" />
                         <ComboBox fx:id="getStudentGender" layoutX="84.0" layoutY="435.0" prefWidth="150.0" />
                      </children>
                   </Pane>
                </children>
             </Pane>
-            <Pane fx:id="gradeForm" layoutY="100.0" prefHeight="641.0" prefWidth="824.0">
+            <Pane fx:id="inputGradeForm" layoutY="100.0" prefHeight="600.0" prefWidth="824.0" visible="false">
                <children>
                   <Pane layoutX="20.0" layoutY="20.0" prefHeight="548.0" prefWidth="250.0" styleClass="center-cen" stylesheets="@mainscene.css">
                      <children>
@@ -176,7 +174,7 @@
                   </Pane>
                   <ScrollPane layoutX="300.0" layoutY="20.0" prefHeight="548.0" prefWidth="524.0" styleClass="center-cen" stylesheets="@mainscene.css">
                      <content>
-                        <TableView fx:id="gradeViewTable" prefHeight="546.0" prefWidth="516.0" stylesheets="@mainscene.css" />
+                        <TableView fx:id="inputGradeTable" prefHeight="546.0" prefWidth="516.0" stylesheets="@mainscene.css" />
                      </content>
                   </ScrollPane>
                </children>
@@ -185,8 +183,27 @@
                <children>
                   <Hyperlink fx:id="link" layoutX="628.0" prefHeight="40.0" prefWidth="76.0" text="Dashboard" />
                   <Label layoutX="697.0" prefHeight="40.0" text="&gt;" />
-                  <Label fx:id="PaneLable" layoutX="40.0" prefHeight="40.0" prefWidth="192.0" text="GRADE" />
+                  <Label fx:id="PaneLable" layoutX="40.0" prefHeight="40.0" prefWidth="192.0" text="DASHBOARD" />
                   <Hyperlink fx:id="sub_link" layoutX="711.0" prefHeight="40.0" text="Student" />
+               </children>
+            </Pane>
+            <Pane fx:id="gradeForm" layoutY="100.0" prefHeight="600.0" prefWidth="824.0" visible="false">
+               <children>
+                  <Pane layoutX="20.0" layoutY="20.0" prefHeight="560.0" prefWidth="784.0" styleClass="center-cen" stylesheets="@mainscene.css">
+                     <children>
+                        <ScrollPane layoutX="20.0" layoutY="80.0" prefHeight="457.0" prefWidth="744.0">
+                           <content>
+                              <TableView fx:id="gradeViewTable" prefHeight="456.0" prefWidth="742.0" />
+                           </content>
+                        </ScrollPane>
+                        <TextField layoutX="20.0" layoutY="20.0" prefHeight="30.0" prefWidth="300.0" promptText="Search" />
+                        <Label fx:id="classLabel" layoutX="653.0" layoutY="22.0" prefHeight="17.0" prefWidth="77.0">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </Pane>
                </children>
             </Pane>
          </children>

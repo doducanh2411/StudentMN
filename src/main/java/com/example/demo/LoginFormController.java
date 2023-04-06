@@ -22,9 +22,9 @@ public class LoginFormController {
     private double x = 0;
     private double y = 0;
     public static String username;
-    public static boolean isHomeroom;
-    public static boolean isSubject;
-    public static boolean isStudent;
+    public static int isHomeroom = 0;
+    public static int isSubject = 0;
+    public static int isStudent = 0;
     @FXML
     private PasswordField getPassword;
 
@@ -51,12 +51,14 @@ public class LoginFormController {
                 alert.showAndWait();
             }else{
                 if (rs.next()){
-                    isHomeroom = rs.getBoolean("homeroom_teacher");
-                    isHomeroom =  rs.getBoolean("subject_teacher");
-                    isStudent =  rs.getBoolean("student");
                     username = rs.getString("username");
+                    isHomeroom = rs.getInt("homeroom_teacher");
+                    isSubject = rs.getInt("subject_teacher");
+                    isStudent =  rs.getInt("student");
 
-                    System.out.println(username);
+//                    System.out.println(isHomeroom);
+//                    System.out.println(isSubject);
+//                    System.out.println(isStudent);
 
                     signInBut.getScene().getWindow().hide();
 

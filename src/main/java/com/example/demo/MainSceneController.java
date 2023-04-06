@@ -29,7 +29,10 @@ public class MainSceneController implements Initializable  {
     //public  Connection connection = ConnectJDBC.getConnection();
     @FXML
     private Label PaneLable;
-    
+
+    @FXML
+    private Label classLabel;
+
     @FXML
     private Button clearButton;
 
@@ -47,9 +50,6 @@ public class MainSceneController implements Initializable  {
 
     @FXML
     private Button deleteButton;
-
-    @FXML
-    private TextField getStudentClass;
 
     @FXML
     private DatePicker getStudentBirth;
@@ -171,6 +171,12 @@ public class MainSceneController implements Initializable  {
     @FXML
     private Label welcomeLabel;
 
+    @FXML
+    private TableView<?> inputGradeTable;
+
+    @FXML
+    private Pane inputGradeForm;
+
     public void close() {
         System.exit(0);
     }
@@ -181,7 +187,7 @@ public class MainSceneController implements Initializable  {
     }
 
     public void showName(){
-        if (isStudent){
+        if (isStudent == 1){
             String query = "SELECT name FROM student WHERE student_id = " + username;
             try{
                 Statement st = connection.createStatement();
@@ -210,29 +216,64 @@ public class MainSceneController implements Initializable  {
 
     public void switchForm(ActionEvent event) {
         if (event.getSource() == dashBoardButton) {
+            PaneLable.setText("DASHBOARD");
             dashBoardForm.setVisible(true);
             studentForm.setVisible(false);
             gradeForm.setVisible(false);
-            PaneLable.setText("DASHBOARD");
-            
+            inputGradeForm.setVisible(false);
         } else if (event.getSource() == studentButton) {
-            dashBoardForm.setVisible(false);
-            studentForm.setVisible(true);
-            gradeForm.setVisible(false);
             PaneLable.setText("STUDENT");
-            //showStudentListData();
+            if (isStudent == 1 || isSubject == 1){
+                dashBoardForm.setVisible(false);
+                studentForm.setVisible(false);
+                gradeForm.setVisible(false);
+                inputGradeForm.setVisible(false);
+            } else if (isHomeroom == 1) {
+                dashBoardForm.setVisible(false);
+                studentForm.setVisible(true);
+                gradeForm.setVisible(false);
+                inputGradeForm.setVisible(false);
+            }
         } else if (event.getSource() == gradeButton) {
-            dashBoardForm.setVisible(false);
-            studentForm.setVisible(false);
-            gradeForm.setVisible(true);
             PaneLable.setText("GRADE");
-
+            if(isStudent == 1){
+                dashBoardForm.setVisible(false);
+                studentForm.setVisible(false);
+                gradeForm.setVisible(false);
+                inputGradeForm.setVisible(false);
+            } else if (isHomeroom == 1) {
+                dashBoardForm.setVisible(false);
+                studentForm.setVisible(false);
+                gradeForm.setVisible(true);
+                inputGradeForm.setVisible(false);
+            } else if (isSubject == 1){
+                dashBoardForm.setVisible(false);
+                studentForm.setVisible(false);
+                gradeForm.setVisible(false);
+                inputGradeForm.setVisible(true);
+            }
         }
     }
-
+    public int getTeacherClass(){
+        int result = 0;
+        if (isHomeroom == 1){
+            String query = "SELECT class_id FROM class WHERE teacher_id = " + username;
+            try{
+                Statement st = connection.createStatement();
+                ResultSet rs = st.executeQuery(query);
+                if (rs.next()) {
+                    result = rs.getInt("class_id");
+                }
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }
+        classLabel.setText("Class: " + result);
+        return result;
+    }
     public ObservableList<Student> addStudentList() {
         ObservableList<Student> listStudents = FXCollections.observableArrayList();
-        String query = "SELECT * FROM student";
+        String query = "SELECT * FROM student WHERE class_id = " + getTeacherClass();
         try {
             Student student;
             PreparedStatement preparedStatement = connection.prepareStatement(query);
@@ -282,7 +323,9 @@ public class MainSceneController implements Initializable  {
                     + "FROM grade "
                     + "INNER JOIN subject ON grade.subject_id = subject.subject_id "
                     + "INNER JOIN student USING(student_id) "
+                    + "WHERE student.class_id = " + getTeacherClass() + " "
                     + "ORDER BY student_id, subject.subject_name";
+
             PreparedStatement statement = connection.prepareStatement(query);
             ResultSet result = statement.executeQuery();
 
@@ -341,8 +384,7 @@ public class MainSceneController implements Initializable  {
             Alert alert;
             if (getStudentName.getText().isEmpty()
                     || getStudentGender.getSelectionModel().getSelectedItem() == null
-                    || getStudentBirth.getValue() == null
-                    || getStudentClass.getText().isEmpty()) {
+                    || getStudentBirth.getValue() == null) {
                 alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Error Message");
                 alert.setHeaderText(null);
@@ -372,7 +414,7 @@ public class MainSceneController implements Initializable  {
                     ps.setString(4, String.valueOf(getStudentBirth.getValue()));
                     ps.setString(5, getStudentEmail.getText());
                     ps.setString(6, getStudentPhone.getText());
-                    ps.setInt(7, Integer.parseInt(getStudentClass.getText()));
+                    ps.setInt(7, getTeacherClass());
 
                     ps.executeUpdate();
 
@@ -393,7 +435,6 @@ public class MainSceneController implements Initializable  {
             if (getStudentName.getText().isEmpty()
                     || getStudentGender.getSelectionModel().getSelectedItem() == null
                     || getStudentBirth.getValue() == null
-                    || getStudentClass.getText().isEmpty()
                     || getStudentId.getText().isEmpty()) {
                 alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Error Message");
@@ -434,14 +475,13 @@ public class MainSceneController implements Initializable  {
                 + "', date_of_birth = '" + getStudentBirth.getValue()
                 + "', email = '" + getStudentEmail.getText()
                 + "', phone  = '" + getStudentPhone.getText()
-                + "', class_id  = '" + getStudentClass.getText()
+                + "', class_id  = '" + getTeacherClass()
                 + "' WHERE student_id = '" + getStudentId.getText() + "'";
         try{
             Alert alert;
             if (getStudentName.getText().isEmpty()
                     || getStudentGender.getSelectionModel().getSelectedItem() == null
                     || getStudentBirth.getValue() == null
-                    || getStudentClass.getText().isEmpty()
                     || getStudentId.getText().isEmpty()) {
                 alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Error Message");
@@ -531,7 +571,6 @@ public class MainSceneController implements Initializable  {
             getStudentBirth.setValue(LocalDate.parse(String.valueOf(student.getDateOfBirth())));
             getStudentEmail.setText(student.getEmail());
             getStudentPhone.setText(student.getPhone());
-            getStudentClass.setText(String.valueOf(student.getClass_id()));
         } catch (Exception e){
             System.out.println("LOL");
         }
@@ -564,7 +603,6 @@ public class MainSceneController implements Initializable  {
     public void clearSelected(){
         getStudentName.setText("");
         getStudentId.setText("");
-        getStudentClass.setText("");
         getStudentGender.getSelectionModel().clearSelection();
         getStudentPhone.setText("");
         getStudentEmail.setText("");
