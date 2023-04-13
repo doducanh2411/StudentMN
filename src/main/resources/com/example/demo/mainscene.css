@@ -2,17 +2,13 @@
 .close{
 	-fx-background-color: transparent;
 	-fx-cursor: hand;
+	-fx-background-radius: 100px;
 }
 .minimize{
 	-fx-background-color: transparent;
 	-fx-cursor: hand;
 }
-.close:hover{
-	-fx-background-color: #fb3d63;
-}
-.minimize:hover{
-	-fx-background-color: #ddd;
-}
+
 
 .top{
     -fx-border-width: 1px 1px 1px 1px;
@@ -22,36 +18,107 @@
 
 /* This ís a left css*/
 .left{
-    -fx-background-color: #fcfcfc;
-    -fx-border-width: 0 0.5px 0 0;
-    -fx-border-color: #aaaaaa;
-}
-#left-label{
-    -fx-background-color: linear-gradient(to bottom left, #59eda6, #2ecde0);
-
+    -fx-background-color: #ffffff;
 }
 .left-button{
     -fx-background-color: transparent;
-    -fx-text-fill: #54667a;
-    -fx-border-color: #e1e1e1;
-    -fx-border-width: 0 0 1px 0;
+    -fx-text-fill: #424040;
+    -fx-background-radius: 10px;
 }
 .left-button:hover{
-    -fx-background-color: #f3f3f3;
+    -fx-background-color: #e9e3fe;
     -fx-cursor: hand;
+    -fx-text-fill: #424040;
+    -fx-font-weight: bold;
+}
+
+.button-active {
+    -fx-background-color: #e9e3ff;
+    -fx-cursor: hand;
+    -fx-font-weight: bold;
 }
 
 /* End left css */
 
 /* This is a center css */
+
 .center{
-    -fx-background-color: #f1f1f1;
+    -fx-background-color: white;
 }
-.center-top{
-    -fx-background-color: linear-gradient(to bottom right, #0087c2, #00bcda);
+.center-radius{
+    -fx-background-radius: 20px;
+    -fx-background-color: #e9e3ff;
 }
-.center-cen{
+/* This is a dashboard form css */
+.name{
     -fx-background-color: #ffffff;
-    -fx-background-radius: 10px;
+    -fx-background-radius: 15px;
 }
+.pieChart{
+    -fx-background-color: #98c38c;
+    -fx-background-radius: 15px;
+}
+.gpaFemale{
+    -fx-background-color: #f37658;
+    -fx-background-radius: 15px;
+}
+.gpaMale{
+    -fx-background-color: #fef4da;
+    -fx-background-radius: 15px;
+}
+.miniProfile{
+    -fx-background-color: #e5f3fe;
+    -fx-background-radius: 15px;
+}
+/* End dashboard form css */
+
+/* This is a student form css */
+.editAndEditBut{
+    -fx-background-color: white;
+    -fx-cursor: hand;
+}
+
+.createButton{
+    -fx-background-color: #00bdda;
+    -fx-background-radius: 5px;
+    -fx-cursor: hand;
+}
+.exportButton{
+    -fx-background-color: #addbad;
+    -fx-background-radius: 5px;
+    -fx-cursor: hand;
+}
+.search{
+    -fx-background-radius: 8px;
+    -fx-border-width: .8px;
+    -fx-border-radius: 8px;
+    -fx-border-color: #8a70d6;
+}
+.search:focused{
+    -fx-border-width: 1.8px;
+    -fx-border-radius: 8px;
+    -fx-border-color: #8a70d6;
+}
+.tableView{
+    -fx-background-radius: 8px;
+    -fx-border-width: .8px;
+    -fx-border-radius: 8px;
+    -fx-border-color: #8a70d6;
+}
+.tableView .column-header-background{
+    -fx-background-color: #8a70d6;
+    -fx-background-radius: 8px 8px 0px 0px;
+    -fx-background-inset:0 0 0 0;
+}
+.tableView .column-header, .filter{
+    -fx-background-color: transparent;
+    -fx-size: 40px;
+}
+.tableView .column-header .label{
+    -fx-text-fill: #fff;
+    -fx-font-family: "Tahoma";
+}
+
+/* End student form css */
+
 /* End center css */

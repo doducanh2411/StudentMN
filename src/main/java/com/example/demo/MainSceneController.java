@@ -6,17 +6,26 @@ import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.fxml.FXML;
+import javafx.scene.Scene;
 import javafx.scene.chart.BarChart;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 
+import java.io.IOException;
 import java.net.URL;
 import java.sql.*;
+import java.sql.Date;
 import java.time.LocalDate;
 import java.util.*;
 
@@ -26,12 +35,20 @@ import static java.sql.Types.NULL;
 
 
 public class MainSceneController implements Initializable  {
-    //public  Connection connection = ConnectJDBC.getConnection();
     @FXML
     private Label PaneLable;
 
     @FXML
     private Label classLabel;
+
+    @FXML
+    private Label name;
+
+    @FXML
+    private Label name1;
+
+    @FXML
+    private Button createStudent;
 
     @FXML
     private Button clearButton;
@@ -135,8 +152,6 @@ public class MainSceneController implements Initializable  {
     @FXML
     private TableColumn<Student, String> student_birth_col;
 
-    @FXML
-    private TableColumn<Student, String> student_class_col;
 
     @FXML
     private TableColumn<Student, String> student_email_col;
@@ -177,10 +192,21 @@ public class MainSceneController implements Initializable  {
     @FXML
     private Pane inputGradeForm;
 
+    @FXML
+    private ImageView dashBoardImg;
+
     public void close() {
         System.exit(0);
     }
 
+    public void createAndUpdateStudent() throws IOException {
+        Stage stage = new Stage();
+        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("AddStudentForm.fxml"));
+        Scene scene = new Scene(fxmlLoader.load());
+        stage.setScene(scene);
+        stage.setTitle("ADD STUDENT");
+        stage.show();
+    }
     public void minimize() {
         Stage stage = (Stage) main_form.getScene().getWindow();
         stage.setIconified(true);
@@ -194,7 +220,8 @@ public class MainSceneController implements Initializable  {
                 ResultSet rs = st.executeQuery(query);
                 if (rs.next()) {
                     System.out.println(rs.getString("name"));
-                    welcomeLabel.setText("Hi, " + rs.getString("name"));
+                    name.setText(rs.getString("name"));
+                    name1.setText(rs.getString("name"));
                 }
             }catch (Exception e){
                 e.printStackTrace();
@@ -206,7 +233,8 @@ public class MainSceneController implements Initializable  {
                 ResultSet rs = st.executeQuery(query);
                 if (rs.next()) {
                     System.out.println(rs.getString("name"));
-                    welcomeLabel.setText("Hi, " + rs.getString("name"));
+                    name.setText(rs.getString("name"));
+                    name1.setText(rs.getString("name"));
                 }
             }catch (Exception e){
                 e.printStackTrace();
@@ -214,14 +242,18 @@ public class MainSceneController implements Initializable  {
         }
     }
 
-    public void switchForm(ActionEvent event) {
-        if (event.getSource() == dashBoardButton) {
+    public void switchForm() {
+        dashBoardButton.setOnAction(e -> {
+            setActiveButton(dashBoardButton);
             PaneLable.setText("DASHBOARD");
             dashBoardForm.setVisible(true);
             studentForm.setVisible(false);
             gradeForm.setVisible(false);
             inputGradeForm.setVisible(false);
-        } else if (event.getSource() == studentButton) {
+        });
+
+        studentButton.setOnAction(e -> {
+            setActiveButton(studentButton);
             PaneLable.setText("STUDENT");
             if (isStudent == 1 || isSubject == 1){
                 dashBoardForm.setVisible(false);
@@ -234,8 +266,12 @@ public class MainSceneController implements Initializable  {
                 gradeForm.setVisible(false);
                 inputGradeForm.setVisible(false);
             }
-        } else if (event.getSource() == gradeButton) {
+        });
+
+        gradeButton.setOnAction(e -> {
+            setActiveButton(gradeButton);
             PaneLable.setText("GRADE");
+            setActiveButton(gradeButton);
             if(isStudent == 1){
                 dashBoardForm.setVisible(false);
                 studentForm.setVisible(false);
@@ -252,7 +288,7 @@ public class MainSceneController implements Initializable  {
                 gradeForm.setVisible(false);
                 inputGradeForm.setVisible(true);
             }
-        }
+        });
     }
     public int getTeacherClass(){
         int result = 0;
@@ -279,13 +315,14 @@ public class MainSceneController implements Initializable  {
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             ResultSet rs = preparedStatement.executeQuery();
             while (rs.next()) {
-                student = new Student(rs.getInt("student_id"),
-                        rs.getString("name"),
-                        rs.getString("gender"),
-                        rs.getDate("date_of_birth"),
-                        rs.getString("email"),
-                        rs.getString("phone"),
-                        rs.getInt("class_id"));
+                int studentId = rs.getInt("student_id");
+                String name = rs.getString("name");
+                String gender = rs.getString("gender");
+                LocalDate dateOfBirth = rs.getDate("date_of_birth").toLocalDate();
+                String email = rs.getString("email");
+                String phone = rs.getString("phone");
+                int classId = rs.getInt("class_id");
+                student = new Student(studentId, name, gender, dateOfBirth, email, phone, classId);
                 listStudents.add(student);
             }
         } catch (Exception e) {
@@ -295,8 +332,13 @@ public class MainSceneController implements Initializable  {
     }
 
 
-    private ObservableList<Student> listStudents;
 
+    public static ObservableList<Student> listStudents;
+
+    @FXML
+    private TableColumn<Student, HBox> action;
+
+    public static Callback<Student, Void> updateCallback;
     public void showStudentListData() {
         listStudents = addStudentList();
 
@@ -306,7 +348,7 @@ public class MainSceneController implements Initializable  {
         student_birth_col.setCellValueFactory(new PropertyValueFactory<>("dateOfBirth"));
         student_email_col.setCellValueFactory(new PropertyValueFactory<>("email"));
         student_phone_col.setCellValueFactory(new PropertyValueFactory<>("phone"));
-        student_class_col.setCellValueFactory(new PropertyValueFactory<>("class_id"));
+        action.setCellValueFactory(new PropertyValueFactory<>("hbox"));
 
         studentViewTable.setItems(listStudents);
     }
@@ -375,100 +417,7 @@ public class MainSceneController implements Initializable  {
         }
     }
 
-
-    public void addStudent() {
-        String query = "INSERT INTO student " +
-                "(student_id, name, gender, date_of_birth, email, phone, class_id) " +
-                "VALUES(?,?,?,?,?,?,?)";
-        try {
-            Alert alert;
-            if (getStudentName.getText().isEmpty()
-                    || getStudentGender.getSelectionModel().getSelectedItem() == null
-                    || getStudentBirth.getValue() == null) {
-                alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Error Message");
-                alert.setHeaderText(null);
-                alert.setContentText("Please fill all blank fields");
-                alert.showAndWait();
-            } else {
-                String checkData = "SELECT student_id FROM student WHERE student_id = '"
-                        + getStudentId.getText() + "'";
-                Statement st = connection.createStatement();
-                ResultSet rs = st.executeQuery(checkData);
-                if (rs.next()){
-                    alert = new Alert(Alert.AlertType.ERROR);
-                    alert.setTitle("Error Message");
-                    alert.setHeaderText(null);
-                    alert.setContentText("Student #" + getStudentId.getText() + " was already exist!");
-                    alert.showAndWait();
-                } else {
-                    PreparedStatement ps = connection.prepareStatement(query);
-                    if(getStudentId.getText().isEmpty()){
-                        ps.setInt(1, NULL);
-                    }else{
-                        ps.setInt(1, Integer.parseInt(getStudentId.getText()));
-                    }
-
-                    ps.setString(2, getStudentName.getText());
-                    ps.setString(3, getStudentGender.getSelectionModel().getSelectedItem());
-                    ps.setString(4, String.valueOf(getStudentBirth.getValue()));
-                    ps.setString(5, getStudentEmail.getText());
-                    ps.setString(6, getStudentPhone.getText());
-                    ps.setInt(7, getTeacherClass());
-
-                    ps.executeUpdate();
-
-                    showStudentListData();
-                    clearSelected();
-                }
-            }
-        } catch(Exception e){
-            e.printStackTrace();
-        }
-    }
-
-    public void deleteStudent(){
-        String query = "DELETE FROM student WHERE student_id = '"
-                + getStudentId.getText() + "'";
-        try {
-            Alert alert;
-            if (getStudentName.getText().isEmpty()
-                    || getStudentGender.getSelectionModel().getSelectedItem() == null
-                    || getStudentBirth.getValue() == null
-                    || getStudentId.getText().isEmpty()) {
-                alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Error Message");
-                alert.setHeaderText(null);
-                alert.setContentText("Please fill all blank fields");
-                alert.showAndWait();
-            } else {
-                alert = new Alert(Alert.AlertType.CONFIRMATION);
-                alert.setTitle("Confirmation Message");
-                alert.setHeaderText(null);
-                alert.setContentText("Are you sure you want to DELETE Student #" + getStudentId.getText() + "?");
-
-                Optional<ButtonType> option = alert.showAndWait();
-
-                if(option.get().equals(ButtonType.OK)){
-                    Statement st = connection.createStatement();
-                    st.executeUpdate(query);
-
-                    alert = new Alert(Alert.AlertType.INFORMATION);
-                    alert.setTitle("Information Message");
-                    alert.setHeaderText(null);
-                    alert.setContentText("Successfully Deleted!");
-                    alert.showAndWait();
-
-                    showStudentListData();
-                    clearSelected();
-                }
-            }
-        } catch(Exception e){
-            e.printStackTrace();
-        }
-    }
-
-    public void updateStudent(){
+    public void updateStudent1(){
         String query = "UPDATE student SET "
                 + "name = '" + getStudentName.getText()
                 + "', gender = '" + getStudentGender.getSelectionModel().getSelectedItem()
@@ -510,10 +459,7 @@ public class MainSceneController implements Initializable  {
                     alert.setContentText("Successfully Updated!");
                     alert.showAndWait();
 
-                    // TO UPDATE THE TABLEVIEW
                     showStudentListData();
-                    // TO CLEAR THE FIELDS
-                    clearSelected();
 
                 } else {
                     return;
@@ -576,14 +522,6 @@ public class MainSceneController implements Initializable  {
         }
     }
 
-    public void addGenderList(){
-        List<String> listGender = new ArrayList<>();
-        listGender.add("Male");
-        listGender.add("Female");
-        ObservableList ObList = FXCollections.observableArrayList(listGender);
-        getStudentGender.setItems(ObList);
-    }
-
     public ObservableList  addSubjectList(){
         String query = "SELECT * FROM subject";
         ObservableList listSubject = FXCollections.observableArrayList();
@@ -600,21 +538,19 @@ public class MainSceneController implements Initializable  {
         return listSubject;
     }
 
-    public void clearSelected(){
-        getStudentName.setText("");
-        getStudentId.setText("");
-        getStudentGender.getSelectionModel().clearSelection();
-        getStudentPhone.setText("");
-        getStudentEmail.setText("");
-        getStudentBirth.setValue(null);
-    }
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        dashBoardButton.getStyleClass().add("button-active");
         showName();
         showStudentListData();
         showStudentFinalPoints();
-        addGenderList();
         addSubjectList();
+    }
+    private void setActiveButton(Button button) {
+        dashBoardButton.getStyleClass().remove("button-active");
+        studentButton.getStyleClass().remove("button-active");
+        gradeButton.getStyleClass().remove("button-active");
+
+        button.getStyleClass().add("button-active");
     }
 }

@@ -1,164 +1,237 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.chart.BarChart?>
 <?import javafx.scene.chart.CategoryAxis?>
 <?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.chart.PieChart?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
-<?import javafx.scene.control.DatePicker?>
-<?import javafx.scene.control.Hyperlink?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.MenuButton?>
-<?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
 <BorderPane fx:id="main_form" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo.MainSceneController">
-   <top>
-      <Pane fx:id="top" prefHeight="20.0" prefWidth="1024.0" styleClass="top" stylesheets="@mainscene.css" BorderPane.alignment="CENTER">
-         <children>
-            <Button fx:id="close" alignment="CENTER" layoutX="984.0" minHeight="20.0" mnemonicParsing="false" onAction="#close" prefHeight="20.0" prefWidth="40.0" styleClass="close" stylesheets="@mainscene.css" text="X" />
-            <Button fx:id="minimize" alignment="CENTER" layoutX="944.0" minHeight="20.0" mnemonicParsing="false" onAction="#minimize" prefHeight="20.0" prefWidth="40.0" styleClass="minimize" stylesheets="@mainscene.css" text="-" />
-            <Label layoutX="67.0" layoutY="2.0" text="Student Management" />
-         </children>
-      </Pane>
-   </top>
    <left>
-      <Pane prefHeight="690.0" prefWidth="200.0" styleClass="left" stylesheets="@mainscene.css" BorderPane.alignment="CENTER">
+      <Pane prefHeight="695.0" prefWidth="220.0" styleClass="left" stylesheets="@mainscene.css" BorderPane.alignment="CENTER">
          <children>
-            <Label id="left-label" alignment="CENTER" prefHeight="60.0" prefWidth="200.0" stylesheets="@mainscene.css" text="Studify" textAlignment="CENTER" />
-            <Button fx:id="dashBoardButton" layoutY="60.0" mnemonicParsing="false" onAction="#switchForm" prefHeight="50.0" prefWidth="200.0" styleClass="left-button" stylesheets="@mainscene.css" text="Dashboard" />
-            <Button fx:id="studentButton" layoutY="110.0" mnemonicParsing="false" onAction="#switchForm" prefHeight="50.0" prefWidth="200.0" styleClass="left-button" stylesheets="@mainscene.css" text="Student" />
-            <Button fx:id="gradeButton" layoutY="160.0" mnemonicParsing="false" onAction="#switchForm" prefHeight="50.0" prefWidth="200.0" styleClass="left-button" stylesheets="@mainscene.css" text="Grade" />
-            <Button layoutY="210.0" mnemonicParsing="false" onAction="#switchForm" prefHeight="50.0" prefWidth="200.0" styleClass="left-button" stylesheets="@mainscene.css" text="Course" />
+            <Label alignment="CENTER" prefHeight="111.0" prefWidth="220.0" stylesheets="@mainscene.css" text="Studify" textAlignment="CENTER">
+               <font>
+                  <Font name="Tahoma Bold" size="18.0" />
+               </font>
+               <graphic>
+                  <ImageView fitHeight="51.0" fitWidth="67.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../image/logo.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <padding>
+                  <Insets top="20.0" />
+               </padding></Label>
+            <Button fx:id="dashBoardButton" alignment="BASELINE_LEFT" layoutX="20.0" layoutY="120.0" mnemonicParsing="false" onAction="#switchForm" prefHeight="50.0" prefWidth="180.0" styleClass="left-button" stylesheets="@mainscene.css" text="Dashboard">
+               <graphic>
+                  <ImageView fx:id="dashBoardImg" fitHeight="30.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true" style="-fx-background-color: transparent; -fx-opacity: 1;">
+                     <image>
+                        <Image url="@../../../image/dashboard.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <font>
+                  <Font name="FontAwesome" size="13.0" />
+               </font>
+               <padding>
+                  <Insets left="30.0" />
+               </padding></Button>
+            <Button fx:id="studentButton" alignment="BASELINE_LEFT" layoutX="20.0" layoutY="170.0" mnemonicParsing="false" onAction="#switchForm" prefHeight="50.0" prefWidth="180.0" styleClass="left-button" stylesheets="@mainscene.css" text="Student">
+               <font>
+                  <Font name="FontAwesome" size="13.0" />
+               </font>
+               <graphic>
+                  <ImageView fitHeight="30.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../image/student.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <padding>
+                  <Insets left="30.0" />
+               </padding></Button>
+            <Button fx:id="gradeButton" alignment="BASELINE_LEFT" layoutX="20.0" layoutY="220.0" mnemonicParsing="false" onAction="#switchForm" prefHeight="50.0" prefWidth="180.0" styleClass="left-button" stylesheets="@mainscene.css" text="Grade">
+               <font>
+                  <Font name="FontAwesome" size="13.0" />
+               </font>
+               <graphic>
+                  <ImageView fitHeight="30.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../image/grade.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <padding>
+                  <Insets left="30.0" />
+               </padding></Button>
+            <Button layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#close" prefHeight="27.0" prefWidth="20.0" styleClass="close" stylesheets="@mainscene.css">
+               <graphic>
+                  <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../image/close.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Button layoutX="35.0" layoutY="10.0" mnemonicParsing="false" onAction="#minimize" prefHeight="25.0" prefWidth="20.0" styleClass="minimize" stylesheets="@mainscene.css">
+               <graphic>
+                  <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../image/minimize.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Button alignment="BASELINE_LEFT" layoutX="20.0" layoutY="270.0" mnemonicParsing="false" onAction="#switchForm" prefHeight="50.0" prefWidth="180.0" styleClass="left-button" stylesheets="@mainscene.css" text="Setting">
+               <font>
+                  <Font name="FontAwesome" size="13.0" />
+               </font>
+               <graphic>
+                  <ImageView fitHeight="30.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../image/setting.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <padding>
+                  <Insets left="30.0" />
+               </padding>
+            </Button>
          </children>
       </Pane>
    </left>
    <center>
       <Pane prefHeight="200.0" prefWidth="200.0" styleClass="center" stylesheets="@mainscene.css" BorderPane.alignment="CENTER">
          <children>
-            <Pane fx:id="dashBoardForm" layoutY="60.0" prefHeight="641.0" prefWidth="824.0">
+            <Pane fx:id="dashBoardForm" layoutY="80.0" prefHeight="640.0" prefWidth="804.0" stylesheets="@mainscene.css" visible="false">
                <children>
-                  <Pane layoutX="26.0" layoutY="47.0" prefHeight="200.0" prefWidth="230.0" styleClass="center-cen" stylesheets="@mainscene.css">
+                  <Pane layoutX="20.0" layoutY="20.0" styleClass="name" stylesheets="@mainscene.css">
                      <children>
-                        <Label layoutX="90.0" prefHeight="35.0" prefWidth="140.0" text="Total Enrolled Student">
+                        <Label layoutX="10.0" prefHeight="45.0" prefWidth="161.0" text="Welcome back!" textFill="#f37658">
+                           <graphic>
+                              <ImageView fitHeight="28.0" fitWidth="27.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../../image/hand.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
                            <font>
-                              <Font size="14.0" />
+                              <Font name="Cooper Black" size="14.0" />
                            </font>
                         </Label>
-                        <Label fx:id="totalStudentLabel" layoutX="112.0" layoutY="92.0" text="0">
+                        <Label fx:id="name" layoutX="10.0" layoutY="40.0" prefHeight="50.0" prefWidth="396.0" text="Đỗ Đức Anh">
                            <font>
-                              <Font size="30.0" />
+                              <Font name="Tahoma Bold" size="30.0" />
                            </font>
                         </Label>
+                        <BarChart fx:id="gradeChar" layoutY="110.0" prefHeight="263.0" prefWidth="504.0" title="Grade of class">
+                          <xAxis>
+                            <CategoryAxis side="BOTTOM" />
+                          </xAxis>
+                          <yAxis>
+                            <NumberAxis side="LEFT" />
+                          </yAxis>
+                        </BarChart>
                      </children>
                   </Pane>
-                  <Pane layoutX="576.0" layoutY="47.0" prefHeight="200.0" prefWidth="230.0" styleClass="center-cen" stylesheets="@mainscene.css">
+                  <PieChart layoutX="20.0" layoutY="405.0" prefHeight="222.0" prefWidth="250.0" styleClass="pieChart" stylesheets="@mainscene.css" />
+                  <Pane layoutX="290.0" layoutY="405.0" prefHeight="104.0" prefWidth="220.0" styleClass="gpaFemale" stylesheets="@mainscene.css" />
+                  <Pane layoutX="290.0" layoutY="524.0" prefHeight="102.0" prefWidth="220.0" styleClass="gpaMale" stylesheets="@mainscene.css" />
+                  <Pane layoutX="560.0" layoutY="20.0" prefHeight="302.0" prefWidth="222.0" styleClass="miniProfile" stylesheets="@mainscene.css">
                      <children>
-                        <Label layoutX="76.0" prefHeight="35.0" prefWidth="154.0" text="Enrolled Female Student">
+                        <Label alignment="BASELINE_CENTER" layoutX="77.0" layoutY="21.0" prefHeight="60.0" prefWidth="60.0" style="-fx-border-color: black; -fx-border-radius: 100px; -fx-border-width: 2px;">
+                           <graphic>
+                              <ImageView fitHeight="64.0" fitWidth="64.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../../image/user.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </Label>
+                        <Label fx:id="name1" alignment="BASELINE_CENTER" layoutY="90.0" prefHeight="23.0" prefWidth="222.0" text="Đỗ Đức Anh" textAlignment="CENTER">
                            <font>
-                              <Font size="14.0" />
+                              <Font name="Tahoma" size="18.0" />
                            </font>
                         </Label>
-                        <Label fx:id="femaleStudentLabel" layoutX="112.0" layoutY="92.0" text="0">
+                        <Label alignment="BASELINE_CENTER" layoutY="113.0" prefHeight="17.0" prefWidth="222.0" text="Homeroom teacher">
                            <font>
-                              <Font size="30.0" />
+                              <Font name="System Italic" size="12.0" />
+                           </font></Label>
+                        <Text layoutX="1.0" layoutY="160.0" strokeType="OUTSIDE" strokeWidth="0.0" text="You are homeroom teacher of class 1" textAlignment="CENTER" wrappingWidth="220.5367431640625">
+                           <font>
+                              <Font size="13.0" />
                            </font>
-                        </Label>
+                        </Text>
                      </children>
                   </Pane>
-                  <Pane layoutX="303.0" layoutY="47.0" prefHeight="200.0" prefWidth="230.0" styleClass="center-cen" stylesheets="@mainscene.css">
-                     <children>
-                        <Label layoutX="92.0" prefHeight="35.0" prefWidth="138.0" text="Enrolled Male Student">
-                           <font>
-                              <Font size="14.0" />
-                           </font>
-                        </Label>
-                        <Label fx:id="maleStudentLabel" layoutX="112.0" layoutY="92.0" text="0">
-                           <font>
-                              <Font size="30.0" />
-                           </font>
-                        </Label>
-                     </children>
-                  </Pane>
-                  <BarChart fx:id="gradeChar" layoutX="19.0" layoutY="251.0" prefHeight="379.0" prefWidth="778.0" title="Grade">
-                    <xAxis>
-                      <CategoryAxis side="BOTTOM" />
-                    </xAxis>
-                    <yAxis>
-                      <NumberAxis side="LEFT" />
-                    </yAxis>
-                  </BarChart>
-               </children></Pane>
-            <Pane prefHeight="60.0" prefWidth="824.0" styleClass="center-top" stylesheets="@mainscene.css">
+               </children>
+            </Pane>
+            <Pane fx:id="studentForm" layoutX="20.0" layoutY="100.0" prefHeight="600.0" prefWidth="764.0" styleClass="center-radius" stylesheets="@mainscene.css">
                <children>
-                  <Label fx:id="welcomeLabel" layoutX="60.0" prefHeight="60.0" prefWidth="200.0" text="Hi" textFill="WHITE">
+                  <TextField fx:id="searchStudent" layoutX="20.0" layoutY="20.0" onKeyPressed="#searchStudent" prefHeight="25.0" prefWidth="260.0" promptText="Search" styleClass="search" stylesheets="@mainscene.css">
                      <font>
-                        <Font name="System Italic" size="18.0" />
+                        <Font name="Tahoma" size="14.0" />
+                     </font></TextField>
+                  <TableView fx:id="studentViewTable" layoutX="20.0" layoutY="70.0" onMouseClicked="#studentSelect" prefHeight="442.0" prefWidth="722.0" styleClass="tableView" stylesheets="@mainscene.css">
+                    <columns>
+                      <TableColumn fx:id="student_id_col" prefWidth="68.0" text="Student #" />
+                      <TableColumn fx:id="student_name_col" prefWidth="158.4000244140625" text="Full Name" />
+                        <TableColumn fx:id="student_gender_col" prefWidth="61.59999084472656" text="Gender" />
+                        <TableColumn fx:id="student_birth_col" prefWidth="88.79998779296875" text="Date of Birth" />
+                        <TableColumn fx:id="student_email_col" prefWidth="139.20001220703125" text="Email" />
+                        <TableColumn fx:id="student_phone_col" prefWidth="120.00006103515625" text="Phone" />
+                        <TableColumn fx:id="action" prefWidth="82.0" text="Action" />
+                    </columns>
+                  </TableView>
+                  <Button fx:id="createStudent" layoutX="627.0" layoutY="13.0" mnemonicParsing="false" onAction="#createAndUpdateStudent" prefHeight="40.0" prefWidth="117.0" styleClass="createButton" stylesheets="@mainscene.css" text="Create New" textFill="WHITE">
+                     <graphic>
+                        <ImageView fitHeight="24.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../image/plus.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <font>
+                        <Font name="System Bold" size="13.0" />
                      </font>
-                  </Label>
-                  <MenuButton fx:id="userButton" layoutX="700.0" layoutY="18.0" mnemonicParsing="false" text="User">
-                    <items>
-                      <MenuItem mnemonicParsing="false" text="Action 1" />
-                      <MenuItem mnemonicParsing="false" text="Action 2" />
-                    </items>
-                  </MenuButton>
+                  </Button>
+                  <Button layoutX="527.0" layoutY="13.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="85.0" styleClass="exportButton" stylesheets="@mainscene.css" text="Export" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="13.0" />
+                     </font>
+                     <graphic>
+                        <ImageView fitHeight="24.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../image/export.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
                </children>
             </Pane>
-            <Pane fx:id="studentForm" layoutX="20.0" layoutY="135.0" prefHeight="500.0" prefWidth="785.0" styleClass="center-cen" stylesheets="@mainscene.css" visible="false">
+            <Pane fx:id="inputGradeForm" layoutX="20.0" layoutY="100.0" prefHeight="600.0" prefWidth="765.0" styleClass="center-radius" stylesheets="@mainscene.css" visible="false">
                <children>
-                  <TextField fx:id="searchStudent" layoutX="25.0" layoutY="13.0" onKeyPressed="#searchStudent" prefHeight="25.0" prefWidth="260.0" promptText="Seach" />
-                  <Pane layoutY="49.0" prefHeight="495.0" prefWidth="784.0" styleClass="center-cen" stylesheets="@mainscene.css">
+                  <Pane layoutX="20.0" layoutY="20.0" prefHeight="548.0" prefWidth="250.0" style="-fx-background-color: #8a70d6; -fx-background-radius: 10px;" stylesheets="@mainscene.css">
                      <children>
-                        <ScrollPane prefHeight="330.0" prefWidth="784.0">
-                           <content>
-                              <TableView fx:id="studentViewTable" onMouseClicked="#studentSelect" prefHeight="328.0" prefWidth="782.0">
-                                <columns>
-                                  <TableColumn fx:id="student_id_col" prefWidth="70.0" text="Student #" />
-                                  <TableColumn fx:id="student_name_col" prefWidth="170.0" text="Full Name" />
-                                    <TableColumn fx:id="student_gender_col" prefWidth="70.0" text="Gender" />
-                                    <TableColumn fx:id="student_birth_col" prefWidth="100.0" text="Date of Birth" />
-                                    <TableColumn fx:id="student_email_col" prefWidth="108.7999267578125" text="Email" />
-                                    <TableColumn fx:id="student_phone_col" prefWidth="125.5999755859375" text="Phone" />
-                                    <TableColumn fx:id="student_class_col" prefWidth="64.0" text="Class" />
-                                </columns>
-                              </TableView>
-                           </content>
-                        </ScrollPane>
-                        <Label layoutX="20.0" layoutY="357.0" prefHeight="25.0" prefWidth="65.0" text="Student #:" />
-                        <Label layoutX="20.0" layoutY="395.0" prefHeight="25.0" prefWidth="65.0" text="Full Name:" />
-                        <Label layoutX="20.0" layoutY="435.0" prefHeight="25.0" prefWidth="65.0" text="Gender:" />
-                        <Label layoutX="280.0" layoutY="395.0" prefHeight="25.0" prefWidth="70.0" text="Phone:" />
-                        <Label layoutX="280.0" layoutY="435.0" prefHeight="25.0" prefWidth="70.0" text="Email:" />
-                        <Label layoutX="280.0" layoutY="357.0" prefHeight="25.0" prefWidth="70.0" text="Date of Birth:" />
-                        <TextField fx:id="getStudentId" layoutX="85.0" layoutY="357.0" promptText="AUTO_INCREMENT" />
-                        <TextField fx:id="getStudentName" layoutX="85.0" layoutY="395.0" />
-                        <DatePicker fx:id="getStudentBirth" layoutX="350.0" layoutY="357.0" />
-                        <TextField fx:id="getStudentPhone" layoutX="350.0" layoutY="396.0" />
-                        <TextField fx:id="getStudentEmail" layoutX="350.0" layoutY="433.0" />
-                        <Button fx:id="insertButton" layoutX="571.0" layoutY="372.0" mnemonicParsing="false" onAction="#addStudent" prefHeight="35.0" prefWidth="70.0" text="Insert" />
-                        <Button fx:id="updateButton" layoutX="571.0" layoutY="427.0" mnemonicParsing="false" onAction="#updateStudent" prefHeight="35.0" prefWidth="70.0" text="Update" />
-                        <Button fx:id="deleteButton" layoutX="674.0" layoutY="372.0" mnemonicParsing="false" onAction="#deleteStudent" prefHeight="35.0" prefWidth="70.0" text="Delete" />
-                        <Button fx:id="clearButton" layoutX="674.0" layoutY="427.0" mnemonicParsing="false" onAction="#clearSelected" prefHeight="35.0" prefWidth="70.0" text="Clear" />
-                        <ComboBox fx:id="getStudentGender" layoutX="84.0" layoutY="435.0" prefWidth="150.0" />
-                     </children>
-                  </Pane>
-               </children>
-            </Pane>
-            <Pane fx:id="inputGradeForm" layoutY="100.0" prefHeight="600.0" prefWidth="824.0" visible="false">
-               <children>
-                  <Pane layoutX="20.0" layoutY="20.0" prefHeight="548.0" prefWidth="250.0" styleClass="center-cen" stylesheets="@mainscene.css">
-                     <children>
-                        <Label layoutX="10.0" layoutY="75.0" prefHeight="25.0" prefWidth="70.0" text="Student #" />
-                        <Label layoutX="10.0" layoutY="110.0" prefHeight="25.0" prefWidth="70.0" text="Full name" />
-                        <Label layoutX="10.0" layoutY="196.0" prefHeight="25.0" prefWidth="70.0" text="Component" />
-                        <Label layoutX="10.0" layoutY="231.0" prefHeight="25.0" prefWidth="70.0" text="Mid" />
-                        <Label layoutX="10.0" layoutY="266.0" prefHeight="25.0" prefWidth="70.0" text="End" />
+                        <Label layoutX="10.0" layoutY="75.0" prefHeight="25.0" prefWidth="70.0" text="Student #" textFill="WHITE" />
+                        <Label layoutX="10.0" layoutY="110.0" prefHeight="25.0" prefWidth="70.0" text="Full name" textFill="WHITE" />
+                        <Label layoutX="10.0" layoutY="196.0" prefHeight="25.0" prefWidth="70.0" text="Component" textFill="WHITE" />
+                        <Label layoutX="10.0" layoutY="231.0" prefHeight="25.0" prefWidth="70.0" text="Mid" textFill="WHITE" />
+                        <Label layoutX="10.0" layoutY="266.0" prefHeight="25.0" prefWidth="70.0" text="End" textFill="WHITE" />
                         <TextField fx:id="getGradeStudentId" layoutX="85.0" layoutY="75.0" />
                         <TextField fx:id="getGradeStudentName" layoutX="85.0" layoutY="110.0" />
                         <TextField fx:id="getMath" layoutX="85.0" layoutY="196.0" />
@@ -167,43 +240,55 @@
                         <Button fx:id="insertGrade" layoutX="20.0" layoutY="331.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="70.0" text="Insert" />
                         <Button fx:id="clearGrade" layoutX="20.0" layoutY="412.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="70.0" text="Clear" />
                         <Button fx:id="updateGrade" layoutX="132.0" layoutY="331.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="70.0" text="Update" />
-                        <TextField fx:id="getGradeStudent" layoutX="10.0" layoutY="20.0" prefHeight="25.0" prefWidth="166.0" promptText="Search" />
+                        <TextField fx:id="getGradeStudent" layoutX="10.0" layoutY="20.0" prefHeight="25.0" prefWidth="166.0" promptText="Search" styleClass="search" stylesheets="@mainscene.css" />
                         <ComboBox fx:id="getSubjectList" layoutX="84.0" layoutY="149.0" prefWidth="150.0" />
-                        <Label layoutX="10.0" layoutY="149.0" prefHeight="25.0" prefWidth="70.0" text="Subject" />
+                        <Label layoutX="10.0" layoutY="149.0" prefHeight="25.0" prefWidth="70.0" text="Subject" textFill="WHITE" />
                      </children>
                   </Pane>
-                  <ScrollPane layoutX="300.0" layoutY="20.0" prefHeight="548.0" prefWidth="524.0" styleClass="center-cen" stylesheets="@mainscene.css">
-                     <content>
-                        <TableView fx:id="inputGradeTable" prefHeight="546.0" prefWidth="516.0" stylesheets="@mainscene.css" />
-                     </content>
-                  </ScrollPane>
+                  <TableView fx:id="inputGradeTable" layoutX="300.0" layoutY="20.0" prefHeight="548.0" prefWidth="449.0" styleClass="tableView" stylesheets="@mainscene.css" />
                </children>
             </Pane>
-            <Pane layoutY="60.0" prefHeight="40.0" prefWidth="824.0" style="-fx-background-color: white;">
+            <Pane fx:id="gradeForm" layoutX="20.0" layoutY="100.0" prefHeight="605.0" prefWidth="763.0" styleClass="center-radius" stylesheets="@mainscene.css" visible="false">
                <children>
-                  <Hyperlink fx:id="link" layoutX="628.0" prefHeight="40.0" prefWidth="76.0" text="Dashboard" />
-                  <Label layoutX="697.0" prefHeight="40.0" text="&gt;" />
-                  <Label fx:id="PaneLable" layoutX="40.0" prefHeight="40.0" prefWidth="192.0" text="DASHBOARD" />
-                  <Hyperlink fx:id="sub_link" layoutX="711.0" prefHeight="40.0" text="Student" />
+                  <TableView fx:id="gradeViewTable" layoutX="20.0" layoutY="80.0" prefHeight="477.0" prefWidth="712.0" styleClass="tableView" stylesheets="@mainscene.css" />
+                  <TextField layoutX="20.0" layoutY="20.0" prefHeight="30.0" prefWidth="300.0" promptText="Search" styleClass="search" stylesheets="@mainscene.css" />
+                  <Label fx:id="classLabel" layoutX="653.0" layoutY="22.0" prefHeight="17.0" prefWidth="77.0">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                  </Label>
                </children>
             </Pane>
-            <Pane fx:id="gradeForm" layoutY="100.0" prefHeight="600.0" prefWidth="824.0" visible="false">
+            <Pane prefHeight="80.0" prefWidth="804.0" style="-fx-background-color: #f7f7f7;">
                <children>
-                  <Pane layoutX="20.0" layoutY="20.0" prefHeight="560.0" prefWidth="784.0" styleClass="center-cen" stylesheets="@mainscene.css">
-                     <children>
-                        <ScrollPane layoutX="20.0" layoutY="80.0" prefHeight="457.0" prefWidth="744.0">
-                           <content>
-                              <TableView fx:id="gradeViewTable" prefHeight="456.0" prefWidth="742.0" />
-                           </content>
-                        </ScrollPane>
-                        <TextField layoutX="20.0" layoutY="20.0" prefHeight="30.0" prefWidth="300.0" promptText="Search" />
-                        <Label fx:id="classLabel" layoutX="653.0" layoutY="22.0" prefHeight="17.0" prefWidth="77.0">
-                           <font>
-                              <Font name="System Bold" size="18.0" />
-                           </font>
-                        </Label>
-                     </children>
-                  </Pane>
+                  <Label fx:id="PaneLable" layoutX="20.0" prefHeight="80.0" prefWidth="240.0" text="DASHBOARD">
+                     <font>
+                        <Font name="Gill Sans MT" size="30.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="560.0" prefHeight="80.0" prefWidth="65.0" text="Profile">
+                     <font>
+                        <Font name="Tahoma" size="20.0" />
+                     </font>
+                  </Label>
+                  <Button layoutX="755.0" layoutY="25.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="30.0" styleClass="editAndEditBut" stylesheets="@mainscene.css">
+                     <graphic>
+                        <ImageView fitHeight="20.0" fitWidth="19.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../image/edit.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+                  <Button alignment="BASELINE_CENTER" layoutX="484.0" layoutY="25.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="30.0" styleClass="editAndEditBut" stylesheets="@mainscene.css">
+                     <graphic>
+                        <ImageView fitHeight="25.0" fitWidth="23.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../image/noti.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
                </children>
             </Pane>
          </children>
