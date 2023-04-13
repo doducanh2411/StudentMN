@@ -21,7 +21,6 @@ import javafx.stage.Stage;
 import static com.example.demo.MainSceneController.listStudents;
 
 import static com.example.demo.LoginFormController.connection;
-import static com.example.demo.MainSceneController.updateCallback;
 
 public class Student {
     private int student_id;

@@ -338,7 +338,6 @@ public class MainSceneController implements Initializable  {
     @FXML
     private TableColumn<Student, HBox> action;
 
-    public static Callback<Student, Void> updateCallback;
     public void showStudentListData() {
         listStudents = addStudentList();
 
@@ -417,59 +416,6 @@ public class MainSceneController implements Initializable  {
         }
     }
 
-    public void updateStudent1(){
-        String query = "UPDATE student SET "
-                + "name = '" + getStudentName.getText()
-                + "', gender = '" + getStudentGender.getSelectionModel().getSelectedItem()
-                + "', date_of_birth = '" + getStudentBirth.getValue()
-                + "', email = '" + getStudentEmail.getText()
-                + "', phone  = '" + getStudentPhone.getText()
-                + "', class_id  = '" + getTeacherClass()
-                + "' WHERE student_id = '" + getStudentId.getText() + "'";
-        try{
-            Alert alert;
-            if (getStudentName.getText().isEmpty()
-                    || getStudentGender.getSelectionModel().getSelectedItem() == null
-                    || getStudentBirth.getValue() == null
-                    || getStudentId.getText().isEmpty()) {
-                alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Error Message");
-                alert.setHeaderText(null);
-                alert.setContentText("Please fill all blank fields");
-                alert.showAndWait();
-            } else {
-                alert = new Alert(Alert.AlertType.CONFIRMATION);
-                alert.setTitle("Confirmation Message");
-                alert.setHeaderText(null);
-                alert.setContentText("Are you sure you want to UPDATE Student #" + getStudentId.getText() + "?");
-                Optional<ButtonType> option = alert.showAndWait();
-                if (option.get().equals(ButtonType.OK)) {
-                    if (getStudentPhone.getText() == null){
-                        getStudentEmail.setText("");
-                    }
-                    if (getStudentPhone.getText() == null){
-                        getStudentPhone.setText("");
-                    }
-                    Statement st = connection.createStatement();
-                    st.executeUpdate(query);
-
-                    alert = new Alert(Alert.AlertType.INFORMATION);
-                    alert.setTitle("Information Message");
-                    alert.setHeaderText(null);
-                    alert.setContentText("Successfully Updated!");
-                    alert.showAndWait();
-
-                    showStudentListData();
-
-                } else {
-                    return;
-                }
-            }
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-    }
-
     public void searchStudent(){
         FilteredList<Student> filter = new FilteredList<>(listStudents , e->true);
         searchStudent.textProperty().addListener((Observable, oldValue, newValue) -> {
@@ -503,23 +449,6 @@ public class MainSceneController implements Initializable  {
 
         sortList.comparatorProperty().bind(studentViewTable.comparatorProperty());
         studentViewTable.setItems(sortList);
-    }
-
-    public void studentSelect(){
-        try{
-            Student student = studentViewTable.getSelectionModel().getSelectedItem();
-
-            int id = studentViewTable.getSelectionModel().getSelectedIndex();
-
-            getStudentId.setText(String.valueOf(student.getStudent_id()));
-            getStudentName.setText(student.getName());
-            getStudentGender.setValue(student.getGender());
-            getStudentBirth.setValue(LocalDate.parse(String.valueOf(student.getDateOfBirth())));
-            getStudentEmail.setText(student.getEmail());
-            getStudentPhone.setText(student.getPhone());
-        } catch (Exception e){
-            System.out.println("LOL");
-        }
     }
 
     public ObservableList  addSubjectList(){
