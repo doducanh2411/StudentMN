@@ -19,6 +19,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 
@@ -35,6 +36,15 @@ import static java.sql.Types.NULL;
 
 
 public class MainSceneController implements Initializable  {
+    @FXML
+    private ComboBox<String> getClassList;
+
+    @FXML
+    private Text description;
+
+    @FXML
+    private Label type;
+
     @FXML
     private Label PaneLable;
 
@@ -190,6 +200,24 @@ public class MainSceneController implements Initializable  {
     private TableView<?> inputGradeTable;
 
     @FXML
+    private TableColumn<?, ?> input_component_col;
+
+    @FXML
+    private TableColumn<?, ?> input_end_col;
+
+    @FXML
+    private TableColumn<?, ?> input_final_col;
+
+    @FXML
+    private TableColumn<?, ?> input_mid_col;
+
+    @FXML
+    private TableColumn<?, ?> input_student_id_col;
+
+    @FXML
+    private TableColumn<?, ?> input_student_name_col;
+
+    @FXML
     private Pane inputGradeForm;
 
     @FXML
@@ -214,6 +242,8 @@ public class MainSceneController implements Initializable  {
 
     public void showName(){
         if (isStudent == 1){
+            type.setText("Student");
+            description.setText("You are student");
             String query = "SELECT name FROM student WHERE student_id = " + username;
             try{
                 Statement st = connection.createStatement();
@@ -222,11 +252,19 @@ public class MainSceneController implements Initializable  {
                     System.out.println(rs.getString("name"));
                     name.setText(rs.getString("name"));
                     name1.setText(rs.getString("name"));
+
                 }
             }catch (Exception e){
                 e.printStackTrace();
             }
         } else {
+            if (isHomeroom == 1){
+                type.setText("Homeroom Teacher");
+                description.setText("You are homeroom teacher of class: " + getTeacherClass());
+            }else if (isSubject == 1) {
+                type.setText("Subject Teacher");
+                description.setText("You are subject teacher of class");
+            }
             String query = "SELECT name FROM teacher WHERE teacher_id = " + username;
             try{
                 Statement st = connection.createStatement();
@@ -452,7 +490,9 @@ public class MainSceneController implements Initializable  {
     }
 
     public ObservableList  addSubjectList(){
-        String query = "SELECT * FROM subject";
+        String query = "SELECT s.subject_name FROM teach t"
+                        + " INNER JOIN subject s ON s.subject_id = t.subject_id"
+                        + " WHERE t.teacher_id = " + username;
         ObservableList listSubject = FXCollections.observableArrayList();
         try{
             PreparedStatement ps = connection.prepareStatement(query);
@@ -466,7 +506,23 @@ public class MainSceneController implements Initializable  {
         }
         return listSubject;
     }
-
+    public ObservableList  addClassList(){
+        String query = "SELECT class_id FROM teach"
+                + " WHERE teacher_id = " + username
+                + " GROUP BY class_id";
+        ObservableList listClass = FXCollections.observableArrayList();
+        try{
+            PreparedStatement ps = connection.prepareStatement(query);
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()){
+                listClass.add(rs.getString("class_id"));
+            }
+            getClassList.setItems(listClass);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return listClass;
+    }
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         dashBoardButton.getStyleClass().add("button-active");
@@ -474,6 +530,7 @@ public class MainSceneController implements Initializable  {
         showStudentListData();
         showStudentFinalPoints();
         addSubjectList();
+        addClassList();
     }
     private void setActiveButton(Button button) {
         dashBoardButton.getStyleClass().remove("button-active");

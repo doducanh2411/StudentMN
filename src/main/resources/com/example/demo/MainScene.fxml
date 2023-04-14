@@ -22,7 +22,7 @@
    <left>
       <Pane prefHeight="695.0" prefWidth="220.0" styleClass="left" stylesheets="@mainscene.css" BorderPane.alignment="CENTER">
          <children>
-            <Label alignment="CENTER" prefHeight="111.0" prefWidth="220.0" stylesheets="@mainscene.css" text="Studify" textAlignment="CENTER">
+            <Label alignment="CENTER" prefHeight="111.0" prefWidth="220.0" stylesheets="@mainscene.css" text=" Studify" textAlignment="CENTER">
                <font>
                   <Font name="Tahoma Bold" size="18.0" />
                </font>
@@ -167,11 +167,11 @@
                               <Font name="Tahoma" size="18.0" />
                            </font>
                         </Label>
-                        <Label alignment="BASELINE_CENTER" layoutY="113.0" prefHeight="17.0" prefWidth="222.0" text="Homeroom teacher">
+                        <Label fx:id="type" alignment="BASELINE_CENTER" layoutY="113.0" prefHeight="17.0" prefWidth="222.0" text="Type">
                            <font>
                               <Font name="System Italic" size="12.0" />
                            </font></Label>
-                        <Text layoutX="1.0" layoutY="160.0" strokeType="OUTSIDE" strokeWidth="0.0" text="You are homeroom teacher of class 1" textAlignment="CENTER" wrappingWidth="220.5367431640625">
+                        <Text fx:id="description" layoutX="1.0" layoutY="160.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Data" textAlignment="CENTER" wrappingWidth="220.5367431640625">
                            <font>
                               <Font size="13.0" />
                            </font>
@@ -180,7 +180,7 @@
                   </Pane>
                </children>
             </Pane>
-            <Pane fx:id="studentForm" layoutX="20.0" layoutY="100.0" prefHeight="600.0" prefWidth="764.0" styleClass="center-radius" stylesheets="@mainscene.css">
+            <Pane fx:id="studentForm" layoutX="20.0" layoutY="100.0" prefHeight="600.0" prefWidth="764.0" styleClass="center-radius" stylesheets="@mainscene.css" visible="false">
                <children>
                   <TextField fx:id="searchStudent" layoutX="20.0" layoutY="20.0" onKeyPressed="#searchStudent" prefHeight="25.0" prefWidth="260.0" promptText="Search" styleClass="search" stylesheets="@mainscene.css">
                      <font>
@@ -223,7 +223,7 @@
                   </Button>
                </children>
             </Pane>
-            <Pane fx:id="inputGradeForm" layoutX="20.0" layoutY="100.0" prefHeight="600.0" prefWidth="765.0" styleClass="center-radius" stylesheets="@mainscene.css" visible="false">
+            <Pane fx:id="inputGradeForm" layoutX="20.0" layoutY="100.0" prefHeight="600.0" prefWidth="765.0" styleClass="center-radius" stylesheets="@mainscene.css">
                <children>
                   <Pane layoutX="20.0" layoutY="20.0" prefHeight="548.0" prefWidth="250.0" style="-fx-background-color: #8a70d6; -fx-background-radius: 10px;" stylesheets="@mainscene.css">
                      <children>
@@ -237,15 +237,25 @@
                         <TextField fx:id="getMath" layoutX="85.0" layoutY="196.0" />
                         <TextField fx:id="getLiterature" layoutX="85.0" layoutY="231.0" />
                         <TextField fx:id="getEnglish" layoutX="85.0" layoutY="266.0" />
-                        <Button fx:id="insertGrade" layoutX="20.0" layoutY="331.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="70.0" text="Insert" />
+                        <Button fx:id="insertGrade" layoutX="20.0" layoutY="353.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="70.0" text="Insert" />
                         <Button fx:id="clearGrade" layoutX="20.0" layoutY="412.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="70.0" text="Clear" />
-                        <Button fx:id="updateGrade" layoutX="141.0" layoutY="331.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="70.0" text="Update" />
+                        <Button fx:id="updateGrade" layoutX="141.0" layoutY="353.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="70.0" text="Update" />
                         <TextField fx:id="getGradeStudent" layoutX="10.0" layoutY="20.0" prefHeight="25.0" prefWidth="166.0" promptText="Search" styleClass="search" stylesheets="@mainscene.css" />
-                        <ComboBox fx:id="getSubjectList" layoutX="84.0" layoutY="149.0" prefWidth="150.0" />
+                        <ComboBox fx:id="getSubjectList" layoutX="84.0" layoutY="149.0" prefWidth="150.0" promptText="Choose" />
                         <Label layoutX="10.0" layoutY="149.0" prefHeight="25.0" prefWidth="70.0" text="Subject" textFill="WHITE" />
+                        <Label layoutX="10.0" layoutY="300.0" prefHeight="25.0" prefWidth="70.0" text="Class" textFill="WHITE" />
+                        <ComboBox fx:id="getClassList" layoutX="84.0" layoutY="300.0" prefWidth="150.0" promptText="Choose" />
                      </children>
                   </Pane>
-                  <TableView fx:id="inputGradeTable" layoutX="300.0" layoutY="20.0" prefHeight="548.0" prefWidth="449.0" styleClass="tableView" stylesheets="@mainscene.css" />
+                  <TableView fx:id="inputGradeTable" layoutX="300.0" layoutY="20.0" prefHeight="548.0" prefWidth="449.0" styleClass="tableView" stylesheets="@mainscene.css">
+                     <columns>
+                        <TableColumn fx:id="input_student_id_col" prefWidth="68.0" text="Student #" />
+                        <TableColumn fx:id="input_student_name_col" prefWidth="115.20001220703125" text="Name" />
+                        <TableColumn fx:id="input_component_col" prefWidth="76.800048828125" text="Component" />
+                        <TableColumn fx:id="input_mid_col" prefWidth="58.4000244140625" text="Mid" />
+                        <TableColumn fx:id="input_end_col" prefWidth="60.7999267578125" text="End" />
+                        <TableColumn fx:id="input_final_col" prefWidth="72.7999267578125" text="Final" />
+                     </columns></TableView>
                </children>
             </Pane>
             <Pane fx:id="gradeForm" layoutX="20.0" layoutY="100.0" prefHeight="605.0" prefWidth="763.0" styleClass="center-radius" stylesheets="@mainscene.css" visible="false">
