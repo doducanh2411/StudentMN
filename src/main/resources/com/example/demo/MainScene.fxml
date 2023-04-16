@@ -111,6 +111,8 @@
                   <Insets left="30.0" />
                </padding>
             </Button>
+            <TextField fx:id="getGradeStudentId1" layoutX="53.0" layoutY="445.0" />
+            <TextField fx:id="getGradeStudentName1" layoutX="33.0" layoutY="492.0" />
          </children>
       </Pane>
    </left>
@@ -227,34 +229,36 @@
                <children>
                   <Pane layoutX="20.0" layoutY="20.0" prefHeight="548.0" prefWidth="250.0" style="-fx-background-color: #8a70d6; -fx-background-radius: 10px;" stylesheets="@mainscene.css">
                      <children>
-                        <Label layoutX="10.0" layoutY="75.0" prefHeight="25.0" prefWidth="70.0" text="Student #" textFill="WHITE" />
-                        <Label layoutX="10.0" layoutY="110.0" prefHeight="25.0" prefWidth="70.0" text="Full name" textFill="WHITE" />
-                        <Label layoutX="10.0" layoutY="196.0" prefHeight="25.0" prefWidth="70.0" text="Component" textFill="WHITE" />
-                        <Label layoutX="10.0" layoutY="231.0" prefHeight="25.0" prefWidth="70.0" text="Mid" textFill="WHITE" />
-                        <Label layoutX="10.0" layoutY="266.0" prefHeight="25.0" prefWidth="70.0" text="End" textFill="WHITE" />
-                        <TextField fx:id="getGradeStudentId" layoutX="85.0" layoutY="75.0" />
-                        <TextField fx:id="getGradeStudentName" layoutX="85.0" layoutY="110.0" />
-                        <TextField fx:id="getMath" layoutX="85.0" layoutY="196.0" />
-                        <TextField fx:id="getLiterature" layoutX="85.0" layoutY="231.0" />
-                        <TextField fx:id="getEnglish" layoutX="85.0" layoutY="266.0" />
-                        <Button fx:id="insertGrade" layoutX="20.0" layoutY="353.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="70.0" text="Insert" />
-                        <Button fx:id="clearGrade" layoutX="20.0" layoutY="412.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="70.0" text="Clear" />
-                        <Button fx:id="updateGrade" layoutX="141.0" layoutY="353.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="70.0" text="Update" />
+                        <Label layoutX="10.0" layoutY="130.0" prefHeight="25.0" prefWidth="70.0" text="Student #" textFill="WHITE" />
+                        <Label layoutX="10.0" layoutY="169.0" prefHeight="25.0" prefWidth="70.0" text="Full name" textFill="WHITE" />
+                        <Label layoutX="10.0" layoutY="205.0" prefHeight="25.0" prefWidth="70.0" text="Component" textFill="WHITE" />
+                        <Label layoutX="10.0" layoutY="240.0" prefHeight="25.0" prefWidth="70.0" text="Mid" textFill="WHITE" />
+                        <Label layoutX="10.0" layoutY="275.0" prefHeight="25.0" prefWidth="70.0" text="End" textFill="WHITE" />
+                        <TextField fx:id="getComponentPoint" layoutX="85.0" layoutY="205.0" />
+                        <TextField fx:id="getMidPoint" layoutX="85.0" layoutY="240.0" />
+                        <TextField fx:id="getEndPoint" layoutX="85.0" layoutY="275.0" />
+                        <Button fx:id="insertGrade" layoutX="20.0" layoutY="353.0" mnemonicParsing="false" onAction="#addGrade" prefHeight="30.0" prefWidth="70.0" text="Insert" />
+                        <Button fx:id="clearGrade" layoutX="20.0" layoutY="412.0" mnemonicParsing="false" onAction="#clearSelectedGrade" prefHeight="30.0" prefWidth="70.0" text="Clear" />
+                        <Button fx:id="updateGrade" layoutX="141.0" layoutY="353.0" mnemonicParsing="false" onAction="#updateGrade" prefHeight="30.0" prefWidth="70.0" text="Update" />
                         <TextField fx:id="getGradeStudent" layoutX="10.0" layoutY="20.0" prefHeight="25.0" prefWidth="166.0" promptText="Search" styleClass="search" stylesheets="@mainscene.css" />
-                        <ComboBox fx:id="getSubjectList" layoutX="84.0" layoutY="149.0" prefWidth="150.0" promptText="Choose" />
-                        <Label layoutX="10.0" layoutY="149.0" prefHeight="25.0" prefWidth="70.0" text="Subject" textFill="WHITE" />
-                        <Label layoutX="10.0" layoutY="300.0" prefHeight="25.0" prefWidth="70.0" text="Class" textFill="WHITE" />
-                        <ComboBox fx:id="getClassList" layoutX="84.0" layoutY="300.0" prefWidth="150.0" promptText="Choose" />
+                        <ComboBox fx:id="getSubjectList" layoutX="84.0" layoutY="96.0" prefWidth="150.0" promptText="Choose subject" />
+                        <Label layoutX="10.0" layoutY="96.0" prefHeight="25.0" prefWidth="70.0" text="Subject" textFill="WHITE" />
+                        <Label layoutX="10.0" layoutY="60.0" prefHeight="25.0" prefWidth="70.0" text="Class" textFill="WHITE" />
+                        <ComboBox fx:id="getClassList" layoutX="84.0" layoutY="60.0" prefWidth="150.0" promptText=" Choose class" />
+                        <ComboBox fx:id="getGradeStudentId" layoutX="84.0" layoutY="130.0" prefWidth="150.0" promptText="Choose " />
+                        <ComboBox fx:id="getGradeStudentName" layoutX="84.0" layoutY="169.0" prefWidth="150.0" promptText="Choose" />
+                        <Button fx:id="deleteGrade" layoutX="141.0" layoutY="412.0" mnemonicParsing="false" onAction="#deleteGrade" prefHeight="30.0" prefWidth="70.0" text="Delete" />
                      </children>
                   </Pane>
-                  <TableView fx:id="inputGradeTable" layoutX="300.0" layoutY="20.0" prefHeight="548.0" prefWidth="449.0" styleClass="tableView" stylesheets="@mainscene.css">
+                  <TableView fx:id="inputGradeTable" layoutX="300.0" layoutY="20.0" onMouseClicked="#selectedGrade" prefHeight="548.0" prefWidth="449.0" styleClass="tableView" stylesheets="@mainscene.css">
                      <columns>
-                        <TableColumn fx:id="input_student_id_col" prefWidth="68.0" text="Student #" />
-                        <TableColumn fx:id="input_student_name_col" prefWidth="115.20001220703125" text="Name" />
-                        <TableColumn fx:id="input_component_col" prefWidth="76.800048828125" text="Component" />
-                        <TableColumn fx:id="input_mid_col" prefWidth="58.4000244140625" text="Mid" />
-                        <TableColumn fx:id="input_end_col" prefWidth="60.7999267578125" text="End" />
-                        <TableColumn fx:id="input_final_col" prefWidth="72.7999267578125" text="Final" />
+                        <TableColumn fx:id="input_student_id_col" prefWidth="67.20001220703125" text="Student #" />
+                        <TableColumn fx:id="input_student_name_col" prefWidth="112.0" text="Name" />
+                        <TableColumn fx:id="input_component_col" prefWidth="75.20001220703125" text="Component" />
+                        <TableColumn fx:id="input_mid_col" prefWidth="47.20013427734375" text="Mid" />
+                        <TableColumn fx:id="input_end_col" prefWidth="49.5999755859375" text="End" />
+                        <TableColumn fx:id="input_final_col" prefWidth="52.7999267578125" text="Final" />
+                        <TableColumn fx:id="gradeAction" prefWidth="41.00006103515625" text="Action" />
                      </columns></TableView>
                </children>
             </Pane>

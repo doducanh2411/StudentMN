@@ -1,10 +1,33 @@
 package com.example.demo;
 
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
+
+import java.sql.Statement;
+import java.util.Optional;
+
+import static com.example.demo.LoginFormController.connection;
+import static com.example.demo.MainSceneController.gradeList;
+import static com.example.demo.MainSceneController.listStudents;
+
 public class Grade {
     private int grade_id;
     private int student_id;
     private String student_name;
     private float component_point;
+    private HBox hbox;
+
+    public HBox getHbox() {
+        return hbox;
+    }
+
+    public void setHbox(HBox hbox) {
+        this.hbox = hbox;
+    }
 
     public String getStudent_name() {
         return student_name;
@@ -26,6 +49,44 @@ public class Grade {
         this.mid_point = mid_point;
         this.end_point = end_point;
         this.final_point = final_point;
+
+        hbox = new HBox();
+        Button deleteBtn = new Button();
+        Image dlt_img = new Image(getClass().getResourceAsStream("/image/trash.png"));
+        ImageView dltImg = new ImageView(dlt_img);
+        dltImg.setFitHeight(20);
+        dltImg.setFitWidth(20);
+        deleteBtn.setGraphic(dltImg);
+        deleteBtn.setStyle("-fx-background-color: transparent; -fx-cursor:hand;");
+        deleteBtn.setOnAction(event -> {
+            Alert alert;
+            String query = "DELETE FROM grade WHERE grade_id = " + grade_id;
+            try{
+                alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle("Confirmation Message");
+                alert.setHeaderText(null);
+                alert.setContentText("Are you sure you want to DELETE this grade ?");
+
+                Optional<ButtonType> option = alert.showAndWait();
+
+                if(option.get().equals(ButtonType.OK)){
+                    Statement st = connection.createStatement();
+                    st.executeUpdate(query);
+
+                    alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Information Message");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Successfully Deleted!");
+                    alert.showAndWait();
+
+                    gradeList.remove(this);
+                }
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+
+        });
+        hbox.getChildren().addAll(deleteBtn);
     }
 
     public int getGrade_id() {

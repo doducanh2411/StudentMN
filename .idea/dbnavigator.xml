@@ -13,7 +13,7 @@
   </component>
   <component name="DBNavigator.Project.DatabaseConsoleManager">
     <connection id="e184b3fd-3d96-412d-95eb-0222d761c8c1">
-      <console name="Connection" type="STANDARD" schema="bbijfqtchwxu1qzbcs3a" session="Main" />
+      <console name="Connection" type="STANDARD" schema="bbijfqtchwxu1qzbcs3a" session="Main"><![CDATA[sh]]></console>
     </connection>
   </component>
   <component name="DBNavigator.Project.DatabaseEditorStateManager">
@@ -516,5 +516,8 @@
         </visibility-settings>
       </environment>
     </general-settings>
+  </component>
+  <component name="DBNavigator.Project.StatementExecutionManager">
+    <execution-variables />
   </component>
 </project>

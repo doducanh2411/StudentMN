@@ -22,6 +22,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Callback;
+import javafx.util.StringConverter;
 
 import java.io.IOException;
 import java.net.URL;
@@ -29,14 +30,19 @@ import java.sql.*;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import static com.example.demo.LoginFormController.*;
 import static java.sql.Types.NULL;
 
 
 public class MainSceneController implements Initializable {
+
     @FXML
-    private ComboBox<String> getClassList;
+    private Button deleteGrade;
+
+    @FXML
+    private ComboBox<Integer> getClassList;
 
     @FXML
     private Text description;
@@ -84,28 +90,28 @@ public class MainSceneController implements Initializable {
     private TextField getStudentEmail;
 
     @FXML
-    private TextField getEnglish;
+    private TextField getEndPoint;
 
     @FXML
     private ComboBox<String> getStudentGender;
 
     @FXML
-    private ComboBox<String> getSubjectList;
+    private ComboBox<Integer> getSubjectList;
 
     @FXML
     private TextField getGradeStudent;
 
     @FXML
-    private TextField getGradeStudentId;
+    private ComboBox<Integer> getGradeStudentId;
 
     @FXML
-    private TextField getGradeStudentName;
+    private ComboBox<String> getGradeStudentName;
 
     @FXML
-    private TextField getLiterature;
+    private TextField getMidPoint;
 
     @FXML
-    private TextField getMath;
+    private TextField getComponentPoint;
 
     @FXML
     private TextField getStudentName;
@@ -224,6 +230,9 @@ public class MainSceneController implements Initializable {
 
     @FXML
     private TableColumn<Student, HBox> action;
+
+    @FXML
+    private TableColumn<Grade, HBox> gradeAction;
 
     public void close() {
         System.exit(0);
@@ -492,73 +501,184 @@ public class MainSceneController implements Initializable {
         studentViewTable.setItems(sortList);
     }
 
-    public ObservableList addSubjectList() {
-        String query = "SELECT s.subject_name FROM teach t"
-                + " INNER JOIN subject s ON s.subject_id = t.subject_id"
-                + " WHERE t.teacher_id =  + " + username
-                + " GROUP BY t.subject_id";
-        ObservableList listSubject = FXCollections.observableArrayList();
+    public void addSubjectList() {
+        String query = "SELECT s.subject_id, s.subject_name FROM teach t "
+                + "INNER JOIN subject s USING(subject_id) "
+                + "WHERE t.teacher_id = " + username + " "
+                + "GROUP BY t.subject_id ";
+        Map<String, Integer> subjectMap = new HashMap<>();
         try {
             PreparedStatement ps = connection.prepareStatement(query);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                listSubject.add(rs.getString("subject_name"));
+                int subjectId = rs.getInt("subject_id");
+                String subjectName = rs.getString("subject_name");
+                subjectMap.put(subjectName, subjectId);
             }
-            getSubjectList.setItems(listSubject);
+
+            getSubjectList.setConverter(new StringConverter<Integer>() {
+                @Override
+                public String toString(Integer subjectId) {
+                    for (Map.Entry<String, Integer> entry : subjectMap.entrySet()) {
+                        if (entry.getValue().equals(subjectId)) {
+                            return entry.getKey();
+                        }
+                    }
+                    return null;
+                }
+
+                @Override
+                public Integer fromString(String subjectName) {
+                    return subjectMap.get(subjectName);
+                }
+            });
+
+            getSubjectList.setItems(FXCollections.observableArrayList(subjectMap.values()));
+
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return listSubject;
     }
 
-    public ObservableList addClassList() {
-        String query = "SELECT class_id FROM teach"
-                + " WHERE teacher_id = " + username
-                + " GROUP BY class_id";
-        ObservableList listClass = FXCollections.observableArrayList();
+
+    public void addClassList() {
+        String query = "SELECT c.class_id, c.class_name FROM teach t "
+                + "INNER JOIN class c USING(class_id) "
+                + "WHERE t.teacher_id = " + username + " "
+                + "GROUP BY t.class_id ";
+        Map<String, Integer> classMap = new HashMap<>();
         try {
             PreparedStatement ps = connection.prepareStatement(query);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                listClass.add(rs.getString("class_id"));
+                int classId = rs.getInt("class_id");
+                String className = rs.getString("class_name");
+                classMap.put(className, classId);
             }
-            getClassList.setItems(listClass);
+
+            getClassList.setConverter(new StringConverter<Integer>() {
+                @Override
+                public String toString(Integer classId) {
+                    for (Map.Entry<String, Integer> entry : classMap.entrySet()) {
+                        if (entry.getValue().equals(classId)) {
+                            return entry.getKey();
+                        }
+                    }
+                    return null;
+                }
+
+                @Override
+                public Integer fromString(String className) {
+                    return classMap.get(className);
+                }
+            });
+
+            getClassList.setItems(FXCollections.observableArrayList(classMap.values()));
+
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return listClass;
     }
-    public void handleInputGrade(){
+
+    public void addStudentToCombobox(int class_id) {
+        String query = "select * from student WHERE class_id = ?";
+        ObservableList listID = FXCollections.observableArrayList();
+        ObservableList listName = FXCollections.observableArrayList();
+        try {
+            PreparedStatement ps = connection.prepareStatement(query);
+            ps.setInt(1, class_id);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                listID.add(rs.getInt("student_id"));
+                listName.add(rs.getString("name"));
+            }
+            getGradeStudentId.setItems(listID);
+            getGradeStudentName.setItems(listName);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    AtomicBoolean updating = new AtomicBoolean(false);
+
+    public void handleInputGrade() {
         getClassList.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-            // Kiểm tra xem đã chọn đủ 2 giá trị chưa
+            System.out.println(getClassList.getValue());
+            if (getClassList.getValue() != null) {
+                int selectedClass = getClassList.getValue();
+                addStudentToCombobox(selectedClass);
+            }
             if (getClassList.getValue() != null && getSubjectList.getValue() != null) {
-                String selectedClass = getClassList.getValue(); // Lấy giá trị của combobox lớp
-                String selectedSubject = getSubjectList.getValue(); // Lấy giá trị của combobox môn học
+                int selectedClass = getClassList.getValue(); // Lấy giá trị của combobox lớp
+                int selectedSubject = getSubjectList.getValue(); // Lấy giá trị của combobox môn học
                 showInputGrade(selectedClass, selectedSubject); // Hiển thị dữ liệu trong tableview
             }
         });
         getSubjectList.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             // Kiểm tra xem đã chọn đủ 2 giá trị chưa
-            if (getClassList.getValue() != null && getSubjectList.getValue() != null) {
-                String selectedClass = getClassList.getValue(); // Lấy giá trị của combobox lớp
-                String selectedSubject = getSubjectList.getValue(); // Lấy giá trị của combobox môn học
+            System.out.println(getSubjectList.getValue());
+            if (getClassList.getValue() != null) {
+                int selectedClass = getClassList.getValue(); // Lấy giá trị của combobox lớp
+                int selectedSubject = getSubjectList.getValue(); // Lấy giá trị của combobox môn học
                 showInputGrade(selectedClass, selectedSubject); // Hiển thị dữ liệu trong tableview
+            }
+        });
+
+        getGradeStudentId.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            if (!updating.get() && getGradeStudentId.getValue() != null) {
+                updating.set(true);
+                int selectedStudentID = getGradeStudentId.getValue();
+                String query = "SELECT name FROM student WHERE student_id = " + selectedStudentID;
+                System.out.println(query);
+                try {
+                    Statement st = connection.createStatement();
+                    ResultSet rs = st.executeQuery(query);
+                    while (rs.next()) {
+                        String name = rs.getString("name");
+                        getGradeStudentName.setValue(name);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                updating.set(false);
+            }
+        });
+
+        getGradeStudentName.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            if (!updating.get() && getGradeStudentName.getValue() != null) {
+                updating.set(true);
+                String selectedStudentName = getGradeStudentName.getValue();
+                String query = "SELECT student_id FROM student WHERE name = '" + selectedStudentName + "'";
+                System.out.println(query);
+                try {
+                    Statement st = connection.createStatement();
+                    ResultSet rs = st.executeQuery(query);
+                    while (rs.next()) {
+                        int student_id = rs.getInt("student_id");
+                        getGradeStudentId.setValue(student_id);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                updating.set(false);
             }
         });
     }
 
-    public void showInputGrade(String selectedClass, String selectedSubject) {
-        ObservableList<Grade> gradeList = FXCollections.observableArrayList();
+    public static ObservableList<Grade> gradeList = FXCollections.observableArrayList();
+    public void showInputGrade(int selectedClass, int selectedSubject) {
         String query = "SELECT g.grade_id, g.student_id, s.name, g.component_point, g.mid_point, g.end_point "
                 + "FROM grade g "
                 + "INNER JOIN student s ON g.student_id = s.student_id "
                 + "INNER JOIN teach t ON g.subject_id = t.subject_id AND s.class_id = t.class_id "
-                + "WHERE t.class_id = ? AND t.teacher_id = " + username + " "
-                + "AND t.subject_id = (SELECT subject_id FROM subject WHERE subject_name = ?)";
+                + "WHERE t.teacher_id = " + username + " "
+                + "AND t.class_id = ? "
+                + "AND t.subject_id = ?";
+
         try {
             PreparedStatement ps = connection.prepareStatement(query);
-            ps.setString(1, selectedClass);
-            ps.setString(2, selectedSubject);
+            ps.setInt(1, selectedClass);
+            ps.setInt(2, selectedSubject);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 int grade_id = rs.getInt("grade_id");
@@ -579,15 +699,125 @@ public class MainSceneController implements Initializable {
             input_mid_col.setCellValueFactory(new PropertyValueFactory<>("mid_point"));
             input_end_col.setCellValueFactory(new PropertyValueFactory<>("end_point"));
             input_final_col.setCellValueFactory(new PropertyValueFactory<>("final_point"));
+            gradeAction.setCellValueFactory(new PropertyValueFactory<>("hbox"));
 
             inputGradeTable.setItems(gradeList);
+
+            inputGradeTable.getSortOrder().add(input_student_id_col);
+
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    private String selectedClass;
-    private String selectedSubject;
+    public void selectedGrade() {
+        try {
+            Grade grade = inputGradeTable.getSelectionModel().getSelectedItem();
+
+            int grade_id = inputGradeTable.getSelectionModel().getSelectedIndex();
+
+            updating.set(true);
+            getGradeStudentId.setValue(grade.getStudent_id());
+            getGradeStudentName.setValue(grade.getStudent_name());
+            getComponentPoint.setText(String.valueOf(grade.getComponent_point()));
+            getMidPoint.setText(String.valueOf(grade.getMid_point()));
+            getEndPoint.setText(String.valueOf(grade.getEnd_point()));
+
+            updating.set(false);
+        } catch (Exception e) {
+            System.out.println("LOL");
+        }
+    }
+
+    public void addGrade() {
+        String query = "INSERT INTO grade "
+                + "(grade_id, student_id, subject_id, component_point, mid_point, end_point) "
+                + "VALUES(?,?,?,?,?,?)";
+        try {
+            Alert alert;
+            if (getGradeStudentId.getSelectionModel().getSelectedItem() == null
+                    || getSubjectList.getSelectionModel().getSelectedItem() == null
+                    || getComponentPoint.getText().isEmpty()
+                    || getMidPoint.getText().isEmpty()
+                    || getEndPoint.getText().isEmpty()) {
+                alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error Message");
+                alert.setHeaderText(null);
+                alert.setContentText("Please fill all blank fields");
+                alert.showAndWait();
+            } else {
+                PreparedStatement ps = connection.prepareStatement(query);
+                ps.setInt(1, NULL);
+                ps.setInt(2, getGradeStudentId.getSelectionModel().getSelectedItem());
+                ps.setInt(3, getSubjectList.getValue());
+                ps.setFloat(4, Float.parseFloat(getComponentPoint.getText()));
+                ps.setFloat(5, Float.parseFloat(getMidPoint.getText()));
+                ps.setFloat(6, Float.parseFloat(getEndPoint.getText()));
+
+                ps.executeUpdate();
+                showInputGrade(getClassList.getValue(), getSubjectList.getValue());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void updateGrade() {
+        String query = "UPDATE grade SET "
+                + " component_point = " + Float.parseFloat(getComponentPoint.getText())
+                + ", mid_point = " + Float.parseFloat(getMidPoint.getText())
+                + ", end_point = " + Float.parseFloat(getEndPoint.getText())
+                + " WHERE student_id = " + getGradeStudentId.getSelectionModel().getSelectedItem()
+                + " AND subject_id = " + getSubjectList.getSelectionModel().getSelectedItem();
+        try {
+            Alert alert;
+            if (getGradeStudentId.getSelectionModel().getSelectedItem() == null
+                    || getSubjectList.getSelectionModel().getSelectedItem() == null
+                    || getComponentPoint.getText().isEmpty()
+                    || getMidPoint.getText().isEmpty()
+                    || getEndPoint.getText().isEmpty()) {
+                alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error Message");
+                alert.setHeaderText(null);
+                alert.setContentText("Please fill all blank fields");
+                alert.showAndWait();
+            } else {
+                alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle("Confirmation Message");
+                alert.setHeaderText(null);
+                alert.setContentText("Are you sure you want to UPDATE grade of student #"
+                        + getGradeStudentId.getSelectionModel().getSelectedItem() + "?");
+                Optional<ButtonType> option = alert.showAndWait();
+                if (option.get().equals(ButtonType.OK)) {
+                    Statement st = connection.createStatement();
+                    st.executeUpdate(query);
+                    alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Information Message");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Successfully Updated!");
+                    alert.showAndWait();
+
+                    showInputGrade(getClassList.getValue(), getSubjectList.getValue());
+                } else {
+                    return;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void deleteGrade(){
+
+    }
+    public void clearSelectedGrade() {
+        getGradeStudentId.getSelectionModel().clearSelection();
+        getGradeStudentName.getSelectionModel().clearSelection();
+        getComponentPoint.setText("");
+        getMidPoint.setText("");
+        getEndPoint.setText("");
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         dashBoardButton.getStyleClass().add("button-active");
