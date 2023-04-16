@@ -34,8 +34,7 @@ import static com.example.demo.LoginFormController.*;
 import static java.sql.Types.NULL;
 
 
-
-public class MainSceneController implements Initializable  {
+public class MainSceneController implements Initializable {
     @FXML
     private ComboBox<String> getClassList;
 
@@ -91,7 +90,7 @@ public class MainSceneController implements Initializable  {
     private ComboBox<String> getStudentGender;
 
     @FXML
-    private  ComboBox<String> getSubjectList;
+    private ComboBox<String> getSubjectList;
 
     @FXML
     private TextField getGradeStudent;
@@ -197,31 +196,34 @@ public class MainSceneController implements Initializable  {
     private Label welcomeLabel;
 
     @FXML
-    private TableView<?> inputGradeTable;
+    private TableView<Grade> inputGradeTable;
 
     @FXML
-    private TableColumn<?, ?> input_component_col;
+    private TableColumn<Grade, Float> input_component_col;
 
     @FXML
-    private TableColumn<?, ?> input_end_col;
+    private TableColumn<Grade, Float> input_end_col;
 
     @FXML
-    private TableColumn<?, ?> input_final_col;
+    private TableColumn<Grade, Float> input_final_col;
 
     @FXML
-    private TableColumn<?, ?> input_mid_col;
+    private TableColumn<Grade, Float> input_mid_col;
 
     @FXML
-    private TableColumn<?, ?> input_student_id_col;
+    private TableColumn<Grade, String> input_student_id_col;
 
     @FXML
-    private TableColumn<?, ?> input_student_name_col;
+    private TableColumn<Grade, String> input_student_name_col;
 
     @FXML
     private Pane inputGradeForm;
 
     @FXML
     private ImageView dashBoardImg;
+
+    @FXML
+    private TableColumn<Student, HBox> action;
 
     public void close() {
         System.exit(0);
@@ -235,38 +237,40 @@ public class MainSceneController implements Initializable  {
         stage.setTitle("ADD STUDENT");
         stage.show();
     }
+
     public void minimize() {
         Stage stage = (Stage) main_form.getScene().getWindow();
         stage.setIconified(true);
     }
 
-    public void showName(){
-        if (isStudent == 1){
+    public void showName() {
+        if (isStudent == 1) {
             type.setText("Student");
             description.setText("You are student");
             String query = "SELECT name FROM student WHERE student_id = " + username;
-            try{
+            try {
                 Statement st = connection.createStatement();
                 ResultSet rs = st.executeQuery(query);
                 if (rs.next()) {
                     System.out.println(rs.getString("name"));
                     name.setText(rs.getString("name"));
                     name1.setText(rs.getString("name"));
-
                 }
-            }catch (Exception e){
+
+                System.out.println();
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         } else {
-            if (isHomeroom == 1){
+            if (isHomeroom == 1) {
                 type.setText("Homeroom Teacher");
                 description.setText("You are homeroom teacher of class: " + getTeacherClass());
-            }else if (isSubject == 1) {
+            } else if (isSubject == 1) {
                 type.setText("Subject Teacher");
                 description.setText("You are subject teacher of class");
             }
             String query = "SELECT name FROM teacher WHERE teacher_id = " + username;
-            try{
+            try {
                 Statement st = connection.createStatement();
                 ResultSet rs = st.executeQuery(query);
                 if (rs.next()) {
@@ -274,7 +278,7 @@ public class MainSceneController implements Initializable  {
                     name.setText(rs.getString("name"));
                     name1.setText(rs.getString("name"));
                 }
-            }catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
@@ -293,7 +297,7 @@ public class MainSceneController implements Initializable  {
         studentButton.setOnAction(e -> {
             setActiveButton(studentButton);
             PaneLable.setText("STUDENT");
-            if (isStudent == 1 || isSubject == 1){
+            if (isStudent == 1 || isSubject == 1) {
                 dashBoardForm.setVisible(false);
                 studentForm.setVisible(false);
                 gradeForm.setVisible(false);
@@ -310,7 +314,7 @@ public class MainSceneController implements Initializable  {
             setActiveButton(gradeButton);
             PaneLable.setText("GRADE");
             setActiveButton(gradeButton);
-            if(isStudent == 1){
+            if (isStudent == 1) {
                 dashBoardForm.setVisible(false);
                 studentForm.setVisible(false);
                 gradeForm.setVisible(false);
@@ -320,7 +324,7 @@ public class MainSceneController implements Initializable  {
                 studentForm.setVisible(false);
                 gradeForm.setVisible(true);
                 inputGradeForm.setVisible(false);
-            } else if (isSubject == 1){
+            } else if (isSubject == 1) {
                 dashBoardForm.setVisible(false);
                 studentForm.setVisible(false);
                 gradeForm.setVisible(false);
@@ -328,23 +332,25 @@ public class MainSceneController implements Initializable  {
             }
         });
     }
-    public int getTeacherClass(){
+
+    public int getTeacherClass() {
         int result = 0;
-        if (isHomeroom == 1){
+        if (isHomeroom == 1) {
             String query = "SELECT class_id FROM class WHERE teacher_id = " + username;
-            try{
+            try {
                 Statement st = connection.createStatement();
                 ResultSet rs = st.executeQuery(query);
                 if (rs.next()) {
                     result = rs.getInt("class_id");
                 }
-            }catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
         classLabel.setText("Class: " + result);
         return result;
     }
+
     public ObservableList<Student> addStudentList() {
         ObservableList<Student> listStudents = FXCollections.observableArrayList();
         String query = "SELECT * FROM student WHERE class_id = " + getTeacherClass();
@@ -370,11 +376,8 @@ public class MainSceneController implements Initializable  {
     }
 
 
-
     public static ObservableList<Student> listStudents;
 
-    @FXML
-    private TableColumn<Student, HBox> action;
 
     public void showStudentListData() {
         listStudents = addStudentList();
@@ -436,13 +439,13 @@ public class MainSceneController implements Initializable  {
             gradeViewTable.getColumns().add(studentIdCol);
 
             TableColumn<Map.Entry<Integer, Map<String, Object>>, String> studentNameCol = new TableColumn<>("Name");
-            studentNameCol.setCellValueFactory(data -> new SimpleObjectProperty<>((String)data.getValue().getValue().get("name")));
+            studentNameCol.setCellValueFactory(data -> new SimpleObjectProperty<>((String) data.getValue().getValue().get("name")));
             gradeViewTable.getColumns().add(studentNameCol);
 
             for (String subject : subjects) {
                 if (!subject.equals("name")) {
                     TableColumn<Map.Entry<Integer, Map<String, Object>>, Float> subjectPointCol = new TableColumn<>(subject);
-                    subjectPointCol.setCellValueFactory(data -> new SimpleObjectProperty<>((Float)data.getValue().getValue().get(subject)));
+                    subjectPointCol.setCellValueFactory(data -> new SimpleObjectProperty<>((Float) data.getValue().getValue().get(subject)));
                     gradeViewTable.getColumns().add(subjectPointCol);
                 }
             }
@@ -454,8 +457,8 @@ public class MainSceneController implements Initializable  {
         }
     }
 
-    public void searchStudent(){
-        FilteredList<Student> filter = new FilteredList<>(listStudents , e->true);
+    public void searchStudent() {
+        FilteredList<Student> filter = new FilteredList<>(listStudents, e -> true);
         searchStudent.textProperty().addListener((Observable, oldValue, newValue) -> {
 
             filter.setPredicate(predicateStudentData -> {
@@ -489,40 +492,102 @@ public class MainSceneController implements Initializable  {
         studentViewTable.setItems(sortList);
     }
 
-    public ObservableList  addSubjectList(){
+    public ObservableList addSubjectList() {
         String query = "SELECT s.subject_name FROM teach t"
-                        + " INNER JOIN subject s ON s.subject_id = t.subject_id"
-                        + " WHERE t.teacher_id = " + username;
+                + " INNER JOIN subject s ON s.subject_id = t.subject_id"
+                + " WHERE t.teacher_id =  + " + username
+                + " GROUP BY t.subject_id";
         ObservableList listSubject = FXCollections.observableArrayList();
-        try{
+        try {
             PreparedStatement ps = connection.prepareStatement(query);
             ResultSet rs = ps.executeQuery();
-            while(rs.next()){
+            while (rs.next()) {
                 listSubject.add(rs.getString("subject_name"));
             }
             getSubjectList.setItems(listSubject);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return listSubject;
     }
-    public ObservableList  addClassList(){
+
+    public ObservableList addClassList() {
         String query = "SELECT class_id FROM teach"
                 + " WHERE teacher_id = " + username
                 + " GROUP BY class_id";
         ObservableList listClass = FXCollections.observableArrayList();
-        try{
+        try {
             PreparedStatement ps = connection.prepareStatement(query);
             ResultSet rs = ps.executeQuery();
-            while(rs.next()){
+            while (rs.next()) {
                 listClass.add(rs.getString("class_id"));
             }
             getClassList.setItems(listClass);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return listClass;
     }
+    public void handleInputGrade(){
+        getClassList.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            // Kiểm tra xem đã chọn đủ 2 giá trị chưa
+            if (getClassList.getValue() != null && getSubjectList.getValue() != null) {
+                String selectedClass = getClassList.getValue(); // Lấy giá trị của combobox lớp
+                String selectedSubject = getSubjectList.getValue(); // Lấy giá trị của combobox môn học
+                showInputGrade(selectedClass, selectedSubject); // Hiển thị dữ liệu trong tableview
+            }
+        });
+        getSubjectList.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            // Kiểm tra xem đã chọn đủ 2 giá trị chưa
+            if (getClassList.getValue() != null && getSubjectList.getValue() != null) {
+                String selectedClass = getClassList.getValue(); // Lấy giá trị của combobox lớp
+                String selectedSubject = getSubjectList.getValue(); // Lấy giá trị của combobox môn học
+                showInputGrade(selectedClass, selectedSubject); // Hiển thị dữ liệu trong tableview
+            }
+        });
+    }
+
+    public void showInputGrade(String selectedClass, String selectedSubject) {
+        ObservableList<Grade> gradeList = FXCollections.observableArrayList();
+        String query = "SELECT g.grade_id, g.student_id, s.name, g.component_point, g.mid_point, g.end_point "
+                + "FROM grade g "
+                + "INNER JOIN student s ON g.student_id = s.student_id "
+                + "INNER JOIN teach t ON g.subject_id = t.subject_id AND s.class_id = t.class_id "
+                + "WHERE t.class_id = ? AND t.teacher_id = " + username + " "
+                + "AND t.subject_id = (SELECT subject_id FROM subject WHERE subject_name = ?)";
+        try {
+            PreparedStatement ps = connection.prepareStatement(query);
+            ps.setString(1, selectedClass);
+            ps.setString(2, selectedSubject);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                int grade_id = rs.getInt("grade_id");
+                int student_id = rs.getInt("student_id");
+                String studentName = rs.getString("name");
+                float componentPoint = rs.getFloat("component_point");
+                float midPoint = rs.getFloat("mid_point");
+                float endPoint = rs.getFloat("end_point");
+                float finalPoint = (float) (0.1 * componentPoint + 0.4 * midPoint + 0.6 * endPoint);
+                Grade grade = new Grade(grade_id, student_id, studentName, componentPoint, midPoint, endPoint, finalPoint);
+
+                gradeList.add(grade);
+            }
+
+            input_student_id_col.setCellValueFactory(new PropertyValueFactory<>("student_id"));
+            input_student_name_col.setCellValueFactory(new PropertyValueFactory<>("student_name"));
+            input_component_col.setCellValueFactory(new PropertyValueFactory<>("component_point"));
+            input_mid_col.setCellValueFactory(new PropertyValueFactory<>("mid_point"));
+            input_end_col.setCellValueFactory(new PropertyValueFactory<>("end_point"));
+            input_final_col.setCellValueFactory(new PropertyValueFactory<>("final_point"));
+
+            inputGradeTable.setItems(gradeList);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private String selectedClass;
+    private String selectedSubject;
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         dashBoardButton.getStyleClass().add("button-active");
@@ -531,7 +596,9 @@ public class MainSceneController implements Initializable  {
         showStudentFinalPoints();
         addSubjectList();
         addClassList();
+        handleInputGrade();
     }
+
     private void setActiveButton(Button button) {
         dashBoardButton.getStyleClass().remove("button-active");
         studentButton.getStyleClass().remove("button-active");

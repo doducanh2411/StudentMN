@@ -118,10 +118,6 @@ public class AddStudentController implements Initializable {
 
                     ps.executeUpdate();
 
-                    LocalDate localDate = getStudentBirth.getValue();
-                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-                    String dateString = localDate.format(formatter);
-
                     listStudents.add(new Student(
                             Integer.parseInt(getStudentId.getText()),
                             getStudentName.getText(),
@@ -133,6 +129,7 @@ public class AddStudentController implements Initializable {
                     ));
 
                     clearSelected();
+
                 }
             }
         } catch(Exception e){
