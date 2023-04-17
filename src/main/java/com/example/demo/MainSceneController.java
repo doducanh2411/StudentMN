@@ -666,7 +666,8 @@ public class MainSceneController implements Initializable {
     }
 
     public static ObservableList<Grade> gradeList = FXCollections.observableArrayList();
-    public void showInputGrade(int selectedClass, int selectedSubject) {
+    public ObservableList<Grade> addGradeList(int selectedClass, int selectedSubject) {
+        ObservableList<Grade> listGrade = FXCollections.observableArrayList();;
         String query = "SELECT g.grade_id, g.student_id, s.name, g.component_point, g.mid_point, g.end_point "
                 + "FROM grade g "
                 + "INNER JOIN student s ON g.student_id = s.student_id "
@@ -690,26 +691,31 @@ public class MainSceneController implements Initializable {
                 float finalPoint = (float) (0.1 * componentPoint + 0.4 * midPoint + 0.6 * endPoint);
                 Grade grade = new Grade(grade_id, student_id, studentName, componentPoint, midPoint, endPoint, finalPoint);
 
-                gradeList.add(grade);
+                listGrade.add(grade);
             }
 
-            input_student_id_col.setCellValueFactory(new PropertyValueFactory<>("student_id"));
-            input_student_name_col.setCellValueFactory(new PropertyValueFactory<>("student_name"));
-            input_component_col.setCellValueFactory(new PropertyValueFactory<>("component_point"));
-            input_mid_col.setCellValueFactory(new PropertyValueFactory<>("mid_point"));
-            input_end_col.setCellValueFactory(new PropertyValueFactory<>("end_point"));
-            input_final_col.setCellValueFactory(new PropertyValueFactory<>("final_point"));
-            gradeAction.setCellValueFactory(new PropertyValueFactory<>("hbox"));
-
-            inputGradeTable.setItems(gradeList);
-
-            inputGradeTable.getSortOrder().add(input_student_id_col);
 
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return listGrade;
     }
 
+    public void showInputGrade(int selectedClass, int selectedSubject){
+        gradeList = addGradeList(selectedClass, selectedSubject);
+
+        input_student_id_col.setCellValueFactory(new PropertyValueFactory<>("student_id"));
+        input_student_name_col.setCellValueFactory(new PropertyValueFactory<>("student_name"));
+        input_component_col.setCellValueFactory(new PropertyValueFactory<>("component_point"));
+        input_mid_col.setCellValueFactory(new PropertyValueFactory<>("mid_point"));
+        input_end_col.setCellValueFactory(new PropertyValueFactory<>("end_point"));
+        input_final_col.setCellValueFactory(new PropertyValueFactory<>("final_point"));
+        gradeAction.setCellValueFactory(new PropertyValueFactory<>("hbox"));
+
+        inputGradeTable.setItems(gradeList);
+
+        inputGradeTable.getSortOrder().add(input_student_id_col);
+    }
     public void selectedGrade() {
         try {
             Grade grade = inputGradeTable.getSelectionModel().getSelectedItem();
