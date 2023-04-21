@@ -9,20 +9,21 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.chart.BarChart;
+import javafx.scene.chart.*;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import javafx.util.StringConverter;
+
 
 import java.io.IOException;
 import java.net.URL;
@@ -38,6 +39,17 @@ import static java.sql.Types.NULL;
 
 public class MainSceneController implements Initializable {
 
+    @FXML
+    private Button settingButton;
+
+    @FXML
+    private TabPane settingForm;
+
+    @FXML
+    private BarChart<String, Number> barChart;
+
+    @FXML
+    private PieChart piechart;
     @FXML
     private Button deleteGrade;
 
@@ -293,6 +305,59 @@ public class MainSceneController implements Initializable {
         }
     }
 
+    public void showChart() {
+        if (isHomeroom == 1){
+            ObservableList<PieChart.Data> data = FXCollections.observableArrayList();
+            String query = "SELECT gender, COUNT(*) FROM student"
+                    + " WHERE class_id = " + getTeacherClass()
+                    + " GROUP BY gender ";
+            try {
+                Statement stmt = connection.createStatement();
+                ResultSet rs = stmt.executeQuery(query);
+                while (rs.next()) {
+                    String gender = rs.getString("gender");
+                    int count = rs.getInt("COUNT(*)");
+                    String label = gender + " (" + count + ")";
+                    data.add(new PieChart.Data(label, count)); // sửa đổi ở đây
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            piechart.setData(data);
+
+            String query1 = "SELECT s.subject_name, AVG(0.1*g.component_point + 0.3*g.mid_point + 0.6*g.end_point) AS avg_total_point " +
+                    "FROM grade g " +
+                    "JOIN subject s ON g.subject_id = s.subject_id " +
+                    "JOIN student stu ON g.student_id = stu.student_id " +
+                    "WHERE stu.class_id = " +  getTeacherClass() + " " +
+                    "GROUP BY g.subject_id";
+            try {
+                Statement stmt = connection.createStatement();
+                ResultSet rs = stmt.executeQuery(query1);
+                XYChart.Series<String, Number> series = new XYChart.Series<>();
+                while (rs.next()) {
+                    String subjectName = rs.getString("subject_name");
+                    Double avgTotalPoint = rs.getDouble("avg_total_point");
+                    XYChart.Data<String, Number> data1 = new XYChart.Data<>(subjectName, avgTotalPoint);
+                    Label label = new Label(String.format("%.2f", avgTotalPoint));
+                    label.setTextFill(Color.WHITE);
+                    StackPane stackPane = new StackPane(); // create a new StackPane to hold both the label and the bar
+                    stackPane.getChildren().addAll(new Rectangle(0, 0, 50, 0), label); // add a transparent rectangle and the label to the StackPane
+                    stackPane.setAlignment(Pos.TOP_CENTER); // align the label to the top of the StackPane
+                    data1.setNode(stackPane); // set the StackPane as the node for the data point
+                    data1.getNode().setStyle("-fx-bar-fill: #8a70d6;");
+                    series.getData().add(data1);
+                }
+                barChart.getData().add(series);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+        }
+    }
+
+
     public void switchForm() {
         dashBoardButton.setOnAction(e -> {
             setActiveButton(dashBoardButton);
@@ -301,6 +366,7 @@ public class MainSceneController implements Initializable {
             studentForm.setVisible(false);
             gradeForm.setVisible(false);
             inputGradeForm.setVisible(false);
+            settingForm.setVisible(false);
         });
 
         studentButton.setOnAction(e -> {
@@ -311,41 +377,55 @@ public class MainSceneController implements Initializable {
                 studentForm.setVisible(false);
                 gradeForm.setVisible(false);
                 inputGradeForm.setVisible(false);
+                settingForm.setVisible(false);
             } else if (isHomeroom == 1) {
                 dashBoardForm.setVisible(false);
                 studentForm.setVisible(true);
                 gradeForm.setVisible(false);
                 inputGradeForm.setVisible(false);
+                settingForm.setVisible(false);
             }
         });
 
         gradeButton.setOnAction(e -> {
             setActiveButton(gradeButton);
             PaneLable.setText("GRADE");
-            setActiveButton(gradeButton);
             if (isStudent == 1) {
                 dashBoardForm.setVisible(false);
                 studentForm.setVisible(false);
                 gradeForm.setVisible(false);
                 inputGradeForm.setVisible(false);
+                settingForm.setVisible(false);
             } else if (isHomeroom == 1) {
                 dashBoardForm.setVisible(false);
                 studentForm.setVisible(false);
                 gradeForm.setVisible(true);
                 inputGradeForm.setVisible(false);
+                settingForm.setVisible(false);
             } else if (isSubject == 1) {
                 dashBoardForm.setVisible(false);
                 studentForm.setVisible(false);
                 gradeForm.setVisible(false);
                 inputGradeForm.setVisible(true);
+                settingForm.setVisible(false);
             }
+        });
+
+        settingButton.setOnAction(e -> {
+            setActiveButton(settingButton);
+            PaneLable.setText("SETTING");
+            settingForm.setVisible(true);
+            dashBoardForm.setVisible(false);
+            studentForm.setVisible(false);
+            gradeForm.setVisible(false);
+            inputGradeForm.setVisible(false);
         });
     }
 
     public int getTeacherClass() {
         int result = 0;
         if (isHomeroom == 1) {
-            String query = "SELECT class_id FROM class WHERE teacher_id = " + username;
+            String query = "SELECT * FROM class WHERE teacher_id = " + username;
             try {
                 Statement st = connection.createStatement();
                 ResultSet rs = st.executeQuery(query);
@@ -356,7 +436,6 @@ public class MainSceneController implements Initializable {
                 e.printStackTrace();
             }
         }
-        classLabel.setText("Class: " + result);
         return result;
     }
 
@@ -603,7 +682,6 @@ public class MainSceneController implements Initializable {
 
     public void handleInputGrade() {
         getClassList.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-            System.out.println(getClassList.getValue());
             if (getClassList.getValue() != null) {
                 int selectedClass = getClassList.getValue();
                 addStudentToCombobox(selectedClass);
@@ -615,8 +693,6 @@ public class MainSceneController implements Initializable {
             }
         });
         getSubjectList.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-            // Kiểm tra xem đã chọn đủ 2 giá trị chưa
-            System.out.println(getSubjectList.getValue());
             if (getClassList.getValue() != null) {
                 int selectedClass = getClassList.getValue(); // Lấy giá trị của combobox lớp
                 int selectedSubject = getSubjectList.getValue(); // Lấy giá trị của combobox môn học
@@ -629,7 +705,6 @@ public class MainSceneController implements Initializable {
                 updating.set(true);
                 int selectedStudentID = getGradeStudentId.getValue();
                 String query = "SELECT name FROM student WHERE student_id = " + selectedStudentID;
-                System.out.println(query);
                 try {
                     Statement st = connection.createStatement();
                     ResultSet rs = st.executeQuery(query);
@@ -649,7 +724,6 @@ public class MainSceneController implements Initializable {
                 updating.set(true);
                 String selectedStudentName = getGradeStudentName.getValue();
                 String query = "SELECT student_id FROM student WHERE name = '" + selectedStudentName + "'";
-                System.out.println(query);
                 try {
                     Statement st = connection.createStatement();
                     ResultSet rs = st.executeQuery(query);
@@ -666,29 +740,33 @@ public class MainSceneController implements Initializable {
     }
 
     public static ObservableList<Grade> gradeList = FXCollections.observableArrayList();
+
     public ObservableList<Grade> addGradeList(int selectedClass, int selectedSubject) {
-        ObservableList<Grade> listGrade = FXCollections.observableArrayList();;
-        String query = "SELECT g.grade_id, g.student_id, s.name, g.component_point, g.mid_point, g.end_point "
-                + "FROM grade g "
-                + "INNER JOIN student s ON g.student_id = s.student_id "
-                + "INNER JOIN teach t ON g.subject_id = t.subject_id AND s.class_id = t.class_id "
-                + "WHERE t.teacher_id = " + username + " "
-                + "AND t.class_id = ? "
-                + "AND t.subject_id = ?";
+        ObservableList<Grade> listGrade = FXCollections.observableArrayList();
+        ;
+        String query = "SELECT s.student_id, s.name, "
+                + "COALESCE(g.component_point, -1) AS component_point, "
+                + "COALESCE(g.mid_point, -1) AS mid_point, "
+                + "COALESCE(g.end_point, -1) AS end_point, "
+                + "COALESCE(g.grade_id, -1) AS grade_id "
+                + "FROM student s "
+                + "LEFT JOIN (SELECT * FROM grade WHERE subject_id = ?) g "
+                + "ON s.student_id = g.student_id "
+                + "WHERE s.class_id = ?";
 
         try {
             PreparedStatement ps = connection.prepareStatement(query);
-            ps.setInt(1, selectedClass);
-            ps.setInt(2, selectedSubject);
+            ps.setInt(1, selectedSubject);
+            ps.setInt(2, selectedClass);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 int grade_id = rs.getInt("grade_id");
                 int student_id = rs.getInt("student_id");
                 String studentName = rs.getString("name");
-                float componentPoint = rs.getFloat("component_point");
-                float midPoint = rs.getFloat("mid_point");
-                float endPoint = rs.getFloat("end_point");
-                float finalPoint = (float) (0.1 * componentPoint + 0.4 * midPoint + 0.6 * endPoint);
+                Float componentPoint = rs.getFloat("component_point");
+                Float midPoint = rs.getFloat("mid_point");
+                Float endPoint = rs.getFloat("end_point");
+                Float finalPoint = (float) (0.1 * componentPoint + 0.3 * midPoint + 0.6 * endPoint);
                 Grade grade = new Grade(grade_id, student_id, studentName, componentPoint, midPoint, endPoint, finalPoint);
 
                 listGrade.add(grade);
@@ -701,21 +779,81 @@ public class MainSceneController implements Initializable {
         return listGrade;
     }
 
-    public void showInputGrade(int selectedClass, int selectedSubject){
+    public void showInputGrade(int selectedClass, int selectedSubject) {
         gradeList = addGradeList(selectedClass, selectedSubject);
 
         input_student_id_col.setCellValueFactory(new PropertyValueFactory<>("student_id"));
         input_student_name_col.setCellValueFactory(new PropertyValueFactory<>("student_name"));
+
         input_component_col.setCellValueFactory(new PropertyValueFactory<>("component_point"));
+        input_component_col.setCellFactory(column -> {
+            return new TableCell<Grade, Float>() {
+                @Override
+                protected void updateItem(Float item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if (empty || item == -1) {
+                        setText(null);
+                    } else {
+                        setText(item.toString());
+                    }
+                }
+            };
+        });
+
         input_mid_col.setCellValueFactory(new PropertyValueFactory<>("mid_point"));
+        input_mid_col.setCellFactory(column -> {
+            return new TableCell<Grade, Float>() {
+                @Override
+                protected void updateItem(Float item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if (empty || item == -1) {
+                        setText(null);
+                    } else {
+                        setText(item.toString());
+                    }
+                }
+            };
+        });
+
         input_end_col.setCellValueFactory(new PropertyValueFactory<>("end_point"));
+        input_end_col.setCellFactory(column -> {
+            return new TableCell<Grade, Float>() {
+                @Override
+                protected void updateItem(Float item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if (empty || item == -1) {
+                        setText(null);
+                    } else {
+                        setText(item.toString());
+                    }
+                }
+            };
+        });
+
         input_final_col.setCellValueFactory(new PropertyValueFactory<>("final_point"));
+        input_final_col.setCellFactory(column -> {
+            return new TableCell<Grade, Float>() {
+                @Override
+                protected void updateItem(Float item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if (empty || item == -1 || getTableRow().getItem().getComponent_point() == -1
+                            || getTableRow().getItem().getMid_point() == -1
+                            || getTableRow().getItem().getEnd_point() == -1) {
+                        setText(null);
+                    } else {
+                        setText(item.toString());
+                    }
+                }
+            };
+        });
+
         gradeAction.setCellValueFactory(new PropertyValueFactory<>("hbox"));
 
         inputGradeTable.setItems(gradeList);
 
         inputGradeTable.getSortOrder().add(input_student_id_col);
     }
+
     public void selectedGrade() {
         try {
             Grade grade = inputGradeTable.getSelectionModel().getSelectedItem();
@@ -725,9 +863,24 @@ public class MainSceneController implements Initializable {
             updating.set(true);
             getGradeStudentId.setValue(grade.getStudent_id());
             getGradeStudentName.setValue(grade.getStudent_name());
-            getComponentPoint.setText(String.valueOf(grade.getComponent_point()));
-            getMidPoint.setText(String.valueOf(grade.getMid_point()));
-            getEndPoint.setText(String.valueOf(grade.getEnd_point()));
+
+            if (grade.getComponent_point() == -1) {
+                getComponentPoint.setText("");
+            } else {
+                getComponentPoint.setText(String.valueOf(grade.getComponent_point()));
+            }
+
+            if (grade.getMid_point() == -1) {
+                getMidPoint.setText("");
+            } else {
+                getMidPoint.setText(String.valueOf(grade.getMid_point()));
+            }
+
+            if (grade.getEnd_point() == -1) {
+                getEndPoint.setText("");
+            } else {
+                getEndPoint.setText(String.valueOf(grade.getEnd_point()));
+            }
 
             updating.set(false);
         } catch (Exception e) {
@@ -735,39 +888,97 @@ public class MainSceneController implements Initializable {
         }
     }
 
-    public void addGrade() {
-        String query = "INSERT INTO grade "
-                + "(grade_id, student_id, subject_id, component_point, mid_point, end_point) "
-                + "VALUES(?,?,?,?,?,?)";
+    public void addAndUpdateGrade() {
+        String checkData = "SELECT grade_id FROM grade"
+                + " WHERE student_id = " + getGradeStudentId.getValue()
+                + " AND subject_id = " + getSubjectList.getValue();
         try {
             Alert alert;
             if (getGradeStudentId.getSelectionModel().getSelectedItem() == null
-                    || getSubjectList.getSelectionModel().getSelectedItem() == null
-                    || getComponentPoint.getText().isEmpty()
-                    || getMidPoint.getText().isEmpty()
-                    || getEndPoint.getText().isEmpty()) {
+                    || getSubjectList.getSelectionModel().getSelectedItem() == null) {
                 alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Error Message");
                 alert.setHeaderText(null);
-                alert.setContentText("Please fill all blank fields");
+                alert.setContentText("Please select all blank fields");
                 alert.showAndWait();
             } else {
-                PreparedStatement ps = connection.prepareStatement(query);
-                ps.setInt(1, NULL);
-                ps.setInt(2, getGradeStudentId.getSelectionModel().getSelectedItem());
-                ps.setInt(3, getSubjectList.getValue());
-                ps.setFloat(4, Float.parseFloat(getComponentPoint.getText()));
-                ps.setFloat(5, Float.parseFloat(getMidPoint.getText()));
-                ps.setFloat(6, Float.parseFloat(getEndPoint.getText()));
+                Statement statement = connection.createStatement();
+                ResultSet rs = statement.executeQuery(checkData);
+                if (rs.next()) {
+                    System.out.println("Have");
 
-                ps.executeUpdate();
-                showInputGrade(getClassList.getValue(), getSubjectList.getValue());
+                    if (getComponentPoint.getText().isEmpty()
+                            && getMidPoint.getText().isEmpty()
+                            && getEndPoint.getText().isEmpty()) {
+                        String deleteQuery = "DELETE FROM grade WHERE student_id = " + getGradeStudentId.getSelectionModel().getSelectedItem()
+                                + " AND subject_id = " + getSubjectList.getSelectionModel().getSelectedItem();
+                        Statement st = connection.createStatement();
+                        st.executeUpdate(deleteQuery);
+                    } else {
+                        float component_point = getComponentPoint.getText().isEmpty() ? -1 : Float.parseFloat(getComponentPoint.getText());
+                        float mid_point = getMidPoint.getText().isEmpty() ? -1 : Float.parseFloat(getMidPoint.getText());
+                        float end_point = getEndPoint.getText().isEmpty() ? -1 : Float.parseFloat(getEndPoint.getText());
+
+                        String updateQuery = "UPDATE grade SET "
+                                + " component_point = " + component_point
+                                + ", mid_point = " + mid_point
+                                + ", end_point = " + end_point
+                                + " WHERE student_id = " + getGradeStudentId.getSelectionModel().getSelectedItem()
+                                + " AND subject_id = " + getSubjectList.getSelectionModel().getSelectedItem();
+                        Statement st = connection.createStatement();
+                        st.executeUpdate(updateQuery);
+                    }
+                    showInputGrade(getClassList.getValue(), getSubjectList.getValue());
+                } else {
+                    System.out.println("Not have");
+                    if (!getComponentPoint.getText().isEmpty()
+                            || !getMidPoint.getText().isEmpty()
+                            || !getEndPoint.getText().isEmpty()) {
+                        String addQuery = "INSERT INTO grade "
+                                + "(grade_id, student_id, subject_id, component_point, mid_point, end_point) "
+                                + "VALUES(?,?,?,?,?,?)";
+
+                        float component_point = getComponentPoint.getText().isEmpty() ? -1 : Float.parseFloat(getComponentPoint.getText());
+                        float mid_point = getMidPoint.getText().isEmpty() ? -1 : Float.parseFloat(getMidPoint.getText());
+                        float end_point = getEndPoint.getText().isEmpty() ? -1 : Float.parseFloat(getEndPoint.getText());
+
+                        PreparedStatement addStmt = connection.prepareStatement(addQuery);
+                        addStmt.setInt(1, NULL);
+                        addStmt.setInt(2, getGradeStudentId.getSelectionModel().getSelectedItem());
+                        addStmt.setInt(3, getSubjectList.getValue());
+                        addStmt.setFloat(4, component_point);
+                        addStmt.setFloat(5, mid_point);
+                        addStmt.setFloat(6, end_point);
+
+                        System.out.println(addQuery);
+                        addStmt.executeUpdate();
+                    }else {
+                        System.out.println("Do nothing");
+                    }
+                    /*String addQuery = "INSERT INTO grade "
+                            + "(grade_id, student_id, subject_id, component_point, mid_point, end_point) "
+                            + "VALUES(?,?,?,?,?,?)";
+
+                    PreparedStatement addStmt = connection.prepareStatement(addQuery);
+                    addStmt.setInt(1, NULL);
+                    addStmt.setInt(2, getGradeStudentId.getSelectionModel().getSelectedItem());
+                    addStmt.setInt(3, getSubjectList.getValue());
+                    addStmt.setFloat(4, Float.parseFloat(getComponentPoint.getText()));
+                    addStmt.setFloat(5, Float.parseFloat(getMidPoint.getText()));
+                    addStmt.setFloat(6, Float.parseFloat(getEndPoint.getText()));
+
+                    System.out.println(addQuery);
+                    addStmt.executeUpdate();*/
+
+                    showInputGrade(getClassList.getValue(), getSubjectList.getValue());
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
+    //Not used but don`t delete :>
     public void updateGrade() {
         String query = "UPDATE grade SET "
                 + " component_point = " + Float.parseFloat(getComponentPoint.getText())
@@ -813,9 +1024,6 @@ public class MainSceneController implements Initializable {
         }
     }
 
-    public void deleteGrade(){
-
-    }
     public void clearSelectedGrade() {
         getGradeStudentId.getSelectionModel().clearSelection();
         getGradeStudentName.getSelectionModel().clearSelection();
@@ -833,6 +1041,7 @@ public class MainSceneController implements Initializable {
         addSubjectList();
         addClassList();
         handleInputGrade();
+        showChart();
     }
 
     private void setActiveButton(Button button) {

@@ -118,7 +118,13 @@
     -fx-text-fill: #fff;
     -fx-font-family: "Tahoma";
 }
-
 /* End student form css */
+
+/* This is setting form css */
+.center-setting{
+    -fx-background-color: #8a70d6;
+    -fx-background-radius : 10px;
+}
+/* End setting form css */
 
 /* End center css */

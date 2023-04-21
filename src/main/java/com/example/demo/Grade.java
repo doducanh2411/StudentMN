@@ -12,7 +12,6 @@ import java.util.Optional;
 
 import static com.example.demo.LoginFormController.connection;
 import static com.example.demo.MainSceneController.gradeList;
-import static com.example.demo.MainSceneController.listStudents;
 
 public class Grade {
     private int grade_id;
@@ -79,7 +78,6 @@ public class Grade {
                     alert.setContentText("Successfully Deleted!");
                     alert.showAndWait();
 
-                    gradeList.remove(this);
                 }
             }catch (Exception e){
                 e.printStackTrace();
@@ -110,7 +108,7 @@ public class Grade {
         return component_point;
     }
 
-    public void setComponent_point(float component_point) {
+    public void setComponent_point(Float component_point) {
         this.component_point = component_point;
     }
 
@@ -118,7 +116,7 @@ public class Grade {
         return mid_point;
     }
 
-    public void setMid_point(float mid_point) {
+    public void setMid_point(Float mid_point) {
         this.mid_point = mid_point;
     }
 
