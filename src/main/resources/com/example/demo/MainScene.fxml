@@ -9,6 +9,7 @@
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TableColumn?>
@@ -192,7 +193,7 @@
                      <font>
                         <Font name="Tahoma" size="14.0" />
                      </font></TextField>
-                  <TableView fx:id="studentViewTable" layoutX="20.0" layoutY="70.0" prefHeight="442.0" prefWidth="722.0" styleClass="tableView" stylesheets="@mainscene.css">
+                  <TableView fx:id="studentViewTable" layoutX="20.0" layoutY="70.0" prefHeight="500.0" prefWidth="722.0" styleClass="tableView" stylesheets="@mainscene.css">
                     <columns>
                       <TableColumn fx:id="student_id_col" prefWidth="68.0" text="Student #" />
                       <TableColumn fx:id="student_name_col" prefWidth="152.79998779296875" text="Full Name" />
@@ -243,7 +244,6 @@
                         <TextField fx:id="getEndPoint" layoutX="85.0" layoutY="275.0" />
                         <Button fx:id="insertGrade" layoutX="23.0" layoutY="353.0" mnemonicParsing="false" onAction="#addAndUpdateGrade" prefHeight="30.0" prefWidth="70.0" text="Update" />
                         <Button fx:id="clearGrade" layoutX="147.0" layoutY="353.0" mnemonicParsing="false" onAction="#clearSelectedGrade" prefHeight="30.0" prefWidth="70.0" text="Clear" />
-                        <Button fx:id="updateGrade" disable="true" layoutX="90.0" layoutY="410.0" mnemonicParsing="false" onAction="#updateGrade" prefHeight="30.0" prefWidth="70.0" text="Update" />
                         <TextField fx:id="getGradeStudent" layoutX="10.0" layoutY="20.0" prefHeight="25.0" prefWidth="166.0" promptText="Search" styleClass="search" stylesheets="@mainscene.css" />
                         <ComboBox fx:id="getSubjectList" layoutX="84.0" layoutY="96.0" prefWidth="150.0" promptText="Choose subject" />
                         <Label layoutX="10.0" layoutY="96.0" prefHeight="25.0" prefWidth="70.0" text="Subject" textFill="WHITE" />
@@ -289,20 +289,15 @@
                   </Button>
                </children>
             </Pane>
-            <TabPane fx:id="settingForm" layoutX="20.0" layoutY="100.0" prefHeight="604.0" prefWidth="770.0" styleClass="center-radius" stylesheets="@mainscene.css" tabClosingPolicy="UNAVAILABLE">
+            <TabPane fx:id="studentSettingForm" layoutX="20.0" layoutY="100.0" prefHeight="604.0" prefWidth="770.0" styleClass="center-radius" stylesheets="@mainscene.css" tabClosingPolicy="UNAVAILABLE" visible="false">
               <tabs>
                 <Tab closable="false" text="Information">
                   <content>
                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" stylesheets="@mainscene.css">
                            <children>
-                              <ImageView fitHeight="150.0" fitWidth="171.0" layoutX="58.0" layoutY="35.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../../../image/user.png" />
-                                 </image>
-                              </ImageView>
-                              <Pane layoutX="284.0" layoutY="20.0" prefHeight="303.0" prefWidth="454.0" styleClass="center-setting" stylesheets="@mainscene.css">
+                              <Pane layoutX="34.0" layoutY="20.0" prefHeight="303.0" prefWidth="705.0" styleClass="center-setting" stylesheets="@mainscene.css">
                                  <children>
-                                    <VBox layoutX="10.0" layoutY="10.0" prefHeight="289.0" prefWidth="431.0" spacing="10.0">
+                                    <VBox layoutX="165.0" layoutY="10.0" prefHeight="289.0" prefWidth="276.0" spacing="10.0">
                                        <children>
                                           <HBox prefHeight="30.0" prefWidth="391.0" spacing="10.0">
                                              <children>
@@ -367,6 +362,16 @@
                                                 <Insets right="20.0" />
                                              </padding>
                                           </HBox>
+                                       </children>
+                                    </VBox>
+                                    <VBox prefHeight="200.0" prefWidth="100.0" style="-fx-border-width: 1px; -fx-border-color: black;">
+                                       <children>
+                                          <ImageView fitHeight="150.0" fitWidth="171.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../../../image/user.png" />
+                                             </image>
+                                          </ImageView>
+                                          <Button mnemonicParsing="false" prefHeight="46.0" prefWidth="150.0" text="Insert Image" />
                                        </children>
                                     </VBox>
                                  </children>
@@ -466,19 +471,18 @@
                                           <VBox prefHeight="70.0" prefWidth="396.0" spacing="10.0">
                                              <children>
                                                 <Label text="Current Password" textFill="WHITE" />
-                                                <TextField prefHeight="32.0" prefWidth="410.0" />
+                                                <TextField fx:id="currentteacherPass" prefHeight="32.0" prefWidth="410.0" />
                                              </children>
                                           </VBox>
                                           <VBox prefHeight="70.0" prefWidth="410.0" spacing="10.0">
                                              <children>
                                                 <Label text="New Password" textFill="WHITE" />
-                                                <TextField prefHeight="32.0" prefWidth="410.0" />
+
                                              </children>
                                           </VBox>
                                           <VBox prefHeight="70.0" prefWidth="259.0" spacing="10.0">
                                              <children>
                                                 <Label text="Confirm New Password " textFill="WHITE" />
-                                                <TextField prefHeight="32.0" prefWidth="410.0" />
                                              </children>
                                           </VBox>
                                        </children>
@@ -490,6 +494,133 @@
                         </AnchorPane>
                   </content>
                 </Tab>
+              </tabs>
+            </TabPane>
+            <TabPane fx:id="teacherSettingForm" layoutX="20.0" layoutY="100.0" prefHeight="604.0" prefWidth="770.0" styleClass="center-radius" stylesheets="@mainscene.css" tabClosingPolicy="UNAVAILABLE">
+              <tabs>
+                  <Tab closable="false" text="Information">
+                     <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" stylesheets="@mainscene.css">
+                           <children>
+                              <Pane layoutX="21.0" layoutY="20.0" prefHeight="526.0" prefWidth="717.0" styleClass="center-setting" stylesheets="@mainscene.css">
+                                 <children>
+                                    <VBox layoutX="286.0" layoutY="40.0" prefHeight="379.0" prefWidth="389.0" spacing="30.0">
+                                       <children>
+                                          <HBox prefHeight="30.0" prefWidth="391.0" spacing="10.0">
+                                             <children>
+                                                <Label alignment="BASELINE_RIGHT" layoutX="10.0" prefHeight="30.0" prefWidth="100.0" text="ID:" textFill="WHITE">
+                                                   <HBox.margin>
+                                                      <Insets />
+                                                   </HBox.margin>
+                                                </Label>
+                                                <TextField fx:id="getTeacherID" disable="true" prefHeight="30.0" prefWidth="250.0" />
+                                             </children>
+                                             <padding>
+                                                <Insets right="20.0" />
+                                             </padding>
+                                          </HBox>
+                                          <HBox prefHeight="30.0" prefWidth="391.0" spacing="10.0">
+                                             <children>
+                                                <Label alignment="BASELINE_RIGHT" prefHeight="30.0" prefWidth="100.0" text="Full Name:" textFill="WHITE" />
+                                                <TextField fx:id="getTeacherName" disable="true" prefHeight="30.0" prefWidth="250.0" />
+                                             </children>
+                                          </HBox>
+                                          <HBox prefHeight="30.0" prefWidth="391.0" spacing="10.0">
+                                             <children>
+                                                <Label alignment="BASELINE_RIGHT" prefHeight="30.0" prefWidth="100.0" text="Gender:" textFill="WHITE" />
+                                                <TextField fx:id="getTeacherGender" disable="true" prefHeight="30.0" prefWidth="250.0" />
+                                             </children>
+                                          </HBox>
+                                          <HBox prefHeight="30.0" prefWidth="391.0" spacing="10.0">
+                                             <children>
+                                                <Label alignment="BASELINE_RIGHT" prefHeight="30.0" prefWidth="100.0" text="Date of Birth:" textFill="WHITE" />
+                                                <DatePicker fx:id="getTeacherBirth" prefHeight="30.0" prefWidth="250.0" />
+                                             </children>
+                                          </HBox>
+                                          <HBox prefHeight="30.0" prefWidth="200.0" spacing="10.0">
+                                             <children>
+                                                <Label alignment="BASELINE_RIGHT" prefHeight="30.0" prefWidth="100.0" text="Email:" textFill="WHITE" />
+                                                <TextField fx:id="getTeacherEmail" prefHeight="30.0" prefWidth="250.0" />
+                                             </children>
+                                          </HBox>
+                                          <HBox prefHeight="30.0" prefWidth="391.0" spacing="10.0">
+                                             <children>
+                                                <Label alignment="BASELINE_RIGHT" layoutX="10.0" prefHeight="30.0" prefWidth="100.0" text="Phone:" textFill="WHITE">
+                                                   <HBox.margin>
+                                                      <Insets />
+                                                   </HBox.margin>
+                                                </Label>
+                                                <TextField fx:id="getTeacherPhone" prefHeight="30.0" prefWidth="250.0" />
+                                             </children>
+                                             <padding>
+                                                <Insets right="20.0" />
+                                             </padding>
+                                          </HBox>
+                                       </children>
+                                    </VBox>
+                                    <Button layoutX="587.0" layoutY="452.0" mnemonicParsing="false" onAction="#updateTeacherInfo" prefHeight="35.0" prefWidth="60.0" text="Update" />
+                                    <VBox layoutX="70.0" layoutY="69.0" prefHeight="200.0" prefWidth="100.0" style="-fx-border-width: 1px; -fx-border-color: black;">
+                                       <children>
+                                          <ImageView fx:id="teacherImg" fitHeight="183.0" fitWidth="144.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../../../image/user.png" />
+                                             </image>
+                                          </ImageView>
+                                          <Button fx:id="insertTeacherImg" mnemonicParsing="false" onAction="#insertTeacherImg" prefHeight="55.0" prefWidth="150.0" text="Insert Image" />
+                                       </children>
+                                    </VBox>
+                                    <Button layoutX="489.0" layoutY="452.0" mnemonicParsing="false" onAction="#clearTeacherInfo" prefHeight="35.0" prefWidth="58.0" text="Clear" />
+                                 </children>
+                              </Pane>
+                              <Label layoutX="309.0" text="Personal Information">
+                                 <font>
+                                    <Font name="System Bold" size="14.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </AnchorPane>
+                     </content>
+                  </Tab>
+                  <Tab closable="false" text="Security">
+                     <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="619.0">
+                           <children>
+                              <Pane layoutX="20.0" layoutY="20.0" prefHeight="530.0" prefWidth="736.0" styleClass="center-setting" stylesheets="@mainscene.css">
+                                 <children>
+                                    <VBox layoutX="20.0" layoutY="20.0" prefHeight="333.0" prefWidth="259.0" spacing="5.0">
+                                       <children>
+                                          <Label prefHeight="78.0" prefWidth="719.0" text="CHANGE PASSWORD" textFill="WHITE">
+                                             <font>
+                                                <Font size="19.0" />
+                                             </font>
+                                          </Label>
+                                          <VBox prefHeight="70.0" prefWidth="396.0" spacing="10.0">
+                                             <children>
+                                                <Label text="Current Password" textFill="WHITE" />
+                                                <PasswordField fx:id="currentTeacherPass" prefHeight="32.0" prefWidth="245.0" />
+                                             </children>
+                                          </VBox>
+                                          <VBox prefHeight="70.0" prefWidth="410.0" spacing="10.0">
+                                             <children>
+                                                <Label text="New Password" textFill="WHITE" />
+                                                <PasswordField fx:id="newTeacherPass" prefHeight="32.0" />
+                                             </children>
+                                          </VBox>
+                                          <VBox prefHeight="70.0" prefWidth="259.0" spacing="10.0">
+                                             <children>
+                                                <Label text="Confirm New Password " textFill="WHITE" />
+                                                <PasswordField fx:id="confirmTeacherPass" prefHeight="32.0" />
+                                             </children>
+                                          </VBox>
+                                       </children>
+                                    </VBox>
+                                    <Button layoutX="20.0" layoutY="353.0" mnemonicParsing="false" onAction="#changeTeacherPassword" prefHeight="35.0" prefWidth="78.0" text="Change" />
+                                 </children>
+                              </Pane>
+                           </children>
+                        </AnchorPane>
+                     </content>
+                  </Tab>
               </tabs>
             </TabPane>
          </children>

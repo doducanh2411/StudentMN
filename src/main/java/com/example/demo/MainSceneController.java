@@ -20,12 +20,16 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import javafx.util.StringConverter;
 
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 import java.sql.*;
 import java.sql.Date;
@@ -33,6 +37,7 @@ import java.time.LocalDate;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import static com.example.demo.AddStudentController.getTeacherClass;
 import static com.example.demo.LoginFormController.*;
 import static java.sql.Types.NULL;
 
@@ -40,10 +45,46 @@ import static java.sql.Types.NULL;
 public class MainSceneController implements Initializable {
 
     @FXML
+    private ImageView teacherImg;
+
+    @FXML
+    private Button insertTeacherImg;
+
+    @FXML
+    private PasswordField currentTeacherPass;
+
+    @FXML
+    private PasswordField newTeacherPass;
+
+    @FXML
+    private PasswordField confirmTeacherPass;
+
+    @FXML
+    private DatePicker getTeacherBirth;
+
+    @FXML
+    private TextField getTeacherEmail;
+
+    @FXML
+    private TextField getTeacherGender;
+
+    @FXML
+    private TextField getTeacherID;
+
+    @FXML
+    private TextField getTeacherName;
+
+    @FXML
+    private TextField getTeacherPhone;
+
+    @FXML
+    private TabPane teacherSettingForm;
+
+    @FXML
     private Button settingButton;
 
     @FXML
-    private TabPane settingForm;
+    private TabPane studentSettingForm;
 
     @FXML
     private BarChart<String, Number> barChart;
@@ -306,7 +347,7 @@ public class MainSceneController implements Initializable {
     }
 
     public void showChart() {
-        if (isHomeroom == 1){
+        if (isHomeroom == 1) {
             ObservableList<PieChart.Data> data = FXCollections.observableArrayList();
             String query = "SELECT gender, COUNT(*) FROM student"
                     + " WHERE class_id = " + getTeacherClass()
@@ -329,7 +370,7 @@ public class MainSceneController implements Initializable {
                     "FROM grade g " +
                     "JOIN subject s ON g.subject_id = s.subject_id " +
                     "JOIN student stu ON g.student_id = stu.student_id " +
-                    "WHERE stu.class_id = " +  getTeacherClass() + " " +
+                    "WHERE stu.class_id = " + getTeacherClass() + " " +
                     "GROUP BY g.subject_id";
             try {
                 Statement stmt = connection.createStatement();
@@ -366,7 +407,8 @@ public class MainSceneController implements Initializable {
             studentForm.setVisible(false);
             gradeForm.setVisible(false);
             inputGradeForm.setVisible(false);
-            settingForm.setVisible(false);
+            studentSettingForm.setVisible(false);
+            teacherSettingForm.setVisible(false);
         });
 
         studentButton.setOnAction(e -> {
@@ -377,13 +419,14 @@ public class MainSceneController implements Initializable {
                 studentForm.setVisible(false);
                 gradeForm.setVisible(false);
                 inputGradeForm.setVisible(false);
-                settingForm.setVisible(false);
+                studentSettingForm.setVisible(false);
             } else if (isHomeroom == 1) {
                 dashBoardForm.setVisible(false);
                 studentForm.setVisible(true);
                 gradeForm.setVisible(false);
                 inputGradeForm.setVisible(false);
-                settingForm.setVisible(false);
+                studentSettingForm.setVisible(false);
+                teacherSettingForm.setVisible(false);
             }
         });
 
@@ -395,30 +438,44 @@ public class MainSceneController implements Initializable {
                 studentForm.setVisible(false);
                 gradeForm.setVisible(false);
                 inputGradeForm.setVisible(false);
-                settingForm.setVisible(false);
+                studentSettingForm.setVisible(false);
+                teacherSettingForm.setVisible(false);
             } else if (isHomeroom == 1) {
                 dashBoardForm.setVisible(false);
                 studentForm.setVisible(false);
                 gradeForm.setVisible(true);
                 inputGradeForm.setVisible(false);
-                settingForm.setVisible(false);
+                studentSettingForm.setVisible(false);
+                teacherSettingForm.setVisible(false);
             } else if (isSubject == 1) {
                 dashBoardForm.setVisible(false);
                 studentForm.setVisible(false);
                 gradeForm.setVisible(false);
                 inputGradeForm.setVisible(true);
-                settingForm.setVisible(false);
+                studentSettingForm.setVisible(false);
+                teacherSettingForm.setVisible(false);
             }
         });
 
         settingButton.setOnAction(e -> {
             setActiveButton(settingButton);
             PaneLable.setText("SETTING");
-            settingForm.setVisible(true);
-            dashBoardForm.setVisible(false);
-            studentForm.setVisible(false);
-            gradeForm.setVisible(false);
-            inputGradeForm.setVisible(false);
+            if (isStudent == 1) {
+                studentSettingForm.setVisible(true);
+                dashBoardForm.setVisible(false);
+                studentForm.setVisible(false);
+                gradeForm.setVisible(false);
+                inputGradeForm.setVisible(false);
+                teacherSettingForm.setVisible(false);
+            } else {
+                teacherSettingForm.setVisible(true);
+                dashBoardForm.setVisible(false);
+                studentForm.setVisible(false);
+                gradeForm.setVisible(false);
+                inputGradeForm.setVisible(false);
+                studentSettingForm.setVisible(false);
+            }
+
         });
     }
 
@@ -559,7 +616,7 @@ public class MainSceneController implements Initializable {
 
                 if (String.valueOf(predicateStudentData.getStudent_id()).contains(searchKey)) {
                     return true;
-                } else if (predicateStudentData.getPhone().toLowerCase().contains(searchKey)) {
+                } else if (predicateStudentData.getPhone() != null && predicateStudentData.getPhone().toLowerCase().contains(searchKey)) {
                     return true;
                 } else if (predicateStudentData.getName().toLowerCase().contains(searchKey)) {
                     return true;
@@ -567,7 +624,7 @@ public class MainSceneController implements Initializable {
                     return true;
                 } else if (predicateStudentData.getDateOfBirth().toString().contains(searchKey)) {
                     return true;
-                } else if (predicateStudentData.getEmail().toLowerCase().contains(searchKey)) {
+                } else if (predicateStudentData.getEmail() != null && predicateStudentData.getEmail().toLowerCase().contains(searchKey)) {
                     return true;
                 } else {
                     return false;
@@ -952,71 +1009,11 @@ public class MainSceneController implements Initializable {
 
                         System.out.println(addQuery);
                         addStmt.executeUpdate();
-                    }else {
+                    } else {
                         System.out.println("Do nothing");
                     }
-                    /*String addQuery = "INSERT INTO grade "
-                            + "(grade_id, student_id, subject_id, component_point, mid_point, end_point) "
-                            + "VALUES(?,?,?,?,?,?)";
-
-                    PreparedStatement addStmt = connection.prepareStatement(addQuery);
-                    addStmt.setInt(1, NULL);
-                    addStmt.setInt(2, getGradeStudentId.getSelectionModel().getSelectedItem());
-                    addStmt.setInt(3, getSubjectList.getValue());
-                    addStmt.setFloat(4, Float.parseFloat(getComponentPoint.getText()));
-                    addStmt.setFloat(5, Float.parseFloat(getMidPoint.getText()));
-                    addStmt.setFloat(6, Float.parseFloat(getEndPoint.getText()));
-
-                    System.out.println(addQuery);
-                    addStmt.executeUpdate();*/
 
                     showInputGrade(getClassList.getValue(), getSubjectList.getValue());
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    //Not used but don`t delete :>
-    public void updateGrade() {
-        String query = "UPDATE grade SET "
-                + " component_point = " + Float.parseFloat(getComponentPoint.getText())
-                + ", mid_point = " + Float.parseFloat(getMidPoint.getText())
-                + ", end_point = " + Float.parseFloat(getEndPoint.getText())
-                + " WHERE student_id = " + getGradeStudentId.getSelectionModel().getSelectedItem()
-                + " AND subject_id = " + getSubjectList.getSelectionModel().getSelectedItem();
-        try {
-            Alert alert;
-            if (getGradeStudentId.getSelectionModel().getSelectedItem() == null
-                    || getSubjectList.getSelectionModel().getSelectedItem() == null
-                    || getComponentPoint.getText().isEmpty()
-                    || getMidPoint.getText().isEmpty()
-                    || getEndPoint.getText().isEmpty()) {
-                alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Error Message");
-                alert.setHeaderText(null);
-                alert.setContentText("Please fill all blank fields");
-                alert.showAndWait();
-            } else {
-                alert = new Alert(Alert.AlertType.CONFIRMATION);
-                alert.setTitle("Confirmation Message");
-                alert.setHeaderText(null);
-                alert.setContentText("Are you sure you want to UPDATE grade of student #"
-                        + getGradeStudentId.getSelectionModel().getSelectedItem() + "?");
-                Optional<ButtonType> option = alert.showAndWait();
-                if (option.get().equals(ButtonType.OK)) {
-                    Statement st = connection.createStatement();
-                    st.executeUpdate(query);
-                    alert = new Alert(Alert.AlertType.INFORMATION);
-                    alert.setTitle("Information Message");
-                    alert.setHeaderText(null);
-                    alert.setContentText("Successfully Updated!");
-                    alert.showAndWait();
-
-                    showInputGrade(getClassList.getValue(), getSubjectList.getValue());
-                } else {
-                    return;
                 }
             }
         } catch (Exception e) {
@@ -1032,6 +1029,217 @@ public class MainSceneController implements Initializable {
         getEndPoint.setText("");
     }
 
+    public void getTeacherInfo() {
+        String query = "SELECT * FROM teacher WHERE teacher_id = " + username;
+        try {
+            Statement st = connection.createStatement();
+            ResultSet rs = st.executeQuery(query);
+            if (rs.next()) {
+                getTeacherID.setText(String.valueOf(rs.getInt("teacher_id")));
+                getTeacherName.setText(rs.getString("name"));
+                getTeacherGender.setText(rs.getString("gender"));
+                getTeacherBirth.setValue(rs.getDate("date_of_birth").toLocalDate());
+                getTeacherEmail.setText(rs.getString("email"));
+                getTeacherPhone.setText(rs.getString("phone"));
+                Blob blob = rs.getBlob("photo");
+                if (blob != null) {
+                    InputStream inputStream = blob.getBinaryStream();
+                    Image image = new Image(inputStream);
+                    teacherImg.setImage(image);
+                    teacherImg.setFitWidth(200);
+                    teacherImg.setFitHeight(200);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private File selectedFile;
+
+    public void insertTeacherImg(){
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Choose Image File");
+        fileChooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.gif")
+        );
+        selectedFile = fileChooser.showOpenDialog(insertTeacherImg.getScene().getWindow());
+        if (selectedFile != null) {
+            Image image = new Image(selectedFile.toURI().toString());
+            teacherImg.setImage(image);
+            teacherImg.setFitWidth(200);
+            teacherImg.setFitHeight(200);
+        }
+    }
+
+    public void updateTeacherInfo(){
+        String query = "UPDATE teacher SET "
+                + "name = '" + getTeacherName.getText()
+                + "', gender = '" + getTeacherGender.getText()
+                + "', date_of_birth = '" + getTeacherBirth.getValue()
+                + "', email = '" + getTeacherEmail.getText()
+                + "', phone  = '" + getTeacherPhone.getText()
+                + "', photo = ?"
+                + " WHERE teacher_id = '" + getTeacherID.getText() + "'";
+        try{
+            Alert alert;
+            alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Confirmation Message");
+            alert.setHeaderText(null);
+            alert.setContentText("Are you sure you want to update ?");
+            Optional<ButtonType> option = alert.showAndWait();
+            if (option.get().equals(ButtonType.OK)) {
+                PreparedStatement ps = connection.prepareStatement(query);
+
+                if (selectedFile != null) {
+                    FileInputStream fis = new FileInputStream(selectedFile);
+                    ps.setBinaryStream(1, fis, selectedFile.length());
+                } else {
+                    ps.setNull(1, Types.BLOB);
+                }
+
+                ps.executeUpdate();
+
+                alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Information Message");
+                alert.setHeaderText(null);
+                alert.setContentText("Successfully Updated!");
+                alert.showAndWait();
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+
+    public void clearTeacherInfo() {
+        getTeacherBirth.setValue(null);
+        getTeacherEmail.setText("");
+        getTeacherPhone.setText("");
+    }
+
+    public void changeTeacherPassword() {
+        if (isHomeroom == 1) {
+            String checkData = "SELECT * FROM account WHERE username = " + username
+                    + " AND homeroom_teacher = 1";
+            try {
+                Alert alert;
+                Statement st = connection.createStatement();
+                ResultSet rs = st.executeQuery(checkData);
+
+                if (rs.next()) {
+                    String tmp = rs.getString("password");
+                    System.out.println(tmp);
+                    if (tmp.equals(currentTeacherPass.getText())) {
+                        if (currentTeacherPass.getText().isEmpty()
+                                || newTeacherPass.getText().isEmpty()
+                                || confirmTeacherPass.getText().isEmpty()) {
+                            alert = new Alert(Alert.AlertType.ERROR);
+                            alert.setTitle("Error Message");
+                            alert.setHeaderText(null);
+                            alert.setContentText("Please fill all blank!");
+                            alert.showAndWait();
+                        } else {
+                            if (newTeacherPass.getText().equals(confirmTeacherPass.getText())) {
+                                String query = "UPDATE account SET password = '" + confirmTeacherPass.getText() + "'"
+                                        + " WHERE username = '" + username + "'"
+                                        + " AND homeroom_teacher = 1";
+
+                                Statement statement = connection.createStatement();
+                                statement.executeUpdate(query);
+
+                                alert = new Alert(Alert.AlertType.INFORMATION);
+                                alert.setTitle("");
+                                alert.setHeaderText(null);
+                                alert.setContentText("Change password successfully");
+                                alert.showAndWait();
+
+                                currentTeacherPass.setText("");
+                                newTeacherPass.setText("");
+                                confirmTeacherPass.setText("");
+                            } else {
+                                alert = new Alert(Alert.AlertType.ERROR);
+                                alert.setTitle("Error Message");
+                                alert.setHeaderText(null);
+                                alert.setContentText("Check new password and confirm password!");
+                                alert.showAndWait();
+                            }
+                        }
+                    } else {
+                        alert = new Alert(Alert.AlertType.ERROR);
+                        alert.setTitle("Error Message");
+                        alert.setHeaderText(null);
+                        alert.setContentText("Wrong current password!");
+                        alert.showAndWait();
+                    }
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }else if(isSubject == 1){
+            String checkData = "SELECT * FROM account WHERE username = " + username
+                    + " AND subject_teacher = 1";
+            try {
+                Alert alert;
+                Statement st = connection.createStatement();
+                ResultSet rs = st.executeQuery(checkData);
+
+                if (rs.next()) {
+                    String tmp = rs.getString("password");
+                    System.out.println(tmp);
+                    if (tmp.equals(currentTeacherPass.getText())) {
+                        if (currentTeacherPass.getText().isEmpty()
+                                || newTeacherPass.getText().isEmpty()
+                                || confirmTeacherPass.getText().isEmpty()) {
+                            alert = new Alert(Alert.AlertType.ERROR);
+                            alert.setTitle("Error Message");
+                            alert.setHeaderText(null);
+                            alert.setContentText("Please fill all blank!");
+                            alert.showAndWait();
+                        } else {
+                            if (newTeacherPass.getText().equals(confirmTeacherPass.getText())) {
+                                String query = "UPDATE account SET password = '" + confirmTeacherPass.getText() + "'"
+                                        + " WHERE username = '" + username + "'"
+                                        + " AND subject_teacher = 1";
+
+                                Statement statement = connection.createStatement();
+                                statement.executeUpdate(query);
+
+                                alert = new Alert(Alert.AlertType.INFORMATION);
+                                alert.setTitle("");
+                                alert.setHeaderText(null);
+                                alert.setContentText("Change password successfully");
+                                alert.showAndWait();
+
+                                currentTeacherPass.setText("");
+                                newTeacherPass.setText("");
+                                confirmTeacherPass.setText("");
+                            } else {
+                                alert = new Alert(Alert.AlertType.ERROR);
+                                alert.setTitle("Error Message");
+                                alert.setHeaderText(null);
+                                alert.setContentText("Check new password and confirm password!");
+                                alert.showAndWait();
+                            }
+                        }
+                    } else {
+                        alert = new Alert(Alert.AlertType.ERROR);
+                        alert.setTitle("Error Message");
+                        alert.setHeaderText(null);
+                        alert.setContentText("Wrong current password!");
+                        alert.showAndWait();
+                    }
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         dashBoardButton.getStyleClass().add("button-active");
@@ -1042,12 +1250,15 @@ public class MainSceneController implements Initializable {
         addClassList();
         handleInputGrade();
         showChart();
+        getTeacherInfo();
     }
+
 
     private void setActiveButton(Button button) {
         dashBoardButton.getStyleClass().remove("button-active");
         studentButton.getStyleClass().remove("button-active");
         gradeButton.getStyleClass().remove("button-active");
+        settingButton.getStyleClass().remove("button-active");
 
         button.getStyleClass().add("button-active");
     }
