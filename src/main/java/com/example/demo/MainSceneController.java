@@ -45,6 +45,9 @@ import static java.sql.Types.NULL;
 public class MainSceneController implements Initializable {
 
     @FXML
+    private TextField searchStudentFinalPoint;
+
+    @FXML
     private ImageView teacherImg;
 
     @FXML
@@ -309,7 +312,7 @@ public class MainSceneController implements Initializable {
         if (isStudent == 1) {
             type.setText("Student");
             description.setText("You are student");
-            String query = "SELECT name FROM student WHERE student_id = " + username;
+            String query = "SELECT * FROM student WHERE student_id = " + username;
             try {
                 Statement st = connection.createStatement();
                 ResultSet rs = st.executeQuery(query);
@@ -317,6 +320,7 @@ public class MainSceneController implements Initializable {
                     System.out.println(rs.getString("name"));
                     name.setText(rs.getString("name"));
                     name1.setText(rs.getString("name"));
+                    description.setText("You are student of class: " + rs.getString("class_id"));
                 }
 
                 System.out.println();
@@ -324,13 +328,6 @@ public class MainSceneController implements Initializable {
                 e.printStackTrace();
             }
         } else {
-            if (isHomeroom == 1) {
-                type.setText("Homeroom Teacher");
-                description.setText("You are homeroom teacher of class: " + getTeacherClass());
-            } else if (isSubject == 1) {
-                type.setText("Subject Teacher");
-                description.setText("You are subject teacher of class");
-            }
             String query = "SELECT name FROM teacher WHERE teacher_id = " + username;
             try {
                 Statement st = connection.createStatement();
@@ -339,6 +336,21 @@ public class MainSceneController implements Initializable {
                     System.out.println(rs.getString("name"));
                     name.setText(rs.getString("name"));
                     name1.setText(rs.getString("name"));
+                }
+                if (isHomeroom == 1) {
+                    type.setText("Homeroom Teacher");
+                    String classQuery = "SELECT class_name FROM class c INNER JOIN teacher t ON c.teacher_id = t.teacher_id";
+                    try {
+                        Statement statement = connection.createStatement();
+                        ResultSet resultSet = statement.executeQuery(classQuery);
+                        if (resultSet.next()) {
+                            description.setText("You are homeroom teacher of class: " + resultSet.getString("class_name"));
+                        }
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
+                } else if (isSubject == 1) {
+                    type.setText("Subject Teacher");
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -390,11 +402,14 @@ public class MainSceneController implements Initializable {
                     series.getData().add(data1);
                 }
                 barChart.getData().add(series);
-
             } catch (Exception e) {
                 e.printStackTrace();
             }
-
+            // Còn thiếu 2 cái pane chưa biết thêm gì ở đoạn này
+        } else if (isSubject == 1){
+            //TO-DO: Tạo chart cho giáo viên bộ môn nhé
+        } else if (isStudent == 1){
+            //TO-DO: Tạo chart cho học sinh kiểu điểm trung bình các môn nhé
         }
     }
 
@@ -409,6 +424,7 @@ public class MainSceneController implements Initializable {
             inputGradeForm.setVisible(false);
             studentSettingForm.setVisible(false);
             teacherSettingForm.setVisible(false);
+
         });
 
         studentButton.setOnAction(e -> {
@@ -597,10 +613,46 @@ public class MainSceneController implements Initializable {
 
             gradeViewTable.getItems().setAll(finalPoints.entrySet());
 
+            gradeViewTable.getSortOrder().add(studentIdCol);
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
+
     }
+
+    public void searchGradeStudent() {
+        FilteredList<Map.Entry<Integer, Map<String, Object>>> filteredData = new FilteredList<>(gradeViewTable.getItems(), p -> true);
+
+        searchStudentFinalPoint.textProperty().addListener((observable, oldValue, newValue) -> {
+            filteredData.setPredicate(studentData -> {
+                if (newValue == null || newValue.isEmpty()) {
+                    return true;
+                }
+
+                String lowerCaseFilter = newValue.toLowerCase();
+
+                if (String.valueOf(studentData.getKey()).toLowerCase().contains(lowerCaseFilter)) {
+                    return true;
+                } else {
+                    Map<String, Object> valueMap = studentData.getValue();
+                    String studentName = valueMap.get("name").toString().toLowerCase();
+                    if (String.valueOf(studentData.getKey()).toLowerCase().contains(lowerCaseFilter) || studentName.contains(lowerCaseFilter)) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                }
+            });
+        });
+
+        SortedList<Map.Entry<Integer, Map<String, Object>>> sortedData = new SortedList<>(filteredData);
+        sortedData.comparatorProperty().bind(gradeViewTable.comparatorProperty());
+        gradeViewTable.setItems(sortedData);
+    }
+
+
+
 
     public void searchStudent() {
         FilteredList<Student> filter = new FilteredList<>(listStudents, e -> true);
@@ -636,6 +688,7 @@ public class MainSceneController implements Initializable {
         sortList.comparatorProperty().bind(studentViewTable.comparatorProperty());
         studentViewTable.setItems(sortList);
     }
+
 
     public void addSubjectList() {
         String query = "SELECT s.subject_id, s.subject_name FROM teach t "
@@ -1238,7 +1291,12 @@ public class MainSceneController implements Initializable {
         }
     }
 
-
+    public void exportStudent(){
+        //TO-DO: Xuất bảng học sinh ra PDF
+    }
+    public void exportGradeStudent(){
+        //TO-DO: Xuất bảng điểm của học sinh ra PDF
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
