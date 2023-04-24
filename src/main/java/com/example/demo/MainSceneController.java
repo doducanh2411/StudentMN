@@ -443,6 +443,7 @@ public class MainSceneController implements Initializable {
                 inputGradeForm.setVisible(false);
                 studentSettingForm.setVisible(false);
                 teacherSettingForm.setVisible(false);
+                //showStudentListData();
             }
         });
 
@@ -552,6 +553,7 @@ public class MainSceneController implements Initializable {
         action.setCellValueFactory(new PropertyValueFactory<>("hbox"));
 
         studentViewTable.setItems(listStudents);
+        studentViewTable.getSortOrder().add(student_id_col);
     }
 
 

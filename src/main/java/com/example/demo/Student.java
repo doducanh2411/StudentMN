@@ -79,6 +79,8 @@ public class Student {
         deleteBtn.setOnAction(event -> {
             Alert alert;
             String query = "DELETE FROM student WHERE student_id = " + student_id;
+            String dltStudentAcc = "DELETE FROM account WHERE username = " + student_id
+                                + " AND student = 1";
             try{
                 alert = new Alert(Alert.AlertType.CONFIRMATION);
                 alert.setTitle("Confirmation Message");
@@ -90,6 +92,9 @@ public class Student {
                 if(option.get().equals(ButtonType.OK)){
                     Statement st = connection.createStatement();
                     st.executeUpdate(query);
+
+                    Statement statement = connection.createStatement();
+                    statement.execute(dltStudentAcc);
 
                     alert = new Alert(Alert.AlertType.INFORMATION);
                     alert.setTitle("Information Message");

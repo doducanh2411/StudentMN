@@ -127,6 +127,18 @@ public class AddStudentController implements Initializable {
                             getTeacherClass()
                     ));
 
+                    String addStudentAccount = "INSERT INTO account "
+                                            + "(username, password, homeroom_teacher, subject_teacher, student) "
+                                            + "VALUES(?,?,?,?,?)";
+                    PreparedStatement preparedStatement = connection.prepareStatement(addStudentAccount);
+                    preparedStatement.setString( 1, getStudentId.getText());
+                    preparedStatement.setString(2, "12345");
+                    preparedStatement.setInt(3, 0);
+                    preparedStatement.setInt(4, 0);
+                    preparedStatement.setInt(5, 1);
+
+                    preparedStatement.executeUpdate();
+
                     clearSelected();
 
                 }
