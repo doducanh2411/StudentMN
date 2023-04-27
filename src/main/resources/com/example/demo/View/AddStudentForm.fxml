@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #8a70d6;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo.UpdateStudentController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #8a70d6;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo.View.AddStudentController">
    <children>
       <VBox layoutX="40.0" layoutY="90.0" spacing="30.0">
          <children>
@@ -80,7 +80,7 @@
             </HBox>
          </children>
       </VBox>
-      <Button layoutX="180.0" layoutY="298.0" mnemonicParsing="false" onAction="#updateStudent" prefHeight="40.0" prefWidth="80.0" text="Update" />
+      <Button layoutX="180.0" layoutY="298.0" mnemonicParsing="false" onAction="#addStudent" prefHeight="40.0" prefWidth="80.0" text="Insert" />
       <Button layoutX="355.0" layoutY="298.0" mnemonicParsing="false" onAction="#clearSelected" prefHeight="40.0" prefWidth="80.0" text="Clear" />
    </children>
 </Pane>

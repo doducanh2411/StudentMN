@@ -1,27 +1,21 @@
-package com.example.demo;
+package com.example.demo.View;
 
 
+import com.example.demo.Component.Student;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 
 import java.net.URL;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
-import java.util.regex.Pattern;
 
-import static com.example.demo.LoginFormController.*;
-import static com.example.demo.MainSceneController.listStudents;
+import static com.example.demo.Controller.LoginFormController.*;
 import static java.sql.Types.NULL;
 
 public class AddStudentController implements Initializable {
@@ -123,7 +117,7 @@ public class AddStudentController implements Initializable {
 
                     ps.executeUpdate();
 
-                    listStudents.add(new Student(
+                    /*listStudents.add(new Student(
                             Integer.parseInt(getStudentId.getText()),
                             getStudentName.getText(),
                             getStudentGender.getSelectionModel().getSelectedItem(),
@@ -131,7 +125,7 @@ public class AddStudentController implements Initializable {
                             getStudentEmail.getText(),
                             getStudentPhone.getText(),
                             getTeacherClass()
-                    ));
+                    ));*/
 
                     String addStudentAccount = "INSERT INTO account "
                                             + "(username, password, homeroom_teacher, subject_teacher, student) "
@@ -172,13 +166,14 @@ public class AddStudentController implements Initializable {
                 System.out.println(1234);
                 if (!getStudentId.getText().matches("^\\d+$")){
                     getStudentId.setStyle("-fx-border-color: red; -fx-border-width: 1px;");
+                    container.getChildren().add(error);
                 }
             }
         });
     }
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        addGenderList();
-        checkRegExp();
+        //addGenderList();
+        //checkRegExp();
     }
 }

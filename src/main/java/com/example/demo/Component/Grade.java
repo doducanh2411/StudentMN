@@ -1,17 +1,4 @@
-package com.example.demo;
-
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.HBox;
-
-import java.sql.Statement;
-import java.util.Optional;
-
-import static com.example.demo.LoginFormController.connection;
-import static com.example.demo.MainSceneController.gradeList;
+package com.example.demo.Component;
 
 public class Grade {
     private int grade_id;

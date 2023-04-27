@@ -1,8 +1,8 @@
-package com.example.demo;
+package com.example.demo.View;
 
+import com.example.demo.Component.Student;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -14,9 +14,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
-import static com.example.demo.AddStudentController.getTeacherClass;
-import static com.example.demo.LoginFormController.connection;
-import static com.example.demo.MainSceneController.listStudents;
+import static com.example.demo.View.AddStudentController.getTeacherClass;
+import static com.example.demo.Controller.LoginFormController.connection;
 
 public class UpdateStudentController implements Initializable {
 
@@ -101,7 +100,7 @@ public class UpdateStudentController implements Initializable {
                     alert.setContentText("Successfully Updated!");
                     alert.showAndWait();
 
-                    int index = listStudents.indexOf(student);
+                    //int index = listStudents.indexOf(student);
 
                     this.student.setStudent_id(Integer.parseInt(getStudentId.getText()));
                     this.student.setName(getStudentName.getText());
@@ -109,7 +108,7 @@ public class UpdateStudentController implements Initializable {
                     this.student.setEmail(getStudentEmail.getText());
                     this.student.setPhone(getStudentPhone.getText());
 
-                    listStudents.set(index, student);
+                    //listStudents.set(index, student);
                 } else {
                     return;
                 }

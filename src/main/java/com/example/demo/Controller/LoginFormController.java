@@ -1,6 +1,6 @@
-package com.example.demo;
+package com.example.demo.Controller;
 
-import javafx.event.ActionEvent;
+import com.example.demo.ConnectJDBC;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -56,14 +56,10 @@ public class LoginFormController {
                     isSubject = rs.getInt("subject_teacher");
                     isStudent =  rs.getInt("student");
 
-//                    System.out.println(isHomeroom);
-//                    System.out.println(isSubject);
-//                    System.out.println(isStudent);
-
                     signInBut.getScene().getWindow().hide();
 
-                    Parent root = FXMLLoader.load(getClass().getResource("MainScene.fxml"));
-                    Stage stage =  new Stage();
+                    Parent root = FXMLLoader.load(getClass().getResource("/com/example/demo/Controller/MainScene.fxml"));
+                    Stage stage = new Stage();
                     Scene scene = new Scene(root);
 
                     root.setOnMousePressed((MouseEvent e) -> {

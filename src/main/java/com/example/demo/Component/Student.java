@@ -1,12 +1,12 @@
-package com.example.demo;
+package com.example.demo.Component;
 
 import java.io.IOException;
 import java.sql.*;
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.Optional;
-import java.util.function.Consumer;
 
+import com.example.demo.HelloApplication;
+import com.example.demo.View.UpdateStudentController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -18,9 +18,8 @@ import javafx.scene.layout.HBox;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
 
-import static com.example.demo.MainSceneController.listStudents;
 
-import static com.example.demo.LoginFormController.connection;
+import static com.example.demo.Controller.LoginFormController.connection;
 
 public class Student {
     private int student_id;
@@ -102,7 +101,7 @@ public class Student {
                     alert.setContentText("Successfully Deleted!");
                     alert.showAndWait();
 
-                    listStudents.remove(this);
+                    //listStudents.remove(this);
                 }
             }catch (Exception e){
                 e.printStackTrace();
