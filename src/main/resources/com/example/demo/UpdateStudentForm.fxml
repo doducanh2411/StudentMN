@@ -5,48 +5,82 @@
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #8a70d6;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo.UpdateStudentController">
    <children>
-      <Label layoutX="40.0" layoutY="90.0" prefHeight="30.0" prefWidth="90.0" text="Student #" textFill="WHITE">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Label>
-      <Label layoutX="40.0" layoutY="150.0" prefHeight="30.0" prefWidth="90.0" text="Full name:" textFill="WHITE">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Label>
-      <Label layoutX="310.0" layoutY="90.0" prefHeight="30.0" prefWidth="90.0" text="Date of Birth:" textFill="WHITE">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Label>
-      <Label layoutX="40.0" layoutY="210.0" prefHeight="30.0" prefWidth="90.0" text="Gender:" textFill="WHITE">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Label>
-      <Label layoutX="310.0" layoutY="150.0" prefHeight="30.0" prefWidth="90.0" text="Email:" textFill="WHITE">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Label>
-      <Label layoutX="310.0" layoutY="210.0" prefHeight="30.0" prefWidth="90.0" text="Phone:" textFill="WHITE">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Label>
-      <TextField fx:id="getStudentId" layoutX="129.0" layoutY="90.0" prefHeight="30.0" />
-      <TextField fx:id="getStudentName" layoutX="129.0" layoutY="150.0" prefHeight="30.0" />
-      <ComboBox fx:id="getStudentGender" layoutX="128.0" layoutY="210.0" prefHeight="30.0" prefWidth="150.0" promptText="Choose" />
-      <DatePicker fx:id="getStudentBirth" layoutX="400.0" layoutY="90.0" prefHeight="30.0" />
+      <VBox layoutX="40.0" layoutY="90.0" spacing="30.0">
+         <children>
+            <HBox>
+               <children>
+                  <Label prefHeight="30.0" prefWidth="90.0" text="Student #" textFill="WHITE">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="getStudentId" prefHeight="30.0" />
+               </children>
+            </HBox>
+            <HBox>
+               <children>
+                  <Label prefHeight="30.0" prefWidth="90.0" text="Full name:" textFill="WHITE">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="getStudentName" prefHeight="30.0" />
+               </children>
+            </HBox>
+            <HBox>
+               <children>
+                  <Label prefHeight="30.0" prefWidth="90.0" text="Gender:" textFill="WHITE">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <ComboBox fx:id="getStudentGender" prefHeight="30.0" prefWidth="150.0" promptText="Choose" />
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+      <VBox layoutX="310.0" layoutY="90.0" spacing="30.0">
+         <children>
+            <HBox>
+               <children>
+                  <Label prefHeight="30.0" prefWidth="90.0" text="Date of Birth:" textFill="WHITE">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <DatePicker fx:id="getStudentBirth" prefHeight="30.0" />
+               </children>
+            </HBox>
+            <HBox>
+               <children>
+                  <Label prefHeight="30.0" prefWidth="90.0" text="Email:" textFill="WHITE">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="getStudentEmail" prefHeight="30.0" />
+               </children>
+            </HBox>
+            <HBox>
+               <children>
+                  <Label prefHeight="30.0" prefWidth="90.0" text="Phone:" textFill="WHITE">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="getStudentPhone" prefHeight="30.0" />
+               </children>
+            </HBox>
+         </children>
+      </VBox>
       <Button layoutX="180.0" layoutY="298.0" mnemonicParsing="false" onAction="#updateStudent" prefHeight="40.0" prefWidth="80.0" text="Update" />
       <Button layoutX="355.0" layoutY="298.0" mnemonicParsing="false" onAction="#clearSelected" prefHeight="40.0" prefWidth="80.0" text="Clear" />
-      <TextField fx:id="getStudentEmail" layoutX="400.0" layoutY="150.0" prefHeight="30.0" />
-      <TextField fx:id="getStudentPhone" layoutX="400.0" layoutY="210.0" prefHeight="30.0" />
    </children>
 </Pane>

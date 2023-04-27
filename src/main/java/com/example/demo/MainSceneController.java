@@ -43,6 +43,8 @@ import static java.sql.Types.NULL;
 
 
 public class MainSceneController implements Initializable {
+    @FXML
+    private TextField searchStudentGrade;
 
     @FXML
     private TextField searchStudentFinalPoint;
@@ -1101,8 +1103,8 @@ public class MainSceneController implements Initializable {
                     InputStream inputStream = blob.getBinaryStream();
                     Image image = new Image(inputStream);
                     teacherImg.setImage(image);
-                    teacherImg.setFitWidth(200);
-                    teacherImg.setFitHeight(200);
+//                    teacherImg.setFitWidth(200);
+//                    teacherImg.setFitHeight(200);
                 }
             }
         } catch (Exception e) {
@@ -1122,8 +1124,8 @@ public class MainSceneController implements Initializable {
         if (selectedFile != null) {
             Image image = new Image(selectedFile.toURI().toString());
             teacherImg.setImage(image);
-            teacherImg.setFitWidth(200);
-            teacherImg.setFitHeight(200);
+            /*teacherImg.setFitWidth(200);
+            teacherImg.setFitHeight(200);*/
         }
     }
 

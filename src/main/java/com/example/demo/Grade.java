@@ -18,15 +18,6 @@ public class Grade {
     private int student_id;
     private String student_name;
     private float component_point;
-    private HBox hbox;
-
-    public HBox getHbox() {
-        return hbox;
-    }
-
-    public void setHbox(HBox hbox) {
-        this.hbox = hbox;
-    }
 
     public String getStudent_name() {
         return student_name;
@@ -49,7 +40,7 @@ public class Grade {
         this.end_point = end_point;
         this.final_point = final_point;
 
-        hbox = new HBox();
+        /*hbox = new HBox();
         Button deleteBtn = new Button();
         Image dlt_img = new Image(getClass().getResourceAsStream("/image/trash.png"));
         ImageView dltImg = new ImageView(dlt_img);
@@ -84,7 +75,7 @@ public class Grade {
             }
 
         });
-        hbox.getChildren().addAll(deleteBtn);
+        hbox.getChildren().addAll(deleteBtn);*/
     }
 
     public int getGrade_id() {

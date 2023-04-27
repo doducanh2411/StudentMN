@@ -109,8 +109,29 @@ public class Student {
             }
 
         });
-        // Thêm nút Edit và Delete vào HBox
-        hbox.getChildren().addAll(editBtn, deleteBtn);
+
+        Button viewButton = new Button();
+        Image view_img = new Image(getClass().getResourceAsStream("/image/show.png"));
+        ImageView viewImg = new ImageView(view_img);
+        viewImg.setFitHeight(20);
+        viewImg.setFitWidth(20);
+        viewImg.setPreserveRatio(true);
+        viewButton.setGraphic(viewImg);
+        viewButton.setStyle("-fx-background-color: transparent; -fx-cursor: hand;");
+        viewButton.setOnAction(e -> {
+            Stage stage = new Stage();
+            FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("AddStudentForm.fxml"));
+            Scene scene = null;
+            try {
+                scene = new Scene(fxmlLoader.load());
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
+            stage.setScene(scene);
+            stage.setTitle("VIEW ");
+            stage.show();
+        });
+        hbox.getChildren().addAll(viewButton, editBtn, deleteBtn);
     }
 
     public int getStudent_id() {

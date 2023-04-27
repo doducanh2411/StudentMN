@@ -6,6 +6,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 
 import java.net.URL;
@@ -79,6 +80,8 @@ public class AddStudentController implements Initializable {
                 "(student_id, name, gender, date_of_birth, email, phone, class_id) " +
                 "VALUES(?,?,?,?,?,?,?)";
         try {
+
+
             Alert alert;
             if ( getStudentId.getText().isEmpty()
                     ||getStudentName.getText().isEmpty()
@@ -89,6 +92,9 @@ public class AddStudentController implements Initializable {
                 alert.setHeaderText(null);
                 alert.setContentText("Please fill all blank fields");
                 alert.showAndWait();
+
+
+
             } else {
                 String checkData = "SELECT student_id FROM student WHERE student_id = '"
                         + getStudentId.getText() + "'";
@@ -157,8 +163,22 @@ public class AddStudentController implements Initializable {
         getStudentBirth.setValue(null);
     }
 
+
+    public void checkRegExp(){
+        getStudentId.focusedProperty().addListener((observable, oldValue, newValue) ->{
+            if (!newValue){
+                VBox container = (VBox) getStudentId.getParent().getParent();
+                Label error = new Label("Enter this field !");
+                System.out.println(1234);
+                if (!getStudentId.getText().matches("^\\d+$")){
+                    getStudentId.setStyle("-fx-border-color: red; -fx-border-width: 1px;");
+                }
+            }
+        });
+    }
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         addGenderList();
+        checkRegExp();
     }
 }
