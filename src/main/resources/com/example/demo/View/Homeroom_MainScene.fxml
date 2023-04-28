@@ -25,7 +25,7 @@
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="640.0" prefWidth="804.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo.View.Homeroom_MainScene_Controller">
    <children>
-      <Pane fx:id="dashBoardForm" prefHeight="643.0" prefWidth="804.0" stylesheets="@../mainscene.css">
+      <Pane fx:id="dashBoardForm" prefHeight="643.0" prefWidth="804.0" stylesheets="@../mainscene.css" visible="false">
          <children>
             <Pane layoutX="20.0" layoutY="20.0" styleClass="name" stylesheets="@../mainscene.css">
                <children>
@@ -41,7 +41,7 @@
                         <Font name="Cooper Black" size="14.0" />
                      </font>
                   </Label>
-                  <Label fx:id="name" layoutX="10.0" layoutY="40.0" prefHeight="50.0" prefWidth="396.0" text="Đỗ Đức Anh 111">
+                  <Label fx:id="name" layoutX="10.0" layoutY="40.0" prefHeight="50.0" prefWidth="396.0" text="Teacher Name">
                      <font>
                         <Font name="Tahoma Bold" size="30.0" />
                      </font>
@@ -80,12 +80,12 @@
                         </ImageView>
                      </graphic>
                   </Label>
-                  <Label fx:id="name1" alignment="BASELINE_CENTER" layoutY="90.0" prefHeight="23.0" prefWidth="222.0" text="Đỗ Đức Anh" textAlignment="CENTER">
+                  <Label fx:id="name1" alignment="BASELINE_CENTER" layoutY="90.0" prefHeight="23.0" prefWidth="222.0" text="Teacher Name" textAlignment="CENTER">
                      <font>
                         <Font name="Tahoma" size="18.0" />
                      </font>
                   </Label>
-                  <Label fx:id="type" alignment="BASELINE_CENTER" layoutY="113.0" prefHeight="17.0" prefWidth="222.0" text="Type" />
+                  <Label alignment="BASELINE_CENTER" layoutY="113.0" prefHeight="17.0" prefWidth="222.0" text="Homeroom Teacher" />
                   <Text fx:id="description" layoutX="1.0" layoutY="160.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Data" textAlignment="CENTER" wrappingWidth="220.5367431640625">
                      <font>
                         <Font size="13.0" />
@@ -97,7 +97,7 @@
       </Pane>
       <Pane fx:id="studentForm" layoutX="20.0" layoutY="20.0" prefHeight="600.0" prefWidth="764.0" styleClass="center-radius" stylesheets="@../mainscene.css" visible="false">
          <children>
-            <TextField fx:id="searchStudent" layoutX="20.0" layoutY="20.0" prefHeight="25.0" prefWidth="260.0" promptText="Search" styleClass="search" stylesheets="@../mainscene.css">
+            <TextField fx:id="searchStudent" layoutX="20.0" layoutY="20.0" onKeyPressed="#searchStudent" prefHeight="25.0" prefWidth="260.0" promptText="Search" styleClass="search" stylesheets="@../mainscene.css">
                <font>
                   <Font name="Tahoma" size="14.0" />
                </font>
@@ -113,7 +113,7 @@
                   <TableColumn fx:id="action" prefWidth="126.39990234375" text="Action" />
                </columns>
             </TableView>
-            <Button fx:id="createStudent" layoutX="627.0" layoutY="13.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="117.0" styleClass="createButton" stylesheets="@../mainscene.css" text="Create New" textFill="WHITE">
+            <Button fx:id="createStudent" layoutX="627.0" layoutY="13.0" mnemonicParsing="false" onAction="#addStudent" prefHeight="40.0" prefWidth="117.0" styleClass="createButton" stylesheets="@../mainscene.css" text="Create New" textFill="WHITE">
                <graphic>
                   <ImageView fitHeight="24.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -125,7 +125,7 @@
                   <Font name="System Bold" size="13.0" />
                </font>
             </Button>
-            <Button layoutX="527.0" layoutY="13.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="85.0" styleClass="exportButton" stylesheets="@../mainscene.css" text="Export" textFill="WHITE">
+            <Button layoutX="527.0" layoutY="13.0" mnemonicParsing="false" onAction="#exportStudent" prefHeight="40.0" prefWidth="85.0" styleClass="exportButton" stylesheets="@../mainscene.css" text="Export" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="13.0" />
                </font>
@@ -142,12 +142,12 @@
       <Pane fx:id="gradeForm" layoutX="20.0" layoutY="20.0" prefHeight="600.0" prefWidth="764.0" styleClass="center-radius" stylesheets="@../mainscene.css" visible="false">
          <children>
             <TableView fx:id="gradeViewTable" layoutX="20.0" layoutY="80.0" prefHeight="500.0" prefWidth="722.0" styleClass="tableView" stylesheets="@../mainscene.css" />
-            <TextField fx:id="searchStudentFinalPoint" layoutX="20.0" layoutY="20.0" prefHeight="30.0" prefWidth="300.0" promptText="Search" styleClass="search" stylesheets="@../mainscene.css">
+            <TextField fx:id="searchStudentFinalPoint" layoutX="20.0" layoutY="20.0" onKeyTyped="#searchGradeStudent" prefHeight="30.0" prefWidth="300.0" promptText="Search" styleClass="search" stylesheets="@../mainscene.css">
                <font>
                   <Font size="14.0" />
                </font>
             </TextField>
-            <Button layoutX="647.0" layoutY="15.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="85.0" styleClass="exportButton" stylesheets="@../mainscene.css" text="Export" textFill="WHITE">
+            <Button layoutX="647.0" layoutY="15.0" mnemonicParsing="false" onAction="#exportStudentGrade" prefHeight="40.0" prefWidth="85.0" styleClass="exportButton" stylesheets="@../mainscene.css" text="Export" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="13.0" />
                </font>
@@ -161,7 +161,7 @@
             </Button>
          </children>
       </Pane>
-      <TabPane fx:id="teacherSettingForm" layoutX="20.0" layoutY="20.0" prefHeight="600.0" prefWidth="764.0" styleClass="center-radius" stylesheets="@../mainscene.css" tabClosingPolicy="UNAVAILABLE" visible="false">
+      <TabPane fx:id="teacherSettingForm" layoutX="20.0" layoutY="20.0" prefHeight="600.0" prefWidth="764.0" styleClass="center-radius" stylesheets="@../mainscene.css" tabClosingPolicy="UNAVAILABLE">
          <tabs>
             <Tab closable="false" text="Information">
                <content>
@@ -223,7 +223,7 @@
                                     </HBox>
                                  </children>
                               </VBox>
-                              <Button layoutX="587.0" layoutY="452.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="60.0" text="Update" />
+                              <Button layoutX="587.0" layoutY="452.0" mnemonicParsing="false" onAction="#updateTeacherInfo" prefHeight="35.0" prefWidth="60.0" text="Update" />
                               <VBox alignment="TOP_CENTER" layoutX="80.0" layoutY="60.0" prefHeight="176.0" prefWidth="146.0" style="-fx-border-width: 1px; -fx-border-color: black;">
                                  <children>
                                     <ImageView fx:id="teacherImg" fitHeight="150.0" fitWidth="144.0" pickOnBounds="true">
@@ -231,10 +231,10 @@
                                           <Image url="@../../../../image/user.png" />
                                        </image>
                                     </ImageView>
-                                    <Button fx:id="insertTeacherImg" mnemonicParsing="false" prefHeight="40.0" prefWidth="145.0" text="Insert Image" />
+                                    <Button fx:id="insertTeacherImg" mnemonicParsing="false" onAction="#insertTeacherImg" prefHeight="40.0" prefWidth="145.0" text="Insert Image" />
                                  </children>
                               </VBox>
-                              <Button layoutX="489.0" layoutY="452.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="58.0" text="Clear" />
+                              <Button layoutX="489.0" layoutY="452.0" mnemonicParsing="false" onAction="#clearTeacherInfo" prefHeight="35.0" prefWidth="58.0" text="Clear" />
                            </children>
                         </Pane>
                         <Label layoutX="309.0" text="Personal Information">
@@ -279,7 +279,7 @@
                                     </VBox>
                                  </children>
                               </VBox>
-                              <Button layoutX="20.0" layoutY="353.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="78.0" text="Change" />
+                              <Button layoutX="20.0" layoutY="353.0" mnemonicParsing="false" onAction="#changeTeacherPassword" prefHeight="35.0" prefWidth="78.0" text="Change" />
                            </children>
                         </Pane>
                      </children>

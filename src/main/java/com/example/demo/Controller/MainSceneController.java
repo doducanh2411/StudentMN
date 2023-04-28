@@ -290,16 +290,20 @@ public class MainSceneController implements Initializable {
     private Pane studentForm;
     private Pane gradeForm;
     private TabPane settingForm;
+
     public void close() {
         System.exit(0);
     }
 
-    public void minimize(){
-
+    public void minimize() {
+        Stage stage = (Stage) main_form.getScene().getWindow();
+        stage.setIconified(true);
     }
-    public void switchForm(){
-        dashBoardButton.setOnAction(e ->{
+
+    public void switchForm() {
+        dashBoardButton.setOnAction(e -> {
             setActiveButton(dashBoardButton);
+            PaneLable.setText("DASHBOARD");
             dashBoardForm.setVisible(true);
             studentForm.setVisible(false);
             gradeForm.setVisible(false);
@@ -308,6 +312,7 @@ public class MainSceneController implements Initializable {
 
         studentButton.setOnAction(e -> {
             setActiveButton(studentButton);
+            PaneLable.setText("STUDENT");
             dashBoardForm.setVisible(false);
             studentForm.setVisible(true);
             gradeForm.setVisible(false);
@@ -316,6 +321,7 @@ public class MainSceneController implements Initializable {
 
         gradeButton.setOnAction(e -> {
             setActiveButton(gradeButton);
+            PaneLable.setText("GRADE");
             dashBoardForm.setVisible(false);
             studentForm.setVisible(false);
             gradeForm.setVisible(true);
@@ -323,65 +329,67 @@ public class MainSceneController implements Initializable {
         });
 
         settingButton.setOnAction(e -> {
+            PaneLable.setText("SETTING");
             setActiveButton(settingButton);
             dashBoardForm.setVisible(false);
             studentForm.setVisible(false);
             gradeForm.setVisible(false);
             settingForm.setVisible(true);
         });
-
     }
 
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        dashBoardButton.getStyleClass().add("button-active");
-
-        if (isHomeroom == 1){
+    public void setFXMLFile() {
+        if (isHomeroom == 1) {
             System.out.println("Homeroom");
             try {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/demo/View/Homeroom_MainScene.fxml"));
                 Node homeroom = loader.load();
                 centerPane.getChildren().add(homeroom);
 
-                dashBoardForm = ( Pane) loader.getNamespace().get("dashBoardForm");
-                studentForm = ( Pane) loader.getNamespace().get("studentForm");
-                gradeForm = ( Pane) loader.getNamespace().get("gradeForm");
-                settingForm = ( TabPane) loader.getNamespace().get("teacherSettingForm");
+                dashBoardForm = (Pane) loader.getNamespace().get("dashBoardForm");
+                studentForm = (Pane) loader.getNamespace().get("studentForm");
+                gradeForm = (Pane) loader.getNamespace().get("gradeForm");
+                settingForm = (TabPane) loader.getNamespace().get("teacherSettingForm");
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
 
-        }else if (isSubject == 1){
+        } else if (isSubject == 1) {
             System.out.println("Subject");
-            try{
+            try {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/demo/View/Subject_MainScene.fxml"));
                 Node subject = loader.load();
                 centerPane.getChildren().add(subject);
 
-                dashBoardForm = ( Pane) loader.getNamespace().get("dashBoardForm");
-                studentForm = ( Pane) loader.getNamespace().get("gradeForm");
-                gradeForm = ( Pane) loader.getNamespace().get("inputGradeForm");
-                settingForm = ( TabPane) loader.getNamespace().get("teacherSettingForm");
-
-            }catch (IOException e){
+                dashBoardForm = (Pane) loader.getNamespace().get("dashBoardForm");
+                studentForm = (Pane) loader.getNamespace().get("gradeForm");
+                gradeForm = (Pane) loader.getNamespace().get("inputGradeForm");
+                settingForm = (TabPane) loader.getNamespace().get("teacherSettingForm");
+            } catch (IOException e) {
                 throw new RuntimeException(e);
             }
-        }else if (isStudent == 1){
+        } else if (isStudent == 1) {
+            System.out.println("Student");
             try {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/demo/View/Student_MainScene.fxml"));
                 Node student = loader.load();
                 centerPane.getChildren().add(student);
 
-                dashBoardForm = ( Pane) loader.getNamespace().get("dashBoardForm");
-                studentForm = ( Pane) loader.getNamespace().get("studentForm");
-                gradeForm = ( Pane) loader.getNamespace().get("gradeForm");
-                settingForm = ( TabPane) loader.getNamespace().get("teacherSettingForm");
-            }catch (IOException e){
+                dashBoardForm = (Pane) loader.getNamespace().get("dashBoardForm");
+                studentForm = (Pane) loader.getNamespace().get("studentForm");
+                gradeForm = (Pane) loader.getNamespace().get("gradeForm");
+                settingForm = (TabPane) loader.getNamespace().get("teacherSettingForm");
+            } catch (IOException e) {
                 throw new RuntimeException(e);
             }
         }
     }
 
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        dashBoardButton.getStyleClass().add("button-active");
+        setFXMLFile();
+    }
 
     private void setActiveButton(Button button) {
         dashBoardButton.getStyleClass().remove("button-active");

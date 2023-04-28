@@ -16,6 +16,7 @@ import java.util.ResourceBundle;
 
 import static com.example.demo.View.AddStudentController.getTeacherClass;
 import static com.example.demo.Controller.LoginFormController.connection;
+import static com.example.demo.View.Homeroom_MainScene_Controller.listStudents;
 
 public class UpdateStudentController implements Initializable {
 
@@ -100,7 +101,7 @@ public class UpdateStudentController implements Initializable {
                     alert.setContentText("Successfully Updated!");
                     alert.showAndWait();
 
-                    //int index = listStudents.indexOf(student);
+                    int index = listStudents.indexOf(student);
 
                     this.student.setStudent_id(Integer.parseInt(getStudentId.getText()));
                     this.student.setName(getStudentName.getText());
@@ -108,7 +109,7 @@ public class UpdateStudentController implements Initializable {
                     this.student.setEmail(getStudentEmail.getText());
                     this.student.setPhone(getStudentPhone.getText());
 
-                    //listStudents.set(index, student);
+                    listStudents.set(index, student);
                 } else {
                     return;
                 }

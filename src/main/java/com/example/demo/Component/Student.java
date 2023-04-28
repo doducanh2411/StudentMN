@@ -20,6 +20,7 @@ import javafx.stage.Stage;
 
 
 import static com.example.demo.Controller.LoginFormController.connection;
+import static com.example.demo.View.Homeroom_MainScene_Controller.listStudents;
 
 public class Student {
     private int student_id;
@@ -52,7 +53,7 @@ public class Student {
         editBtn.setStyle("-fx-background-color: transparent; -fx-cursor: hand;");
         editBtn.setOnAction(event -> {
             Stage stage = new Stage();
-            FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("UpdateStudentForm.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("/com/example/demo/View/UpdateStudentForm.fxml"));
             try {
                 Parent root = fxmlLoader.load();
                 UpdateStudentController controller = fxmlLoader.getController();
@@ -101,7 +102,7 @@ public class Student {
                     alert.setContentText("Successfully Deleted!");
                     alert.showAndWait();
 
-                    //listStudents.remove(this);
+                    listStudents.remove(this);
                 }
             }catch (Exception e){
                 e.printStackTrace();
@@ -117,7 +118,7 @@ public class Student {
         viewImg.setPreserveRatio(true);
         viewButton.setGraphic(viewImg);
         viewButton.setStyle("-fx-background-color: transparent; -fx-cursor: hand;");
-        viewButton.setOnAction(e -> {
+        /*viewButton.setOnAction(e -> {
             Stage stage = new Stage();
             FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("AddStudentForm.fxml"));
             Scene scene = null;
@@ -129,7 +130,7 @@ public class Student {
             stage.setScene(scene);
             stage.setTitle("VIEW ");
             stage.show();
-        });
+        });*/
         hbox.getChildren().addAll(viewButton, editBtn, deleteBtn);
     }
 

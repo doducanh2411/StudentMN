@@ -16,6 +16,7 @@ import java.sql.Statement;
 import java.util.*;
 
 import static com.example.demo.Controller.LoginFormController.*;
+import static com.example.demo.View.Homeroom_MainScene_Controller.listStudents;
 import static java.sql.Types.NULL;
 
 public class AddStudentController implements Initializable {
@@ -87,8 +88,6 @@ public class AddStudentController implements Initializable {
                 alert.setContentText("Please fill all blank fields");
                 alert.showAndWait();
 
-
-
             } else {
                 String checkData = "SELECT student_id FROM student WHERE student_id = '"
                         + getStudentId.getText() + "'";
@@ -117,7 +116,7 @@ public class AddStudentController implements Initializable {
 
                     ps.executeUpdate();
 
-                    /*listStudents.add(new Student(
+                    listStudents.add(new Student(
                             Integer.parseInt(getStudentId.getText()),
                             getStudentName.getText(),
                             getStudentGender.getSelectionModel().getSelectedItem(),
@@ -125,7 +124,7 @@ public class AddStudentController implements Initializable {
                             getStudentEmail.getText(),
                             getStudentPhone.getText(),
                             getTeacherClass()
-                    ));*/
+                    ));
 
                     String addStudentAccount = "INSERT INTO account "
                                             + "(username, password, homeroom_teacher, subject_teacher, student) "
@@ -173,7 +172,7 @@ public class AddStudentController implements Initializable {
     }
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        //addGenderList();
-        //checkRegExp();
+        addGenderList();
+        checkRegExp();
     }
 }
