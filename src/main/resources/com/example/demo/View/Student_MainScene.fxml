@@ -22,7 +22,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="640.0" prefWidth="804.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="640.0" prefWidth="804.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo.View.Student_MainScene_Controller">
    <children>
       <Pane fx:id="dashBoardForm" prefHeight="643.0" prefWidth="804.0" stylesheets="@../mainscene.css" visible="false">
          <children>
@@ -84,7 +84,7 @@
                         <Font name="Tahoma" size="18.0" />
                      </font>
                   </Label>
-                  <Label fx:id="type" alignment="BASELINE_CENTER" layoutY="113.0" prefHeight="17.0" prefWidth="222.0" text="Type" />
+                  <Label fx:id="type" alignment="BASELINE_CENTER" layoutY="113.0" prefHeight="17.0" prefWidth="222.0" text="Student" />
                   <Text fx:id="description" layoutX="1.0" layoutY="160.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Data" textAlignment="CENTER" wrappingWidth="220.5367431640625">
                      <font>
                         <Font size="13.0" />
@@ -94,15 +94,10 @@
             </Pane>
          </children>
       </Pane>
-      <Pane fx:id="gradeForm" layoutX="20.0" layoutY="20.0" prefHeight="600.0" prefWidth="764.0" styleClass="center-radius" stylesheets="@../mainscene.css" visible="false">
+      <Pane fx:id="gradeForm" layoutX="20.0" layoutY="20.0" prefHeight="600.0" prefWidth="764.0" styleClass="center-radius" stylesheets="@../mainscene.css">
          <children>
-            <TableView fx:id="gradeViewTable" layoutX="20.0" layoutY="80.0" prefHeight="500.0" prefWidth="722.0" styleClass="tableView" stylesheets="@../mainscene.css" />
-            <TextField fx:id="searchStudentFinalPoint" layoutX="20.0" layoutY="20.0" prefHeight="30.0" prefWidth="300.0" promptText="Search" styleClass="search" stylesheets="@../mainscene.css">
-               <font>
-                  <Font size="14.0" />
-               </font>
-            </TextField>
-            <Button layoutX="647.0" layoutY="15.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="85.0" styleClass="exportButton" stylesheets="@../mainscene.css" text="Export" textFill="WHITE">
+            <TableView fx:id="gradeViewTable" layoutX="20.0" layoutY="70.0" prefHeight="510.0" prefWidth="722.0" styleClass="tableView" stylesheets="@../mainscene.css" />
+            <Button layoutX="657.0" layoutY="14.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="85.0" styleClass="exportButton" stylesheets="@../mainscene.css" text="Export" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="13.0" />
                </font>
@@ -243,7 +238,7 @@
             </Tab>
          </tabs>
       </TabPane>
-      <Pane fx:id="studentForm" prefHeight="640.0" prefWidth="804.0">
+      <Pane fx:id="studentForm" prefHeight="640.0" prefWidth="804.0" visible="false">
          <children>
             <Label layoutX="200.0" layoutY="212.0" text="Nothing" />
          </children>

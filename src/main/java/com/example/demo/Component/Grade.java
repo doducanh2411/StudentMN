@@ -26,43 +26,6 @@ public class Grade {
         this.mid_point = mid_point;
         this.end_point = end_point;
         this.final_point = final_point;
-
-        /*hbox = new HBox();
-        Button deleteBtn = new Button();
-        Image dlt_img = new Image(getClass().getResourceAsStream("/image/trash.png"));
-        ImageView dltImg = new ImageView(dlt_img);
-        dltImg.setFitHeight(20);
-        dltImg.setFitWidth(20);
-        deleteBtn.setGraphic(dltImg);
-        deleteBtn.setStyle("-fx-background-color: transparent; -fx-cursor:hand;");
-        deleteBtn.setOnAction(event -> {
-            Alert alert;
-            String query = "DELETE FROM grade WHERE grade_id = " + grade_id;
-            try{
-                alert = new Alert(Alert.AlertType.CONFIRMATION);
-                alert.setTitle("Confirmation Message");
-                alert.setHeaderText(null);
-                alert.setContentText("Are you sure you want to DELETE this grade ?");
-
-                Optional<ButtonType> option = alert.showAndWait();
-
-                if(option.get().equals(ButtonType.OK)){
-                    Statement st = connection.createStatement();
-                    st.executeUpdate(query);
-
-                    alert = new Alert(Alert.AlertType.INFORMATION);
-                    alert.setTitle("Information Message");
-                    alert.setHeaderText(null);
-                    alert.setContentText("Successfully Deleted!");
-                    alert.showAndWait();
-
-                }
-            }catch (Exception e){
-                e.printStackTrace();
-            }
-
-        });
-        hbox.getChildren().addAll(deleteBtn);*/
     }
 
     public int getGrade_id() {

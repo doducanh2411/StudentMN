@@ -321,6 +321,7 @@ public class Subject_MainScene_Controller implements Initializable {
                 showInputGrade(selectedClass, selectedSubject); // Hiển thị dữ liệu trong tableview
             }
         });
+
         getSubjectList.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (getClassList.getValue() != null) {
                 int selectedClass = getClassList.getValue(); // Lấy giá trị của combobox lớp
@@ -791,8 +792,6 @@ public class Subject_MainScene_Controller implements Initializable {
         }
     }
 
-
-    
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         showName();
