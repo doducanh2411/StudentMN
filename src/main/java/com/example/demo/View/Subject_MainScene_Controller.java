@@ -5,12 +5,16 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.chart.*;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.util.StringConverter;
@@ -20,6 +24,7 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.net.URL;
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Collectors;
@@ -323,7 +328,7 @@ public class Subject_MainScene_Controller implements Initializable {
         });
 
         getSubjectList.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-            if (getClassList.getValue() != null) {
+            if (getClassList.getValue() != null && getSubjectList.getValue() != null) {
                 int selectedClass = getClassList.getValue(); // Lấy giá trị của combobox lớp
                 int selectedSubject = getSubjectList.getValue(); // Lấy giá trị của combobox môn học
                 showInputGrade(selectedClass, selectedSubject); // Hiển thị dữ liệu trong tableview
@@ -640,62 +645,154 @@ public class Subject_MainScene_Controller implements Initializable {
         }
     }
 
-    public void updateTeacherInfo(){
-        String query = "UPDATE teacher SET "
-                + "name = '" + getTeacherName.getText()
-                + "', gender = '" + getTeacherGender.getText()
-                + "', date_of_birth = '" + getTeacherBirth.getValue()
-                + "', email = '" + getTeacherEmail.getText()
-                + "', phone  = '" + getTeacherPhone.getText()
-                + "', photo = ?"
-                + " WHERE teacher_id = '" + getTeacherID.getText() + "'";
-        try{
-            Alert alert;
-            alert = new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setTitle("Confirmation Message");
+    public void updateTeacherInfo() {
+        if (getTeacherName.getText().isEmpty() || getTeacherGender.getText().isEmpty() ||
+                getTeacherBirth.getValue() == null || getTeacherEmail.getText().isEmpty() ||
+                getTeacherPhone.getText().isEmpty()) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error message");
             alert.setHeaderText(null);
-            alert.setContentText("Are you sure you want to update ?");
-            Optional<ButtonType> option = alert.showAndWait();
-            if (option.get().equals(ButtonType.OK)) {
-                PreparedStatement ps = connection.prepareStatement(query);
+            alert.setContentText("Please fill all blank!");
+            alert.showAndWait();
+        }
+        else {
+            LocalDate present = LocalDate.now();
 
-                if (selectedFile != null) {
-                    FileInputStream fis = new FileInputStream(selectedFile);
-                    ps.setBinaryStream(1, fis, selectedFile.length());
-                } else {
-                    ps.setNull(1, Types.BLOB);
-                }
-
-                ps.executeUpdate();
-
-                alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Information Message");
+            if (getTeacherBirth.getValue().isAfter(present)) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error message");
                 alert.setHeaderText(null);
-                alert.setContentText("Successfully Updated!");
+                alert.setContentText("Invalid date!");
                 alert.showAndWait();
+            } else if (!getTeacherEmail.getText().matches("[a-zA-Z0-9]+@[a-zA-Z]+\\.[a-zA-Z]+")) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error message");
+                alert.setHeaderText(null);
+                alert.setContentText("Invalid email!");
+                alert.showAndWait();
+            } else if (!getTeacherPhone.getText().matches("\\d{10,11}")) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error message");
+                alert.setHeaderText(null);
+                alert.setContentText("Invalid phone number!");
+                alert.showAndWait();
+            } else {
+                boolean flag = true;
+                try {
+                    Statement stmt = connection.createStatement();
+                    ResultSet rs = stmt.executeQuery("SELECT email FROM teacher WHERE email = '" + getTeacherEmail.getText() + "'");
+                    if (rs.next()) {
+                        flag = false;
+                        Alert alert = new Alert(Alert.AlertType.ERROR);
+                        alert.setTitle("Error message");
+                        alert.setHeaderText(null);
+                        alert.setContentText("This email is already exist!");
+                        alert.showAndWait();
+                    }
+                    rs.close();
+                    stmt.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+                if (flag) {
+                    try {
+                        Statement stmt = connection.createStatement();
+                        ResultSet rs = stmt.executeQuery("SELECT email FROM teacher WHERE email = '" + getTeacherEmail.getText() + "'");
+                        if (rs.next()) {
+                            flag = false;
+                            Alert alert = new Alert(Alert.AlertType.ERROR);
+                            alert.setTitle("Error message");
+                            alert.setHeaderText(null);
+                            alert.setContentText("This email is already exist!");
+                            alert.showAndWait();
+                        }
+                        rs.close();
+                        stmt.close();
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+                }
+                if (flag) {
+                    try {
+                        Statement stmt = connection.createStatement();
+                        ResultSet rs = stmt.executeQuery("SELECT phone FROM teacher WHERE phone = '" + getTeacherPhone.getText() + "'");
+                        if (rs.next()) {
+                            flag = false;
+                            Alert alert = new Alert(Alert.AlertType.ERROR);
+                            alert.setTitle("Error message");
+                            alert.setHeaderText(null);
+                            alert.setContentText("This phone is already exist!");
+                            alert.showAndWait();
+                        }
+                        rs.close();
+                        stmt.close();
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+                }
+                if (flag) {
+                    String query = "UPDATE teacher SET "
+                            + "name = '" + getTeacherName.getText()
+                            + "', gender = '" + getTeacherGender.getText()
+                            + "', date_of_birth = '" + getTeacherBirth.getValue()
+                            + "', email = '" + getTeacherEmail.getText()
+                            + "', phone  = '" + getTeacherPhone.getText()
+                            + "', photo = ?"
+                            + " WHERE teacher_id = '" + getTeacherID.getText() + "'";
+                    try {
+                        Alert alert;
+                        alert = new Alert(Alert.AlertType.CONFIRMATION);
+                        alert.setTitle("Confirmation Message");
+                        alert.setHeaderText(null);
+                        alert.setContentText("Are you sure you want to update ?");
+                        Optional<ButtonType> option = alert.showAndWait();
+                        if (option.get().equals(ButtonType.OK)) {
+                            PreparedStatement ps = connection.prepareStatement(query);
+
+                            if (selectedFile != null) {
+                                FileInputStream fis = new FileInputStream(selectedFile);
+                                ps.setBinaryStream(1, fis, selectedFile.length());
+                            } else {
+                                ps.setNull(1, Types.BLOB);
+                            }
+
+                            ps.executeUpdate();
+
+                            alert = new Alert(Alert.AlertType.INFORMATION);
+                            alert.setTitle("Information Message");
+                            alert.setHeaderText(null);
+                            alert.setContentText("Successfully Updated!");
+                            //System.out.println("Successfully Updated!");
+                            alert.showAndWait();
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
             }
-        } catch (Exception e){
-            e.printStackTrace();
         }
     }
 
     public void clearTeacherInfo() {
+        getTeacherName.setText("");
+        getTeacherGender.setText("");
+        getTeacherBirth.setValue(null);
         getTeacherEmail.setText("");
         getTeacherPhone.setText("");
     }
 
     public void changeTeacherPassword() {
         String checkData = "SELECT * FROM account WHERE username = " + username
-                + " AND subject_teacher = 1";
+                + " AND homeroom_teacher = 1";
         try {
             Alert alert;
             Statement st = connection.createStatement();
             ResultSet rs = st.executeQuery(checkData);
 
             if (rs.next()) {
-                String tmp = rs.getString("password");
-                System.out.println(tmp);
-                if (tmp.equals(currentTeacherPass.getText())) {
+                String currentPassword = rs.getString("password");
+                System.out.println("Current password: " + currentPassword);
+                if (currentPassword.equals(currentTeacherPass.getText())) {
                     if (currentTeacherPass.getText().isEmpty()
                             || newTeacherPass.getText().isEmpty()
                             || confirmTeacherPass.getText().isEmpty()) {
@@ -705,10 +802,16 @@ public class Subject_MainScene_Controller implements Initializable {
                         alert.setContentText("Please fill all blank!");
                         alert.showAndWait();
                     } else {
-                        if (newTeacherPass.getText().equals(confirmTeacherPass.getText())) {
+                        if (currentTeacherPass.getText().equals(newTeacherPass.getText())) {
+                            alert = new Alert(Alert.AlertType.ERROR);
+                            alert.setTitle("Error Message");
+                            alert.setHeaderText(null);
+                            alert.setContentText("New password must be different from current password");
+                            alert.showAndWait();
+                        } else if (newTeacherPass.getText().equals(confirmTeacherPass.getText())) {
                             String query = "UPDATE account SET password = '" + confirmTeacherPass.getText() + "'"
                                     + " WHERE username = '" + username + "'"
-                                    + " AND subject_teacher = 1";
+                                    + " AND homeroom_teacher = 1";
 
                             Statement statement = connection.createStatement();
                             statement.executeUpdate(query);
@@ -739,8 +842,8 @@ public class Subject_MainScene_Controller implements Initializable {
                 }
             }
 
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -753,7 +856,7 @@ public class Subject_MainScene_Controller implements Initializable {
     }
 
     public void showChart() {
-        String query = "SELECT class.class_name, AVG(grade.component_point + grade.mid_point + grade.end_point)/3 AS avg_grade, subject.subject_name " +
+        String query = "SELECT class.class_name, AVG(0.1 * grade.component_point + 0.3 * grade.mid_point + 0.6 * grade.end_point) AS avg_grade, subject.subject_name " +
                 "FROM teach " +
                 "INNER JOIN grade ON teach.subject_id = grade.subject_id " +
                 "INNER JOIN subject ON teach.subject_id = subject.subject_id " +
@@ -775,8 +878,26 @@ public class Subject_MainScene_Controller implements Initializable {
                 // Get or create the series for the current subject
                 XYChart.Series<String, Number> series = subjectSeriesMap.computeIfAbsent(subjectName, k -> new XYChart.Series<>());
                 series.setName(subjectName);
-                series.getData().add(new XYChart.Data<>(className, avgGrade));
+
+                // Create the data point with the average grade
+                XYChart.Data<String, Number> data = new XYChart.Data<>(className, avgGrade);
+
+                // Create a label to display the average grade
+                Label label = new Label(String.format("%.2f", avgGrade));
+                label.setTextFill(Color.WHITE);
+
+                // Create a StackPane to hold both the label and the bar
+                StackPane stackPane = new StackPane();
+                stackPane.getChildren().addAll(new Rectangle(0, 0, 50, 0), label);
+                stackPane.setAlignment(Pos.BASELINE_CENTER);
+
+                // Set the StackPane as the node for the data point
+                data.setNode(stackPane);
+
+                // Add the data point to the series
+                series.getData().add(data);
             }
+
 
             // Add the series for each subject to the stacked bar chart
             stackedBarChart.getData().addAll(subjectSeriesMap.values());

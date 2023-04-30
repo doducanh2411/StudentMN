@@ -12,7 +12,10 @@ import javafx.scene.layout.VBox;
 import java.net.URL;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 import static com.example.demo.Controller.LoginFormController.*;
@@ -78,32 +81,93 @@ public class AddStudentController implements Initializable {
 
 
             Alert alert;
+            LocalDate present = LocalDate.now();
             if ( getStudentId.getText().isEmpty()
                     ||getStudentName.getText().isEmpty()
                     || getStudentGender.getSelectionModel().getSelectedItem() == null
-                    || getStudentBirth.getValue() == null) {
+                    || getStudentBirth.getValue() == null
+                    || getStudentEmail.getText().isEmpty()
+                    || getStudentPhone.getText().isEmpty()) {
                 alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Error Message");
                 alert.setHeaderText(null);
-                alert.setContentText("Please fill all blank fields");
+                alert.setContentText("Please fill all blank!");
                 alert.showAndWait();
 
+            } else if (getStudentBirth.getValue().isAfter(present)) {
+                alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error message");
+                alert.setHeaderText(null);
+                alert.setContentText("Invalid date!");
+                alert.showAndWait();
+            } else if (!getStudentEmail.getText().matches("[a-zA-Z0-9]+@[a-zA-Z]+\\.[a-zA-Z]+")) {
+                alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error message");
+                alert.setHeaderText(null);
+                alert.setContentText("Invalid email!");
+                alert.showAndWait();
+            } else if (!getStudentPhone.getText().matches("\\d{10,11}")) {
+                alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error message");
+                alert.setHeaderText(null);
+                alert.setContentText("Invalid phone number!");
+                alert.showAndWait();
             } else {
+                boolean flag = true;
+
                 String checkData = "SELECT student_id FROM student WHERE student_id = '"
                         + getStudentId.getText() + "'";
                 Statement st = connection.createStatement();
                 ResultSet rs = st.executeQuery(checkData);
-                if (rs.next()){
+                if (rs.next()) {
+                    flag = false;
                     alert = new Alert(Alert.AlertType.ERROR);
                     alert.setTitle("Error Message");
                     alert.setHeaderText(null);
                     alert.setContentText("Student #" + getStudentId.getText() + " was already exist!");
                     alert.showAndWait();
-                } else {
+                }
+                if (flag) {
+                    try {
+                        Statement stmt = connection.createStatement();
+                        ResultSet resultSet = stmt.executeQuery("SELECT email FROM student WHERE email = '" + getStudentEmail.getText() + "'");
+                        if (resultSet.next()) {
+                            flag = false;
+                            alert = new Alert(Alert.AlertType.ERROR);
+                            alert.setTitle("Error message");
+                            alert.setHeaderText(null);
+                            alert.setContentText("This email is already exist!");
+                            alert.showAndWait();
+                        }
+                        resultSet.close();
+                        stmt.close();
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+                }
+                if (flag) {
+                    try {
+                        Statement stmt = connection.createStatement();
+                        ResultSet resultSet = stmt.executeQuery("SELECT phone FROM student WHERE phone = '" + getStudentPhone.getText() + "'");
+                        if (resultSet.next()) {
+                            flag = false;
+                            alert = new Alert(Alert.AlertType.ERROR);
+                            alert.setTitle("Error message");
+                            alert.setHeaderText(null);
+                            alert.setContentText("This phone is already exist!");
+                            alert.showAndWait();
+                        }
+                        resultSet.close();
+                        stmt.close();
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+                }
+                if (flag) {
                     PreparedStatement ps = connection.prepareStatement(query);
-                    if(getStudentId.getText().isEmpty()){
+                    if (getStudentId.getText().isEmpty()) {
                         ps.setInt(1, NULL);
-                    }else{
+                    } else {
                         ps.setInt(1, Integer.parseInt(getStudentId.getText()));
                     }
 
@@ -127,19 +191,23 @@ public class AddStudentController implements Initializable {
                     ));
 
                     String addStudentAccount = "INSERT INTO account "
-                                            + "(username, password, homeroom_teacher, subject_teacher, student) "
-                                            + "VALUES(?,?,?,?,?)";
+                            + "(username, password, homeroom_teacher, subject_teacher, student) "
+                            + "VALUES(?,?,?,?,?)";
                     PreparedStatement preparedStatement = connection.prepareStatement(addStudentAccount);
-                    preparedStatement.setString( 1, getStudentId.getText());
-                    preparedStatement.setString(2, "12345");
+                    preparedStatement.setString(1, getStudentId.getText());
+                    preparedStatement.setString(2, getStudentBirth.getValue().format(DateTimeFormatter.ofPattern("ddMMyyyy")));
                     preparedStatement.setInt(3, 0);
                     preparedStatement.setInt(4, 0);
                     preparedStatement.setInt(5, 1);
 
                     preparedStatement.executeUpdate();
 
+                    alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Information Message");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Successfully Added!");
+                    alert.showAndWait();
                     clearSelected();
-
                 }
             }
         } catch(Exception e){

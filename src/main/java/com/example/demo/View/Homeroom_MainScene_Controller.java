@@ -493,45 +493,137 @@ public class Homeroom_MainScene_Controller implements Initializable {
     }
 
     public void updateTeacherInfo() {
-        String query = "UPDATE teacher SET "
-                + "name = '" + getTeacherName.getText()
-                + "', gender = '" + getTeacherGender.getText()
-                + "', date_of_birth = '" + getTeacherBirth.getValue()
-                + "', email = '" + getTeacherEmail.getText()
-                + "', phone  = '" + getTeacherPhone.getText()
-                + "', photo = ?"
-                + " WHERE teacher_id = '" + getTeacherID.getText() + "'";
-        try {
-            Alert alert;
-            alert = new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setTitle("Confirmation Message");
+        if (getTeacherName.getText().isEmpty() || getTeacherGender.getText().isEmpty() ||
+                getTeacherBirth.getValue() == null || getTeacherEmail.getText().isEmpty() ||
+                getTeacherPhone.getText().isEmpty()) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error message");
             alert.setHeaderText(null);
-            alert.setContentText("Are you sure you want to update ?");
-            Optional<ButtonType> option = alert.showAndWait();
-            if (option.get().equals(ButtonType.OK)) {
-                PreparedStatement ps = connection.prepareStatement(query);
+            alert.setContentText("Please fill all blank!");
+            alert.showAndWait();
+        }
+        else {
+            LocalDate present = LocalDate.now();
 
-                if (selectedFile != null) {
-                    FileInputStream fis = new FileInputStream(selectedFile);
-                    ps.setBinaryStream(1, fis, selectedFile.length());
-                } else {
-                    ps.setNull(1, Types.BLOB);
-                }
-
-                ps.executeUpdate();
-
-                alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Information Message");
+            if (getTeacherBirth.getValue().isAfter(present)) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error message");
                 alert.setHeaderText(null);
-                alert.setContentText("Successfully Updated!");
+                alert.setContentText("Invalid date!");
                 alert.showAndWait();
+            } else if (!getTeacherEmail.getText().matches("[a-zA-Z0-9]+@[a-zA-Z]+\\.[a-zA-Z]+")) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error message");
+                alert.setHeaderText(null);
+                alert.setContentText("Invalid email!");
+                alert.showAndWait();
+            } else if (!getTeacherPhone.getText().matches("\\d{10,11}")) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error message");
+                alert.setHeaderText(null);
+                alert.setContentText("Invalid phone number!");
+                alert.showAndWait();
+            } else {
+                boolean flag = true;
+                try {
+                    Statement stmt = connection.createStatement();
+                    ResultSet rs = stmt.executeQuery("SELECT email FROM teacher WHERE email = '" + getTeacherEmail.getText() + "'");
+                    if (rs.next()) {
+                        flag = false;
+                        Alert alert = new Alert(Alert.AlertType.ERROR);
+                        alert.setTitle("Error message");
+                        alert.setHeaderText(null);
+                        alert.setContentText("This email is already exist!");
+                        alert.showAndWait();
+                    }
+                    rs.close();
+                    stmt.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+                if (flag) {
+                    try {
+                        Statement stmt = connection.createStatement();
+                        ResultSet rs = stmt.executeQuery("SELECT email FROM teacher WHERE email = '" + getTeacherEmail.getText() + "'");
+                        if (rs.next()) {
+                            flag = false;
+                            Alert alert = new Alert(Alert.AlertType.ERROR);
+                            alert.setTitle("Error message");
+                            alert.setHeaderText(null);
+                            alert.setContentText("This email is already exist!");
+                            alert.showAndWait();
+                        }
+                        rs.close();
+                        stmt.close();
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+                }
+                if (flag) {
+                    try {
+                        Statement stmt = connection.createStatement();
+                        ResultSet rs = stmt.executeQuery("SELECT phone FROM teacher WHERE phone = '" + getTeacherPhone.getText() + "'");
+                        if (rs.next()) {
+                            flag = false;
+                            Alert alert = new Alert(Alert.AlertType.ERROR);
+                            alert.setTitle("Error message");
+                            alert.setHeaderText(null);
+                            alert.setContentText("This phone is already exist!");
+                            alert.showAndWait();
+                        }
+                        rs.close();
+                        stmt.close();
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+                }
+                if (flag) {
+                    String query = "UPDATE teacher SET "
+                            + "name = '" + getTeacherName.getText()
+                            + "', gender = '" + getTeacherGender.getText()
+                            + "', date_of_birth = '" + getTeacherBirth.getValue()
+                            + "', email = '" + getTeacherEmail.getText()
+                            + "', phone  = '" + getTeacherPhone.getText()
+                            + "', photo = ?"
+                            + " WHERE teacher_id = '" + getTeacherID.getText() + "'";
+                    try {
+                        Alert alert;
+                        alert = new Alert(Alert.AlertType.CONFIRMATION);
+                        alert.setTitle("Confirmation Message");
+                        alert.setHeaderText(null);
+                        alert.setContentText("Are you sure you want to update ?");
+                        Optional<ButtonType> option = alert.showAndWait();
+                        if (option.get().equals(ButtonType.OK)) {
+                            PreparedStatement ps = connection.prepareStatement(query);
+
+                            if (selectedFile != null) {
+                                FileInputStream fis = new FileInputStream(selectedFile);
+                                ps.setBinaryStream(1, fis, selectedFile.length());
+                            } else {
+                                ps.setNull(1, Types.BLOB);
+                            }
+
+                            ps.executeUpdate();
+
+                            alert = new Alert(Alert.AlertType.INFORMATION);
+                            alert.setTitle("Information Message");
+                            alert.setHeaderText(null);
+                            alert.setContentText("Successfully Updated!");
+                            //System.out.println("Successfully Updated!");
+                            alert.showAndWait();
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
             }
-        } catch (Exception e) {
-            e.printStackTrace();
         }
     }
 
     public void clearTeacherInfo() {
+        getTeacherName.setText("");
+        getTeacherGender.setText("");
+        getTeacherBirth.setValue(null);
         getTeacherEmail.setText("");
         getTeacherPhone.setText("");
     }
@@ -545,9 +637,9 @@ public class Homeroom_MainScene_Controller implements Initializable {
             ResultSet rs = st.executeQuery(checkData);
 
             if (rs.next()) {
-                String tmp = rs.getString("password");
-                System.out.println(tmp);
-                if (tmp.equals(currentTeacherPass.getText())) {
+                String currentPassword = rs.getString("password");
+                System.out.println("Current password: " + currentPassword);
+                if (currentPassword.equals(currentTeacherPass.getText())) {
                     if (currentTeacherPass.getText().isEmpty()
                             || newTeacherPass.getText().isEmpty()
                             || confirmTeacherPass.getText().isEmpty()) {
@@ -557,7 +649,13 @@ public class Homeroom_MainScene_Controller implements Initializable {
                         alert.setContentText("Please fill all blank!");
                         alert.showAndWait();
                     } else {
-                        if (newTeacherPass.getText().equals(confirmTeacherPass.getText())) {
+                        if (currentTeacherPass.getText().equals(newTeacherPass.getText())) {
+                            alert = new Alert(Alert.AlertType.ERROR);
+                            alert.setTitle("Error Message");
+                            alert.setHeaderText(null);
+                            alert.setContentText("New password must be different from current password");
+                            alert.showAndWait();
+                        } else if (newTeacherPass.getText().equals(confirmTeacherPass.getText())) {
                             String query = "UPDATE account SET password = '" + confirmTeacherPass.getText() + "'"
                                     + " WHERE username = '" + username + "'"
                                     + " AND homeroom_teacher = 1";
