@@ -250,22 +250,38 @@
                </children>
             </Pane>
             <PieChart fx:id="piechart" layoutX="20.0" layoutY="404.0" prefHeight="222.0" prefWidth="306.0" styleClass="pieChart" stylesheets="@../mainscene.css" />
-            <Pane layoutX="340.0" layoutY="404.0" prefHeight="104.0" prefWidth="170.0" styleClass="gpaFemale" stylesheets="@../mainscene.css">
+            <Pane layoutX="340.0" layoutY="404.0" prefHeight="104.0" prefWidth="184.0" styleClass="gpaFemale" stylesheets="@../mainscene.css">
                <children>
-                  <Label layoutX="10.0" layoutY="4.0" prefHeight="20.0" prefWidth="151.0" text="Below-average students">
+                  <Label layoutX="7.0" layoutY="14.0" prefHeight="17.0" prefWidth="170.0" text="Below average evaluation">
                      <font>
-                        <Font size="14.0" />
-                     </font></Label>
-                  <Label layoutX="72.0" layoutY="52.0" text="Label" />
+                        <Font name="Tahoma Bold" size="13.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="belowAvgLabel" alignment="BASELINE_CENTER" contentDisplay="CENTER" layoutX="66.0" layoutY="45.0" prefHeight="45.0" prefWidth="52.0" text="10" underline="true">
+                     <font>
+                        <Font size="30.0" />
+                     </font>
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                  </Label>
                </children>
             </Pane>
-            <Pane layoutX="340.0" layoutY="524.0" prefHeight="102.0" prefWidth="171.0" styleClass="gpaMale" stylesheets="@../mainscene.css">
+            <Pane layoutX="340.0" layoutY="524.0" prefHeight="102.0" prefWidth="184.0" styleClass="gpaMale" stylesheets="@../mainscene.css">
                <children>
-                  <Label layoutX="11.0" layoutY="14.0" text="Above-average students">
+                  <Label layoutX="7.0" layoutY="14.0" text="Above average evaluation">
                      <font>
-                        <Font size="14.0" />
-                     </font></Label>
-                  <Label layoutX="72.0" layoutY="43.0" text="Label" />
+                        <Font name="Tahoma Bold" size="13.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="aboveAvgLabel" alignment="BASELINE_CENTER" contentDisplay="CENTER" layoutX="66.0" layoutY="43.0" prefHeight="45.0" prefWidth="52.0" text="10" underline="true">
+                     <font>
+                        <Font size="30.0" />
+                     </font>
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                  </Label>
                </children>
             </Pane>
             <Pane layoutX="560.0" layoutY="20.0" prefHeight="373.0" prefWidth="222.0" styleClass="miniProfile" stylesheets="@../mainscene.css">

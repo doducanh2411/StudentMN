@@ -43,6 +43,13 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 public class Homeroom_MainScene_Controller implements Initializable {
+
+    @FXML
+    private Label aboveAvgLabel;
+
+    @FXML
+    private Label belowAvgLabel;
+
     @FXML
     private TableColumn<Student, HBox> action;
 
@@ -216,6 +223,8 @@ public class Homeroom_MainScene_Controller implements Initializable {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        belowAvgLabel.setText(String.valueOf(countBelowAvg));
+        aboveAvgLabel.setText(String.valueOf(countAboveAvg));
     }
 
     public static ObservableList<Student> listStudents;
@@ -259,13 +268,15 @@ public class Homeroom_MainScene_Controller implements Initializable {
         studentViewTable.getSortOrder().add(student_id_col);
     }
 
+    private int countBelowAvg;
+    private int countAboveAvg;
+
     public void showStudentFinalPoints() {
         try {
             // Get all grades from the database
-            String query = "SELECT student_id, name, subject.subject_name, "
-                    + "0.1*component_point + 0.3*mid_point + 0.6*end_point AS final_point "
-                    + "FROM grade "
-                    + "INNER JOIN subject ON grade.subject_id = subject.subject_id "
+            String query = "SELECT student_id, name, subject.subject_name, g.component_point, g.mid_point, g.end_point "
+                    + "FROM grade g "
+                    + "INNER JOIN subject ON g.subject_id = subject.subject_id "
                     + "INNER JOIN student USING(student_id) "
                     + "WHERE student.class_id = " + getTeacherClass() + " "
                     + "ORDER BY student_id, subject.subject_name";
@@ -281,15 +292,47 @@ public class Homeroom_MainScene_Controller implements Initializable {
                 int student_id = result.getInt("student_id");
                 String student_name = result.getString("name");
                 String subject_name = result.getString("subject_name");
-                float final_point = result.getFloat("final_point");
+                float component_point = result.getFloat("component_point");
+                float mid_point = result.getFloat("mid_point");
+                float end_point = result.getFloat("end_point");
+                Float final_point = null;
+
+                // Check if any of the points is missing
+                if (component_point != -1 && mid_point != -1 && end_point != -1) {
+                    final_point = (float) (0.1 * component_point + 0.3 * mid_point + 0.6 * end_point);
+                }
 
                 if (!finalPoints.containsKey(student_id)) {
                     finalPoints.put(student_id, new HashMap<>());
                 }
 
+                // Update the final points and number of subjects for the student
+                Map<String, Object> studentPoints = finalPoints.get(student_id);
+                studentPoints.put("name", student_name);
+                studentPoints.put(subject_name, final_point);
+                if (final_point != null) {
+                    studentPoints.put("total_points", (float) studentPoints.getOrDefault("total_points", 0f) + final_point);
+                    studentPoints.put("num_subjects", (int) studentPoints.getOrDefault("num_subjects", 0) + 1);
+                }
+
                 //Fix this bug
                 finalPoints.get(student_id).put("name", student_name);
                 finalPoints.get(student_id).put(subject_name, final_point);
+            }
+
+            for (Map<String, Object> studentPoints : finalPoints.values()) {
+                float totalPoints = (float) studentPoints.getOrDefault("total_points", 0f);
+                int numSubjects = (int) studentPoints.getOrDefault("num_subjects", 0);
+                if (numSubjects > 0) {
+                    float finalGradePoint = totalPoints / numSubjects;
+                    if (finalGradePoint < 5){
+                        countBelowAvg++;
+                    }
+                    if (finalGradePoint >= 8){
+                        countAboveAvg++;
+                    }
+                    studentPoints.put("final_grade_point", finalGradePoint);
+                }
             }
 
             // Create the table view with the student ID, name, and final points for each subject
@@ -307,20 +350,26 @@ public class Homeroom_MainScene_Controller implements Initializable {
             gradeViewTable.getColumns().add(studentNameCol);
 
             for (String subject : subjects) {
-                if (!subject.equals("name")) {
-                    TableColumn<Map.Entry<Integer, Map<String, Object>>, Float> subjectPointCol = new TableColumn<>(subject);
-                    subjectPointCol.setCellValueFactory(data -> new SimpleObjectProperty<>((Float) data.getValue().getValue().get(subject)));
+                if (!subject.equals("name") && !subject.equals("num_subjects") && !subject.equals("total_points") && !subject.equals("final_grade_point")) {
+                    TableColumn<Map.Entry<Integer, Map<String, Object>>, Number> subjectPointCol = new TableColumn<>(subject);
+                    subjectPointCol.setCellValueFactory(data -> new SimpleObjectProperty<>((Number) data.getValue().getValue().get(subject)));
                     gradeViewTable.getColumns().add(subjectPointCol);
                 }
             }
 
+
             gradeViewTable.getItems().setAll(finalPoints.entrySet());
+
+            TableColumn<Map.Entry<Integer, Map<String, Object>>, Float> finalGradePointCol = new TableColumn<>("Final Point");
+            finalGradePointCol.setCellValueFactory(data -> new SimpleObjectProperty<>((Float) data.getValue().getValue().get("final_grade_point")));
+            gradeViewTable.getColumns().add(finalGradePointCol);
 
             gradeViewTable.getSortOrder().add(studentIdCol);
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
+
 
     public void searchStudent() {
         FilteredList<Student> filter = new FilteredList<>(listStudents, e -> true);
@@ -406,7 +455,7 @@ public class Homeroom_MainScene_Controller implements Initializable {
 
     private File selectedFile;
 
-    public void insertTeacherImg(){
+    public void insertTeacherImg() {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Choose Image File");
         fileChooser.getExtensionFilters().addAll(
@@ -443,7 +492,7 @@ public class Homeroom_MainScene_Controller implements Initializable {
         }
     }
 
-    public void updateTeacherInfo(){
+    public void updateTeacherInfo() {
         String query = "UPDATE teacher SET "
                 + "name = '" + getTeacherName.getText()
                 + "', gender = '" + getTeacherGender.getText()
@@ -452,7 +501,7 @@ public class Homeroom_MainScene_Controller implements Initializable {
                 + "', phone  = '" + getTeacherPhone.getText()
                 + "', photo = ?"
                 + " WHERE teacher_id = '" + getTeacherID.getText() + "'";
-        try{
+        try {
             Alert alert;
             alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setTitle("Confirmation Message");
@@ -477,7 +526,7 @@ public class Homeroom_MainScene_Controller implements Initializable {
                 alert.setContentText("Successfully Updated!");
                 alert.showAndWait();
             }
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -547,12 +596,14 @@ public class Homeroom_MainScene_Controller implements Initializable {
         }
     }
 
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         showName();
-        showChart();
+        //showChart();
         showStudentListData();
         showStudentFinalPoints();
+        showChart();
         getTeacherInfo();
     }
 }
