@@ -286,6 +286,8 @@ public class Homeroom_MainScene_Controller implements Initializable {
                 if (!finalPoints.containsKey(student_id)) {
                     finalPoints.put(student_id, new HashMap<>());
                 }
+
+                //Fix this bug
                 finalPoints.get(student_id).put("name", student_name);
                 finalPoints.get(student_id).put(subject_name, final_point);
             }

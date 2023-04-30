@@ -396,6 +396,8 @@ public class Subject_MainScene_Controller implements Initializable {
                 Float componentPoint = rs.getFloat("component_point");
                 Float midPoint = rs.getFloat("mid_point");
                 Float endPoint = rs.getFloat("end_point");
+
+                //Fix this bug
                 Float finalPoint = (float) (0.1 * componentPoint + 0.3 * midPoint + 0.6 * endPoint);
                 Grade grade = new Grade(grade_id, student_id, studentName, componentPoint, midPoint, endPoint, finalPoint);
 

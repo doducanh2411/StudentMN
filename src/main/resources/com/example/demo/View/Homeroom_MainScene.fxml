@@ -25,76 +25,6 @@
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="640.0" prefWidth="804.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo.View.Homeroom_MainScene_Controller">
    <children>
-      <Pane fx:id="dashBoardForm" prefHeight="643.0" prefWidth="804.0" stylesheets="@../mainscene.css" visible="false">
-         <children>
-            <Pane layoutX="20.0" layoutY="20.0" styleClass="name" stylesheets="@../mainscene.css">
-               <children>
-                  <Label layoutX="10.0" prefHeight="45.0" prefWidth="161.0" text="Welcome back!" textFill="#f37658">
-                     <graphic>
-                        <ImageView fitHeight="28.0" fitWidth="27.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../../../../image/hand.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                     <font>
-                        <Font name="Cooper Black" size="14.0" />
-                     </font>
-                  </Label>
-                  <Label fx:id="name" layoutX="10.0" layoutY="40.0" prefHeight="50.0" prefWidth="396.0" text="Teacher Name">
-                     <font>
-                        <Font name="Tahoma Bold" size="30.0" />
-                     </font>
-                  </Label>
-                  <BarChart fx:id="barChart" layoutY="110.0" prefHeight="263.0" prefWidth="504.0" title="Grade of class">
-                     <xAxis>
-                        <CategoryAxis side="BOTTOM" />
-                     </xAxis>
-                     <yAxis>
-                        <NumberAxis side="LEFT" />
-                     </yAxis>
-                  </BarChart>
-               </children>
-            </Pane>
-            <PieChart fx:id="piechart" layoutX="20.0" layoutY="404.0" prefHeight="222.0" prefWidth="306.0" styleClass="pieChart" stylesheets="@../mainscene.css" />
-            <Pane layoutX="340.0" layoutY="404.0" prefHeight="104.0" prefWidth="170.0" styleClass="gpaFemale" stylesheets="@../mainscene.css">
-               <children>
-                  <Label layoutX="128.0" layoutY="14.0" text="Label" />
-                  <Label layoutX="71.0" layoutY="44.0" text="Label" />
-               </children>
-            </Pane>
-            <Pane layoutX="340.0" layoutY="524.0" prefHeight="102.0" prefWidth="171.0" styleClass="gpaMale" stylesheets="@../mainscene.css">
-               <children>
-                  <Label layoutX="129.0" layoutY="14.0" text="Label" />
-                  <Label layoutX="72.0" layoutY="43.0" text="Label" />
-               </children>
-            </Pane>
-            <Pane layoutX="560.0" layoutY="20.0" prefHeight="347.0" prefWidth="222.0" styleClass="miniProfile" stylesheets="@../mainscene.css">
-               <children>
-                  <Label alignment="BASELINE_CENTER" layoutX="77.0" layoutY="21.0" prefHeight="60.0" prefWidth="60.0" style="-fx-border-color: black; -fx-border-radius: 100px; -fx-border-width: 2px;">
-                     <graphic>
-                        <ImageView fitHeight="64.0" fitWidth="64.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../../../../image/user.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                  </Label>
-                  <Label fx:id="name1" alignment="BASELINE_CENTER" layoutY="90.0" prefHeight="23.0" prefWidth="222.0" text="Teacher Name" textAlignment="CENTER">
-                     <font>
-                        <Font name="Tahoma" size="18.0" />
-                     </font>
-                  </Label>
-                  <Label alignment="BASELINE_CENTER" layoutY="113.0" prefHeight="17.0" prefWidth="222.0" text="Homeroom Teacher" />
-                  <Text fx:id="description" layoutX="1.0" layoutY="160.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Data" textAlignment="CENTER" wrappingWidth="220.5367431640625">
-                     <font>
-                        <Font size="13.0" />
-                     </font>
-                  </Text>
-               </children>
-            </Pane>
-         </children>
-      </Pane>
       <Pane fx:id="studentForm" layoutX="20.0" layoutY="20.0" prefHeight="600.0" prefWidth="764.0" styleClass="center-radius" stylesheets="@../mainscene.css" visible="false">
          <children>
             <TextField fx:id="searchStudent" layoutX="20.0" layoutY="20.0" onKeyPressed="#searchStudent" prefHeight="25.0" prefWidth="260.0" promptText="Search" styleClass="search" stylesheets="@../mainscene.css">
@@ -161,7 +91,7 @@
             </Button>
          </children>
       </Pane>
-      <TabPane fx:id="teacherSettingForm" layoutX="20.0" layoutY="20.0" prefHeight="600.0" prefWidth="764.0" styleClass="center-radius" stylesheets="@../mainscene.css" tabClosingPolicy="UNAVAILABLE">
+      <TabPane fx:id="teacherSettingForm" layoutX="20.0" layoutY="20.0" prefHeight="600.0" prefWidth="764.0" styleClass="center-radius" stylesheets="@../mainscene.css" tabClosingPolicy="UNAVAILABLE" visible="false">
          <tabs>
             <Tab closable="false" text="Information">
                <content>
@@ -199,7 +129,7 @@
                                     <HBox prefHeight="30.0" prefWidth="391.0" spacing="10.0">
                                        <children>
                                           <Label alignment="BASELINE_RIGHT" prefHeight="30.0" prefWidth="100.0" text="Date of Birth:" textFill="WHITE" />
-                                          <DatePicker fx:id="getTeacherBirth" prefHeight="30.0" prefWidth="250.0" />
+                                          <DatePicker fx:id="getTeacherBirth" disable="true" prefHeight="30.0" prefWidth="250.0" />
                                        </children>
                                     </HBox>
                                     <HBox prefHeight="30.0" prefWidth="200.0" spacing="10.0">
@@ -288,5 +218,81 @@
             </Tab>
          </tabs>
       </TabPane>
+      <Pane fx:id="dashBoardForm" prefHeight="643.0" prefWidth="804.0" stylesheets="@../mainscene.css">
+         <children>
+            <Pane layoutX="20.0" layoutY="20.0" styleClass="name" stylesheets="@../mainscene.css">
+               <children>
+                  <Label layoutX="10.0" prefHeight="45.0" prefWidth="161.0" text="Welcome back!" textFill="#f37658">
+                     <graphic>
+                        <ImageView fitHeight="28.0" fitWidth="27.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../../image/hand.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <font>
+                        <Font name="Cooper Black" size="14.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="name" layoutX="10.0" layoutY="40.0" prefHeight="50.0" prefWidth="396.0" text="Teacher Name">
+                     <font>
+                        <Font name="Tahoma Bold" size="30.0" />
+                     </font>
+                  </Label>
+                  <BarChart fx:id="barChart" layoutY="110.0" prefHeight="263.0" prefWidth="504.0" title="Grade of class">
+                     <xAxis>
+                        <CategoryAxis side="BOTTOM" />
+                     </xAxis>
+                     <yAxis>
+                        <NumberAxis side="LEFT" />
+                     </yAxis>
+                  </BarChart>
+               </children>
+            </Pane>
+            <PieChart fx:id="piechart" layoutX="20.0" layoutY="404.0" prefHeight="222.0" prefWidth="306.0" styleClass="pieChart" stylesheets="@../mainscene.css" />
+            <Pane layoutX="340.0" layoutY="404.0" prefHeight="104.0" prefWidth="170.0" styleClass="gpaFemale" stylesheets="@../mainscene.css">
+               <children>
+                  <Label layoutX="10.0" layoutY="4.0" prefHeight="20.0" prefWidth="151.0" text="Below-average students">
+                     <font>
+                        <Font size="14.0" />
+                     </font></Label>
+                  <Label layoutX="72.0" layoutY="52.0" text="Label" />
+               </children>
+            </Pane>
+            <Pane layoutX="340.0" layoutY="524.0" prefHeight="102.0" prefWidth="171.0" styleClass="gpaMale" stylesheets="@../mainscene.css">
+               <children>
+                  <Label layoutX="11.0" layoutY="14.0" text="Above-average students">
+                     <font>
+                        <Font size="14.0" />
+                     </font></Label>
+                  <Label layoutX="72.0" layoutY="43.0" text="Label" />
+               </children>
+            </Pane>
+            <Pane layoutX="560.0" layoutY="20.0" prefHeight="373.0" prefWidth="222.0" styleClass="miniProfile" stylesheets="@../mainscene.css">
+               <children>
+                  <Label alignment="BASELINE_CENTER" layoutX="77.0" layoutY="21.0" prefHeight="60.0" prefWidth="60.0" style="-fx-border-color: black; -fx-border-radius: 100px; -fx-border-width: 2px;">
+                     <graphic>
+                        <ImageView fitHeight="64.0" fitWidth="64.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../../image/user.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Label>
+                  <Label fx:id="name1" alignment="BASELINE_CENTER" layoutY="90.0" prefHeight="23.0" prefWidth="222.0" text="Teacher Name" textAlignment="CENTER">
+                     <font>
+                        <Font name="Tahoma" size="18.0" />
+                     </font>
+                  </Label>
+                  <Label alignment="BASELINE_CENTER" layoutY="113.0" prefHeight="17.0" prefWidth="222.0" text="Homeroom Teacher" />
+                  <Text fx:id="description" layoutX="1.0" layoutY="160.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Data" textAlignment="CENTER" wrappingWidth="220.5367431640625">
+                     <font>
+                        <Font size="13.0" />
+                     </font>
+                  </Text>
+               </children>
+            </Pane>
+         </children>
+      </Pane>
    </children>
 </Pane>
