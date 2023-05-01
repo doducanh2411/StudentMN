@@ -195,12 +195,15 @@ public class Homeroom_MainScene_Controller implements Initializable {
         }
         piechart.setData(data);
 
-        String query1 = "SELECT s.subject_name, AVG(0.1*g.component_point + 0.3*g.mid_point + 0.6*g.end_point) AS avg_total_point " +
+
+        //Fix this bug - Done
+        String query1 = "SELECT s.subject_name, AVG(CASE WHEN g.component_point >= 0 AND g.mid_point >= 0 AND g.end_point >= 0 THEN 0.1 * g.component_point + 0.3 * g.mid_point + 0.6 * g.end_point ELSE NULL END) AS avg_total_point " +
                 "FROM grade g " +
                 "JOIN subject s ON g.subject_id = s.subject_id " +
                 "JOIN student stu ON g.student_id = stu.student_id " +
                 "WHERE stu.class_id = " + getTeacherClass() + " " +
                 "GROUP BY g.subject_id";
+
         try {
             Statement stmt = connection.createStatement();
             ResultSet rs = stmt.executeQuery(query1);
@@ -315,7 +318,7 @@ public class Homeroom_MainScene_Controller implements Initializable {
                     studentPoints.put("num_subjects", (int) studentPoints.getOrDefault("num_subjects", 0) + 1);
                 }
 
-                //Fix this bug
+                //Fix this bug - Done
                 finalPoints.get(student_id).put("name", student_name);
                 finalPoints.get(student_id).put(subject_name, final_point);
             }
@@ -527,14 +530,17 @@ public class Homeroom_MainScene_Controller implements Initializable {
                 boolean flag = true;
                 try {
                     Statement stmt = connection.createStatement();
-                    ResultSet rs = stmt.executeQuery("SELECT email FROM teacher WHERE email = '" + getTeacherEmail.getText() + "'");
+                    ResultSet rs = stmt.executeQuery("SELECT COUNT(*) FROM teacher WHERE email = '" + getTeacherEmail.getText() + "'" + " and teacher_id <> '" + getTeacherID.getText() + "'");
                     if (rs.next()) {
-                        flag = false;
-                        Alert alert = new Alert(Alert.AlertType.ERROR);
-                        alert.setTitle("Error message");
-                        alert.setHeaderText(null);
-                        alert.setContentText("This email is already exist!");
-                        alert.showAndWait();
+                        int count = rs.getInt(1);
+                        if (count > 0) {
+                            flag = false;
+                            Alert alert = new Alert(Alert.AlertType.ERROR);
+                            alert.setTitle("Error message");
+                            alert.setHeaderText(null);
+                            alert.setContentText("This email is already exist!");
+                            alert.showAndWait();
+                        }
                     }
                     rs.close();
                     stmt.close();
@@ -544,32 +550,17 @@ public class Homeroom_MainScene_Controller implements Initializable {
                 if (flag) {
                     try {
                         Statement stmt = connection.createStatement();
-                        ResultSet rs = stmt.executeQuery("SELECT email FROM teacher WHERE email = '" + getTeacherEmail.getText() + "'");
+                        ResultSet rs = stmt.executeQuery("SELECT COUNT(*) FROM teacher WHERE phone = '" + getTeacherPhone.getText() + "'" + " and teacher_id <> '" + getTeacherID.getText() + "'");
                         if (rs.next()) {
-                            flag = false;
-                            Alert alert = new Alert(Alert.AlertType.ERROR);
-                            alert.setTitle("Error message");
-                            alert.setHeaderText(null);
-                            alert.setContentText("This email is already exist!");
-                            alert.showAndWait();
-                        }
-                        rs.close();
-                        stmt.close();
-                    } catch (SQLException e) {
-                        e.printStackTrace();
-                    }
-                }
-                if (flag) {
-                    try {
-                        Statement stmt = connection.createStatement();
-                        ResultSet rs = stmt.executeQuery("SELECT phone FROM teacher WHERE phone = '" + getTeacherPhone.getText() + "'");
-                        if (rs.next()) {
-                            flag = false;
-                            Alert alert = new Alert(Alert.AlertType.ERROR);
-                            alert.setTitle("Error message");
-                            alert.setHeaderText(null);
-                            alert.setContentText("This phone is already exist!");
-                            alert.showAndWait();
+                            int count = rs.getInt(1);
+                            if (count > 0) {
+                                flag = false;
+                                Alert alert = new Alert(Alert.AlertType.ERROR);
+                                alert.setTitle("Error message");
+                                alert.setHeaderText(null);
+                                alert.setContentText("This phone is already exist!");
+                                alert.showAndWait();
+                            }
                         }
                         rs.close();
                         stmt.close();

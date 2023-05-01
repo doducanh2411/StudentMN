@@ -57,19 +57,7 @@
                   </StackedBarChart>
                </children>
             </Pane>
-            <PieChart fx:id="piechart" layoutX="20.0" layoutY="404.0" prefHeight="222.0" prefWidth="306.0" styleClass="pieChart" stylesheets="@../mainscene.css" />
-            <Pane layoutX="340.0" layoutY="404.0" prefHeight="104.0" prefWidth="170.0" styleClass="gpaFemale" stylesheets="@../mainscene.css">
-               <children>
-                  <Label layoutX="128.0" layoutY="14.0" text="Label" />
-                  <Label layoutX="71.0" layoutY="44.0" text="Label" />
-               </children>
-            </Pane>
-            <Pane layoutX="340.0" layoutY="524.0" prefHeight="102.0" prefWidth="171.0" styleClass="gpaMale" stylesheets="@../mainscene.css">
-               <children>
-                  <Label layoutX="129.0" layoutY="14.0" text="Label" />
-                  <Label layoutX="72.0" layoutY="43.0" text="Label" />
-               </children>
-            </Pane>
+            <PieChart fx:id="piechart" layoutX="20.0" layoutY="404.0" prefHeight="222.0" prefWidth="500.0" styleClass="pieChart" stylesheets="@../mainscene.css" />
             <Pane layoutX="560.0" layoutY="20.0" prefHeight="347.0" prefWidth="222.0" styleClass="miniProfile" stylesheets="@../mainscene.css">
                <children>
                   <Label alignment="BASELINE_CENTER" layoutX="77.0" layoutY="21.0" prefHeight="60.0" prefWidth="60.0" style="-fx-border-color: black; -fx-border-radius: 100px; -fx-border-width: 2px;">

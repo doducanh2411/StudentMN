@@ -47,244 +47,24 @@ public class MainSceneController implements Initializable {
     @FXML
     private Pane centerPane;
 
-    @FXML
-    private TextField searchStudentGrade;
-
-    @FXML
-    private TextField searchStudentFinalPoint;
-
-    @FXML
-    private ImageView teacherImg;
-
-    @FXML
-    private Button insertTeacherImg;
-
-    @FXML
-    private PasswordField currentTeacherPass;
-
-    @FXML
-    private PasswordField newTeacherPass;
-
-    @FXML
-    private PasswordField confirmTeacherPass;
-
-    @FXML
-    private DatePicker getTeacherBirth;
-
-    @FXML
-    private TextField getTeacherEmail;
-
-    @FXML
-    private TextField getTeacherGender;
-
-    @FXML
-    private TextField getTeacherID;
-
-    @FXML
-    private TextField getTeacherName;
-
-    @FXML
-    private TextField getTeacherPhone;
-
-    @FXML
-    private TabPane teacherSettingForm;
 
     @FXML
     private Button settingButton;
 
     @FXML
-    private TabPane studentSettingForm;
-
-    @FXML
-    private BarChart<String, Number> barChart;
-
-    @FXML
-    private PieChart piechart;
-    @FXML
-    private Button deleteGrade;
-
-    @FXML
-    private ComboBox<Integer> getClassList;
-
-    @FXML
-    private Text description;
-
-    @FXML
-    private Label type;
-
-    @FXML
     private Label PaneLable;
 
     @FXML
-    private Label classLabel;
-
-    @FXML
-    private Label name;
-
-    @FXML
-    private Label name1;
-
-    @FXML
-    private Button createStudent;
-
-    @FXML
-    private Button clearButton;
-
-    @FXML
-    private Button clearGrade;
-
-    @FXML
-    private Button close;
-
-    @FXML
     private Button dashBoardButton;
-    @FXML
-    private Button deleteButton;
-
-    @FXML
-    private DatePicker getStudentBirth;
-
-    @FXML
-    private TextField getStudentEmail;
-
-    @FXML
-    private TextField getEndPoint;
-
-    @FXML
-    private ComboBox<String> getStudentGender;
-
-    @FXML
-    private ComboBox<Integer> getSubjectList;
-
-    @FXML
-    private TextField getGradeStudent;
-
-    @FXML
-    private ComboBox<Integer> getGradeStudentId;
-
-    @FXML
-    private ComboBox<String> getGradeStudentName;
-
-    @FXML
-    private TextField getMidPoint;
-
-    @FXML
-    private TextField getComponentPoint;
-
-    @FXML
-    private TextField getStudentName;
-
-    @FXML
-    private TextField getStudentPhone;
-
-    @FXML
-    private TextField getStudentId;
 
     @FXML
     private Button gradeButton;
 
     @FXML
-    private BarChart<?, ?> gradeChar;
-    @FXML
-    private Button insertButton;
-
-    @FXML
-    private Button insertGrade;
-
-    @FXML
     private BorderPane main_form;
 
     @FXML
-    private Label maleStudentLabel;
-
-    @FXML
-    private Button minimize;
-
-    @FXML
-    private Button searchBut;
-
-    @FXML
-    private Button searchButton;
-
-    @FXML
-    private TextField searchStudent;
-
-    @FXML
     private Button studentButton;
-
-    @FXML
-    private TableView<Student> studentViewTable;
-
-    @FXML
-    private TableColumn<Student, String> student_birth_col;
-
-
-    @FXML
-    private TableColumn<Student, String> student_email_col;
-
-    @FXML
-    private TableColumn<Student, String> student_gender_col;
-
-    @FXML
-    private TableColumn<Student, String> student_id_col;
-
-    @FXML
-    private TableColumn<Student, String> student_name_col;
-
-    @FXML
-    private TableColumn<Student, String> student_phone_col;
-
-    @FXML
-    private Pane top;
-
-    @FXML
-    private Label totalStudentLabel;
-
-    @FXML
-    private Button updateButton;
-
-    @FXML
-    private Button updateGrade;
-
-    @FXML
-    private MenuButton userButton;
-
-    @FXML
-    private Label welcomeLabel;
-
-    @FXML
-    private TableView<Grade> inputGradeTable;
-
-    @FXML
-    private TableColumn<Grade, Float> input_component_col;
-
-    @FXML
-    private TableColumn<Grade, Float> input_end_col;
-
-    @FXML
-    private TableColumn<Grade, Float> input_final_col;
-
-    @FXML
-    private TableColumn<Grade, Float> input_mid_col;
-
-    @FXML
-    private TableColumn<Grade, String> input_student_id_col;
-
-    @FXML
-    private TableColumn<Grade, String> input_student_name_col;
-
-    @FXML
-    private Pane inputGradeForm;
-
-    @FXML
-    private ImageView dashBoardImg;
-
-    @FXML
-    private TableColumn<Student, HBox> action;
-
-    @FXML
-    private TableColumn<Grade, HBox> gradeAction;
-
 
     private Pane dashBoardForm;
     private Pane studentForm;

@@ -402,7 +402,7 @@ public class Subject_MainScene_Controller implements Initializable {
                 Float midPoint = rs.getFloat("mid_point");
                 Float endPoint = rs.getFloat("end_point");
 
-                //Fix this bug
+                //Fix this bug - Done
                 Float finalPoint = (float) (0.1 * componentPoint + 0.3 * midPoint + 0.6 * endPoint);
                 Grade grade = new Grade(grade_id, student_id, studentName, componentPoint, midPoint, endPoint, finalPoint);
 
@@ -680,14 +680,17 @@ public class Subject_MainScene_Controller implements Initializable {
                 boolean flag = true;
                 try {
                     Statement stmt = connection.createStatement();
-                    ResultSet rs = stmt.executeQuery("SELECT email FROM teacher WHERE email = '" + getTeacherEmail.getText() + "'");
+                    ResultSet rs = stmt.executeQuery("SELECT COUNT(*) FROM teacher WHERE email = '" + getTeacherEmail.getText() + "'" + " and teacher_id <> '" + getTeacherID.getText() + "'");
                     if (rs.next()) {
-                        flag = false;
-                        Alert alert = new Alert(Alert.AlertType.ERROR);
-                        alert.setTitle("Error message");
-                        alert.setHeaderText(null);
-                        alert.setContentText("This email is already exist!");
-                        alert.showAndWait();
+                        int count = rs.getInt(1);
+                        if (count > 0) {
+                            flag = false;
+                            Alert alert = new Alert(Alert.AlertType.ERROR);
+                            alert.setTitle("Error message");
+                            alert.setHeaderText(null);
+                            alert.setContentText("This email is already exist!");
+                            alert.showAndWait();
+                        }
                     }
                     rs.close();
                     stmt.close();
@@ -697,32 +700,17 @@ public class Subject_MainScene_Controller implements Initializable {
                 if (flag) {
                     try {
                         Statement stmt = connection.createStatement();
-                        ResultSet rs = stmt.executeQuery("SELECT email FROM teacher WHERE email = '" + getTeacherEmail.getText() + "'");
+                        ResultSet rs = stmt.executeQuery("SELECT COUNT(*) FROM teacher WHERE phone = '" + getTeacherPhone.getText() + "'" + " and teacher_id <> '" + getTeacherID.getText() + "'");
                         if (rs.next()) {
-                            flag = false;
-                            Alert alert = new Alert(Alert.AlertType.ERROR);
-                            alert.setTitle("Error message");
-                            alert.setHeaderText(null);
-                            alert.setContentText("This email is already exist!");
-                            alert.showAndWait();
-                        }
-                        rs.close();
-                        stmt.close();
-                    } catch (SQLException e) {
-                        e.printStackTrace();
-                    }
-                }
-                if (flag) {
-                    try {
-                        Statement stmt = connection.createStatement();
-                        ResultSet rs = stmt.executeQuery("SELECT phone FROM teacher WHERE phone = '" + getTeacherPhone.getText() + "'");
-                        if (rs.next()) {
-                            flag = false;
-                            Alert alert = new Alert(Alert.AlertType.ERROR);
-                            alert.setTitle("Error message");
-                            alert.setHeaderText(null);
-                            alert.setContentText("This phone is already exist!");
-                            alert.showAndWait();
+                            int count = rs.getInt(1);
+                            if (count > 0) {
+                                flag = false;
+                                Alert alert = new Alert(Alert.AlertType.ERROR);
+                                alert.setTitle("Error message");
+                                alert.setHeaderText(null);
+                                alert.setContentText("This phone is already exist!");
+                                alert.showAndWait();
+                            }
                         }
                         rs.close();
                         stmt.close();
@@ -856,19 +844,31 @@ public class Subject_MainScene_Controller implements Initializable {
     }
 
     public void showChart() {
-        String query = "SELECT class.class_name, AVG(0.1 * grade.component_point + 0.3 * grade.mid_point + 0.6 * grade.end_point) AS avg_grade, subject.subject_name " +
+
+        //Fix this bug
+        String barQuery = "SELECT class.class_name, AVG(CASE WHEN grade.component_point >= 0 AND grade.mid_point >= 0 AND grade.end_point >= 0 THEN 0.1 * grade.component_point + 0.3 * grade.mid_point + 0.6 * grade.end_point ELSE NULL END) AS avg_grade, subject.subject_name " +
                 "FROM teach " +
                 "INNER JOIN grade ON teach.subject_id = grade.subject_id " +
                 "INNER JOIN subject ON teach.subject_id = subject.subject_id " +
                 "INNER JOIN class ON teach.class_id = class.class_id " +
                 "WHERE teach.teacher_id = " + username + " "+
                 "GROUP BY teach.class_id, subject.subject_name";
+
+
+        String pieQuery = "SELECT COUNT(DISTINCT teach.subject_id) AS num_subjects, COUNT(DISTINCT teach.class_id) AS num_classes "
+                    + "FROM teach "
+                    + "WHERE teach.teacher_id = " +  username;
         try {
             Statement st = connection.createStatement();
-            ResultSet resultSet = st.executeQuery(query);
+            ResultSet resultSet = st.executeQuery(barQuery);
+
+            Statement statement = connection.createStatement();
+            ResultSet resultSet1 = statement.executeQuery(pieQuery);
 
             // Create a map to store the series for each subject
             Map<String, XYChart.Series<String, Number>> subjectSeriesMap = new HashMap<>();
+
+            ObservableList<PieChart.Data> pieData = FXCollections.observableArrayList();
 
             while (resultSet.next()) {
                 String className = resultSet.getString("class_name");
@@ -897,6 +897,19 @@ public class Subject_MainScene_Controller implements Initializable {
                 // Add the data point to the series
                 series.getData().add(data);
             }
+
+            while(resultSet1.next()){
+                int num_subject = resultSet1.getInt("num_subjects");
+                int num_classes = resultSet1.getInt("num_classes");
+                PieChart.Data subjectData = new PieChart.Data("Số môn học", num_subject);
+                subjectData.setName("Subjects taught: " + num_subject);
+                PieChart.Data classData = new PieChart.Data("Số lớp học", num_classes);
+                classData.setName("Classes taught: " + num_classes);
+                pieData.add(subjectData);
+                pieData.add(classData);
+            }
+
+            piechart.setData(pieData);
 
 
             // Add the series for each subject to the stacked bar chart

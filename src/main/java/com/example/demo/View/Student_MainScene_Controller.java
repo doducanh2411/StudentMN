@@ -6,12 +6,16 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.PieChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 
 import java.net.URL;
@@ -117,9 +121,14 @@ public class Student_MainScene_Controller implements Initializable {
     }
 
     public void showChart(){
-        String query = "SELECT subject.subject_name, 0.1*grade.component_point + 0.4*grade.mid_point+ 0.6*grade.end_point AS final_point " +
+        String query = "SELECT subject.subject_name, " +
+                "CASE " +
+                "WHEN grade.component_point = -1 OR grade.mid_point = -1 OR grade.end_point = -1 " +
+                "THEN NULL " +
+                "ELSE 0.1*grade.component_point + 0.3*grade.mid_point+ 0.6*grade.end_point " +
+                "END AS final_point " +
                 "FROM subject " +
-                "INNER JOIN grade ON subject.subject_id = grade.subject_id AND grade.student_id = 1;";
+                "LEFT JOIN grade ON subject.subject_id = grade.subject_id AND grade.student_id = 14;";
         try {
             Statement st = connection.createStatement();
             ResultSet rs = st.executeQuery(query);
@@ -128,17 +137,29 @@ public class Student_MainScene_Controller implements Initializable {
 
             while (rs.next()) {
                 String subjectName = rs.getString("subject_name");
-                double finalPoint = rs.getDouble("final_point");
-                series.getData().add(new XYChart.Data<String, Number>(subjectName, finalPoint));
+                Double finalPoint = rs.getDouble("final_point");
+                if (finalPoint != null) {
+                    XYChart.Data<String, Number> data1 = new XYChart.Data<>(subjectName, finalPoint);
+                    Label label = new Label(String.format("%.2f", finalPoint));
+                    label.setTextFill(Color.WHITE);
+                    StackPane stackPane = new StackPane();
+                    stackPane.getChildren().addAll(new Rectangle(0, 0, 50, 0), label);
+                    stackPane.setAlignment(Pos.TOP_CENTER);
+                    data1.setNode(stackPane);
+                    data1.getNode().setStyle("-fx-bar-fill: #8a70d6;");
+                    series.getData().add(data1);
+                }
             }
 
             barChart.getData().add(series);
             barChart.setAnimated(true);
 
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
+
 
     public Map<String, Double[]> getSubjectGrades(int studentId) {
         Map<String, Double[]> subjectGrades = new HashMap<>();
@@ -178,7 +199,7 @@ public class Student_MainScene_Controller implements Initializable {
 
 
     public void showStudentPoint() {
-        subjectGrades = getSubjectGrades(1);
+        subjectGrades = getSubjectGrades(14);
         TableColumn<Map.Entry<String, Double[]>, String> subjectNameColumn = new TableColumn<>("Subject Name");
         subjectNameColumn.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getKey()));
 
@@ -241,11 +262,13 @@ public class Student_MainScene_Controller implements Initializable {
         });
 
 
+        //Fix this bug
         TableColumn<Map.Entry<String, Double[]>, Double> finalGradeColumn = new TableColumn<>("Final Point");
         finalGradeColumn.setCellValueFactory(param -> {
             Double[] grades = param.getValue().getValue();
             Double value = null;
-            if (grades[0] != null && grades[1] != null && grades[2] != null) {
+            if (grades[0] != null && grades[1] != null && grades[2] != null
+                    && grades[0] >= 0 && grades[1] >= 0 && grades[2] >= 0) {
                 value = 0.1 * grades[0] + 0.3 * grades[1] + 0.6 * grades[2];
             }
             if (value == null) {
@@ -259,7 +282,7 @@ public class Student_MainScene_Controller implements Initializable {
                 @Override
                 protected void updateItem(Double item, boolean empty) {
                     super.updateItem(item, empty);
-                    if (empty || item == -1 || item == null) {
+                    if (empty || item == null || item == -1) {
                         setText(null);
                     } else {
                         setText(item.toString());
@@ -268,15 +291,51 @@ public class Student_MainScene_Controller implements Initializable {
             };
         });
 
+
         ObservableList<Map.Entry<String, Double[]>> data = FXCollections.observableArrayList(subjectGrades.entrySet());
         gradeViewTable.setItems(data);
         gradeViewTable.getColumns().addAll(subjectNameColumn, componentGradeColumn, midGradeColumn, endGradeColumn, finalGradeColumn);
     }
 
+    public void showPieChart() {
+        String query = "SELECT COUNT(*) AS count, " +
+                "CASE WHEN 0.1*grade.component_point + 0.4*grade.mid_point+ 0.6*grade.end_point >= 8 THEN 'Above 8' " +
+                "WHEN 0.1*grade.component_point + 0.4*grade.mid_point+ 0.6*grade.end_point < 5 THEN 'Below 5' " +
+                "ELSE 'Between 5 and 8' END AS category " +
+                "FROM grade " +
+                "WHERE grade.student_id = 14 AND grade.component_point != -1 AND grade.mid_point != -1 AND grade.end_point != -1 " +
+                "GROUP BY category;";
+
+        try {
+            Statement st = connection.createStatement();
+            ResultSet rs = st.executeQuery(query);
+
+            ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList();
+
+            while (rs.next()) {
+                int count = rs.getInt("count");
+                String category = rs.getString("category");
+                PieChart.Data data = new PieChart.Data(category, count);
+                data.setName(category + ": " + count);
+
+                pieChartData.add(data);
+            }
+
+            piechart.setData(pieChartData);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
+
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         showName();
         showChart();
+        showPieChart();
         showStudentPoint();
     }
 }
