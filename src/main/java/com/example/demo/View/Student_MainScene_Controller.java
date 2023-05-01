@@ -11,14 +11,19 @@ import javafx.scene.chart.BarChart;
 import javafx.scene.chart.PieChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
+import javafx.stage.FileChooser;
 
+import java.io.File;
+import java.io.InputStream;
 import java.net.URL;
+import java.sql.Blob;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
@@ -31,46 +36,64 @@ import static com.example.demo.Controller.LoginFormController.username;
 public class Student_MainScene_Controller implements Initializable {
 
     @FXML
+    private PasswordField confirmStudentPass;
+
+    @FXML
+    private PasswordField currentStudentPass;
+
+    @FXML
+    private PasswordField newStudentPass;
+
+    @FXML
     private BarChart<String, Number> barChart;
+    @FXML
+    private DatePicker getStudentBirth;
 
     @FXML
-    private PasswordField confirmTeacherPass;
+    private TextField getStudentEmail;
+
 
     @FXML
-    private PasswordField currentTeacherPass;
+    private TextField getStudentFatherJob;
 
     @FXML
-    private Pane dashBoardForm;
+    private TextField getStudentFatherName;
+
+    @FXML
+    private TextField getStudentFatherPhone;
+
+    @FXML
+    private ComboBox getStudentGender;
+
+    @FXML
+    private TextField getStudentID;
+
+
+    @FXML
+    private TextField getStudentMotherJob;
+
+    @FXML
+    private TextField getStudentMotherName;
+
+    @FXML
+    private TextField getStudentMotherPhone;
+
+    @FXML
+    private TextField getStudentName;
+
+    @FXML
+    private TextField getStudentPhone;
+
 
     @FXML
     private Text description;
 
-    @FXML
-    private DatePicker getTeacherBirth;
-
-    @FXML
-    private TextField getTeacherEmail;
-
-    @FXML
-    private TextField getTeacherGender;
-
-    @FXML
-    private TextField getTeacherID;
-
-    @FXML
-    private TextField getTeacherName;
-
-    @FXML
-    private TextField getTeacherPhone;
-
-    @FXML
-    private Pane gradeForm;
 
     @FXML
     private TableView<Map.Entry<String, Double[]>> gradeViewTable;
 
     @FXML
-    private Button insertTeacherImg;
+    private Button insertStudentImg;
 
     @FXML
     private Label name;
@@ -91,7 +114,7 @@ public class Student_MainScene_Controller implements Initializable {
     private Pane studentForm;
 
     @FXML
-    private ImageView teacherImg;
+    private ImageView studentImg;
 
     @FXML
     private TabPane teacherSettingForm;
@@ -128,7 +151,7 @@ public class Student_MainScene_Controller implements Initializable {
                 "ELSE 0.1*grade.component_point + 0.3*grade.mid_point+ 0.6*grade.end_point " +
                 "END AS final_point " +
                 "FROM subject " +
-                "LEFT JOIN grade ON subject.subject_id = grade.subject_id AND grade.student_id = 14;";
+                "LEFT JOIN grade ON subject.subject_id = grade.subject_id AND grade.student_id = " + username;
         try {
             Statement st = connection.createStatement();
             ResultSet rs = st.executeQuery(query);
@@ -199,7 +222,7 @@ public class Student_MainScene_Controller implements Initializable {
 
 
     public void showStudentPoint() {
-        subjectGrades = getSubjectGrades(14);
+        subjectGrades = getSubjectGrades(Integer.parseInt(username));
         TableColumn<Map.Entry<String, Double[]>, String> subjectNameColumn = new TableColumn<>("Subject Name");
         subjectNameColumn.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getKey()));
 
@@ -303,7 +326,8 @@ public class Student_MainScene_Controller implements Initializable {
                 "WHEN 0.1*grade.component_point + 0.4*grade.mid_point+ 0.6*grade.end_point < 5 THEN 'Below 5' " +
                 "ELSE 'Between 5 and 8' END AS category " +
                 "FROM grade " +
-                "WHERE grade.student_id = 14 AND grade.component_point != -1 AND grade.mid_point != -1 AND grade.end_point != -1 " +
+                "WHERE grade.student_id = " + username + " " +
+                "AND grade.component_point != -1 AND grade.mid_point != -1 AND grade.end_point != -1 " +
                 "GROUP BY category;";
 
         try {
@@ -328,8 +352,65 @@ public class Student_MainScene_Controller implements Initializable {
         }
     }
 
+    public void getStudentInfo(){
+        String query = "SELECT * FROM student WHERE student_id = " + username;
+        try{
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(query);
+
+            if (resultSet.next()){
+                getStudentID.setText(String.valueOf(resultSet.getInt("student_id")));
+                getStudentName.setText(resultSet.getString("name"));
+                getStudentGender.setValue(resultSet.getString("gender"));
+                getStudentBirth.setValue(resultSet.getDate("date_of_birth").toLocalDate());
+                getStudentEmail.setText(resultSet.getString("email"));
+                getStudentPhone.setText(resultSet.getString("phone"));
+                Blob blob = resultSet.getBlob("photo");
+                if (blob != null) {
+                    InputStream inputStream = blob.getBinaryStream();
+                    Image image = new Image(inputStream);
+                    studentImg.setImage(image);
+                }
 
 
+                getStudentMotherName.setText(resultSet.getString("mother_name"));
+                getStudentMotherPhone.setText(resultSet.getString("mother_phone"));
+                getStudentMotherJob.setText(resultSet.getString("mother_job"));
+                getStudentFatherName.setText(resultSet.getString("father_name"));
+                getStudentFatherPhone.setText(resultSet.getString("father_phone"));
+                getStudentFatherJob.setText(resultSet.getString("father_job"));
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    private File selectedFile;
+
+    public void insertStudentImg() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Choose Image File");
+        fileChooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.gif")
+        );
+        selectedFile = fileChooser.showOpenDialog(insertStudentImg.getScene().getWindow());
+        if (selectedFile != null) {
+            Image image = new Image(selectedFile.toURI().toString());
+            studentImg.setImage(image);
+        }
+    }
+
+    public void updateStudentInfo(){
+        //TO-DO: update info của học sinh lên nhé
+    }
+
+    public void clearStudentInfo(){
+        //TO-DO: xóa mấy cái trường cần thiết đi thôi
+    }
+
+    public void changeStudentPassword(){
+        //TO-DO: thay pass của học sinh thui
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -337,5 +418,6 @@ public class Student_MainScene_Controller implements Initializable {
         showChart();
         showPieChart();
         showStudentPoint();
+        getStudentInfo();
     }
 }

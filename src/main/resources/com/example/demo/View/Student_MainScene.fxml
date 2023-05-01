@@ -6,6 +6,7 @@
 <?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.chart.PieChart?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
@@ -116,7 +117,7 @@
                                                 <Insets />
                                              </HBox.margin>
                                           </Label>
-                                          <TextField fx:id="getTeacherID" disable="true" prefHeight="30.0" prefWidth="250.0" />
+                                          <TextField fx:id="getStudentID" disable="true" prefHeight="30.0" prefWidth="250.0" />
                                        </children>
                                        <padding>
                                           <Insets right="20.0" />
@@ -125,25 +126,25 @@
                                     <HBox prefHeight="30.0" prefWidth="391.0" spacing="10.0">
                                        <children>
                                           <Label alignment="BASELINE_RIGHT" prefHeight="30.0" prefWidth="100.0" text="Full Name:" textFill="WHITE" />
-                                          <TextField fx:id="getTeacherName" disable="true" prefHeight="30.0" prefWidth="250.0" />
+                                          <TextField fx:id="getStudentName" disable="true" prefHeight="30.0" prefWidth="250.0" />
                                        </children>
                                     </HBox>
                                     <HBox prefHeight="30.0" prefWidth="391.0" spacing="10.0">
                                        <children>
                                           <Label alignment="BASELINE_RIGHT" prefHeight="30.0" prefWidth="100.0" text="Gender:" textFill="WHITE" />
-                                          <TextField fx:id="getTeacherGender" disable="true" prefHeight="30.0" prefWidth="250.0" />
+                                          <ComboBox fx:id="getStudentGender" disable="true" prefHeight="30.0" prefWidth="250.0" />
                                        </children>
                                     </HBox>
                                     <HBox prefHeight="30.0" prefWidth="391.0" spacing="10.0">
                                        <children>
                                           <Label alignment="BASELINE_RIGHT" prefHeight="30.0" prefWidth="100.0" text="Date of Birth:" textFill="WHITE" />
-                                          <DatePicker fx:id="getTeacherBirth" disable="true" prefHeight="30.0" prefWidth="250.0" />
+                                          <DatePicker fx:id="getStudentBirth" disable="true" prefHeight="30.0" prefWidth="250.0" />
                                        </children>
                                     </HBox>
                                     <HBox prefHeight="30.0" prefWidth="200.0" spacing="10.0">
                                        <children>
                                           <Label alignment="BASELINE_RIGHT" prefHeight="30.0" prefWidth="100.0" text="Email:" textFill="WHITE" />
-                                          <TextField fx:id="getTeacherEmail" prefHeight="30.0" prefWidth="250.0" />
+                                          <TextField fx:id="getStudentEmail" prefHeight="30.0" prefWidth="250.0" />
                                        </children>
                                     </HBox>
                                     <HBox prefHeight="30.0" prefWidth="391.0" spacing="10.0">
@@ -153,7 +154,7 @@
                                                 <Insets />
                                              </HBox.margin>
                                           </Label>
-                                          <TextField fx:id="getTeacherPhone" prefHeight="30.0" prefWidth="250.0" />
+                                          <TextField fx:id="getStudentPhone" prefHeight="30.0" prefWidth="250.0" />
                                        </children>
                                        <padding>
                                           <Insets right="20.0" />
@@ -163,44 +164,38 @@
                               </VBox>
                               <VBox alignment="TOP_CENTER" layoutX="80.0" layoutY="60.0" prefHeight="176.0" prefWidth="146.0" style="-fx-border-width: 1px; -fx-border-color: black;">
                                  <children>
-                                    <ImageView fx:id="teacherImg" fitHeight="150.0" fitWidth="144.0" pickOnBounds="true">
+                                    <ImageView fx:id="studentImg" fitHeight="150.0" fitWidth="144.0" pickOnBounds="true">
                                        <image>
                                           <Image url="@../../../../image/user.png" />
                                        </image>
                                     </ImageView>
-                                    <Button fx:id="insertTeacherImg" mnemonicParsing="false" prefHeight="40.0" prefWidth="145.0" text="Insert Image" />
+                                    <Button fx:id="insertStudentImg" mnemonicParsing="false" onAction="#insertStudentImg" prefHeight="40.0" prefWidth="145.0" text="Insert Image" />
                                  </children>
                               </VBox>
                            </children>
                         </Pane>
                         <Pane layoutX="20.0" layoutY="362.0" prefHeight="209.0" prefWidth="722.0" styleClass="center-setting" stylesheets="@../mainscene.css">
                            <children>
-                              <HBox layoutX="20.0" layoutY="10.0" prefHeight="158.0" prefWidth="682.0" spacing="25.0">
+                              <HBox layoutX="20.0" layoutY="30.0" prefHeight="128.0" prefWidth="682.0" spacing="25.0">
                                  <children>
                                     <VBox prefHeight="178.0" prefWidth="327.0" spacing="10.0">
                                        <children>
                                           <HBox prefHeight="30.0" prefWidth="329.0" spacing="10.0">
                                              <children>
                                                 <Label alignment="BASELINE_RIGHT" prefHeight="30.0" prefWidth="100.0" text="Mother's full name" textFill="WHITE" />
-                                                <TextField prefHeight="30.0" prefWidth="195.0" />
+                                                <TextField fx:id="getStudentMotherName" prefHeight="30.0" prefWidth="195.0" />
                                              </children>
                                           </HBox>
                                           <HBox prefHeight="30.0" prefWidth="329.0" spacing="10.0">
                                              <children>
                                                 <Label alignment="BASELINE_RIGHT" prefHeight="30.0" prefWidth="100.0" text="Phone" textFill="WHITE" />
-                                                <TextField prefHeight="30.0" prefWidth="195.0" />
-                                             </children>
-                                          </HBox>
-                                          <HBox prefHeight="30.0" prefWidth="329.0" spacing="10.0">
-                                             <children>
-                                                <Label alignment="BASELINE_RIGHT" prefHeight="30.0" prefWidth="100.0" text="Email:" textFill="WHITE" />
-                                                <TextField prefHeight="30.0" prefWidth="195.0" />
+                                                <TextField fx:id="getStudentMotherPhone" prefHeight="30.0" prefWidth="195.0" />
                                              </children>
                                           </HBox>
                                           <HBox prefHeight="30.0" prefWidth="329.0" spacing="10.0">
                                              <children>
                                                 <Label alignment="BASELINE_RIGHT" prefHeight="30.0" prefWidth="100.0" text="Job" textFill="WHITE" />
-                                                <TextField prefHeight="30.0" prefWidth="195.0" />
+                                                <TextField fx:id="getStudentMotherJob" prefHeight="30.0" prefWidth="195.0" />
                                              </children>
                                           </HBox>
                                        </children>
@@ -210,33 +205,27 @@
                                           <HBox prefHeight="30.0" prefWidth="329.0" spacing="10.0">
                                              <children>
                                                 <Label alignment="BASELINE_RIGHT" prefHeight="30.0" prefWidth="100.0" text="Father's full name" textFill="WHITE" />
-                                                <TextField prefHeight="29.0" prefWidth="195.0" />
+                                                <TextField fx:id="getStudentFatherName" prefHeight="29.0" prefWidth="195.0" />
                                              </children>
                                           </HBox>
                                           <HBox prefHeight="30.0" prefWidth="329.0" spacing="10.0">
                                              <children>
                                                 <Label alignment="BASELINE_RIGHT" prefHeight="30.0" prefWidth="100.0" text="Phone" textFill="WHITE" />
-                                                <TextField prefHeight="30.0" prefWidth="195.0" />
-                                             </children>
-                                          </HBox>
-                                          <HBox prefHeight="30.0" prefWidth="329.0" spacing="10.0">
-                                             <children>
-                                                <Label alignment="BASELINE_RIGHT" prefHeight="30.0" prefWidth="100.0" text="Email:" textFill="WHITE" />
-                                                <TextField prefHeight="30.0" prefWidth="195.0" />
+                                                <TextField fx:id="getStudentFatherPhone" prefHeight="30.0" prefWidth="195.0" />
                                              </children>
                                           </HBox>
                                           <HBox prefHeight="30.0" prefWidth="329.0" spacing="10.0">
                                              <children>
                                                 <Label alignment="BASELINE_RIGHT" prefHeight="30.0" prefWidth="100.0" text="Job" textFill="WHITE" />
-                                                <TextField prefHeight="30.0" prefWidth="195.0" />
+                                                <TextField fx:id="getStudentFatherJob" prefHeight="30.0" prefWidth="195.0" />
                                              </children>
                                           </HBox>
                                        </children>
                                     </VBox>
                                  </children>
                               </HBox>
-                              <Button layoutX="291.0" layoutY="176.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="70.0" text="Clear" />
-                              <Button layoutX="380.0" layoutY="176.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="70.0" text="Update" />
+                              <Button layoutX="291.0" layoutY="161.0" mnemonicParsing="false" onAction="#clearStudentInfo" prefHeight="30.0" prefWidth="70.0" text="Clear" />
+                              <Button layoutX="396.0" layoutY="161.0" mnemonicParsing="false" onAction="#updateStudentInfo" prefHeight="30.0" prefWidth="70.0" text="Update" />
                            </children>
                         </Pane>
                         <Label layoutX="311.0" text="Personal Information">
@@ -269,24 +258,24 @@
                                     <VBox prefHeight="70.0" prefWidth="396.0" spacing="10.0">
                                        <children>
                                           <Label text="Current Password" textFill="WHITE" />
-                                          <PasswordField fx:id="currentTeacherPass" prefHeight="32.0" prefWidth="245.0" />
+                                          <PasswordField fx:id="currentStudentPass" prefHeight="32.0" prefWidth="245.0" />
                                        </children>
                                     </VBox>
                                     <VBox prefHeight="70.0" prefWidth="410.0" spacing="10.0">
                                        <children>
                                           <Label text="New Password" textFill="WHITE" />
-                                          <PasswordField fx:id="newTeacherPass" prefHeight="32.0" />
+                                          <PasswordField fx:id="newStudentPass" prefHeight="32.0" />
                                        </children>
                                     </VBox>
                                     <VBox prefHeight="70.0" prefWidth="259.0" spacing="10.0">
                                        <children>
                                           <Label text="Confirm New Password " textFill="WHITE" />
-                                          <PasswordField fx:id="confirmTeacherPass" prefHeight="32.0" />
+                                          <PasswordField fx:id="confirmStudentPass" prefHeight="32.0" />
                                        </children>
                                     </VBox>
                                  </children>
                               </VBox>
-                              <Button layoutX="20.0" layoutY="353.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="78.0" text="Change" />
+                              <Button layoutX="20.0" layoutY="353.0" mnemonicParsing="false" onAction="#changeStudentPassword" prefHeight="35.0" prefWidth="78.0" text="Change" />
                            </children>
                         </Pane>
                      </children>
