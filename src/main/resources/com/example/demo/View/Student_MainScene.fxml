@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
 <?import javafx.scene.chart.BarChart?>
 <?import javafx.scene.chart.CategoryAxis?>
 <?import javafx.scene.chart.NumberAxis?>
@@ -20,6 +19,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
@@ -104,138 +104,186 @@
          <tabs>
             <Tab closable="false" text="Information">
                <content>
-                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" stylesheets="@../mainscene.css">
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" styleClass="center-setting" stylesheets="@../mainscene.css">
                      <children>
-                        <Pane layoutX="20.0" layoutY="20.0" prefHeight="320.0" prefWidth="722.0" styleClass="center-setting" stylesheets="@../mainscene.css">
+                        <Label layoutX="50.0" layoutY="20.0" prefHeight="50.0" prefWidth="194.0" text="PERSONAL DETAILS" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="20.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="50.0" layoutY="80.0" text="Profile Image" textFill="WHITE">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                        <Circle fx:id="circleImg" fill="DODGERBLUE" layoutX="120.0" layoutY="200.0" radius="70.0" stroke="BLACK" strokeType="INSIDE" />
+                        <Text fill="WHITE" layoutX="50.0" layoutY="290.0" strokeType="OUTSIDE" strokeWidth="0.0" text="* Only JPEG and JPG supported, * Max 3 MB Upload" wrappingWidth="178.60003662109375" />
+                        <Button fx:id="insertStudentImg" layoutX="148.0" layoutY="227.0" mnemonicParsing="false" onAction="#insertStudentImg" prefHeight="40.0" prefWidth="42.0" styleClass="insertImage">
+                           <graphic>
+                              <ImageView fitHeight="31.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../../../image/camera.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </Button>
+                        <VBox layoutX="293.0" layoutY="45.0" prefHeight="263.0" prefWidth="408.0" spacing="5.0">
                            <children>
-                              <VBox layoutX="294.0" layoutY="10.0" prefHeight="304.0" prefWidth="389.0" spacing="20.0">
+                              <HBox prefHeight="60.0" prefWidth="406.0" spacing="30.0">
                                  <children>
-                                    <HBox prefHeight="30.0" prefWidth="391.0" spacing="10.0">
+                                    <VBox prefHeight="0.0" prefWidth="100.0">
                                        <children>
-                                          <Label alignment="BASELINE_RIGHT" layoutX="10.0" prefHeight="30.0" prefWidth="100.0" text="ID:" textFill="WHITE">
-                                             <HBox.margin>
-                                                <Insets />
-                                             </HBox.margin>
+                                          <Label alignment="BASELINE_LEFT" prefHeight="28.0" prefWidth="64.0" text="ID:" textFill="WHITE">
+                                             <font>
+                                                <Font name="System Bold" size="12.0" />
+                                             </font>
                                           </Label>
-                                          <TextField fx:id="getStudentID" disable="true" prefHeight="30.0" prefWidth="250.0" />
-                                       </children>
-                                       <padding>
-                                          <Insets right="20.0" />
-                                       </padding>
-                                    </HBox>
-                                    <HBox prefHeight="30.0" prefWidth="391.0" spacing="10.0">
-                                       <children>
-                                          <Label alignment="BASELINE_RIGHT" prefHeight="30.0" prefWidth="100.0" text="Full Name:" textFill="WHITE" />
-                                          <TextField fx:id="getStudentName" disable="true" prefHeight="30.0" prefWidth="250.0" />
-                                       </children>
-                                    </HBox>
-                                    <HBox prefHeight="30.0" prefWidth="391.0" spacing="10.0">
-                                       <children>
-                                          <Label alignment="BASELINE_RIGHT" prefHeight="30.0" prefWidth="100.0" text="Gender:" textFill="WHITE" />
-                                          <ComboBox fx:id="getStudentGender" disable="true" prefHeight="30.0" prefWidth="250.0" />
-                                       </children>
-                                    </HBox>
-                                    <HBox prefHeight="30.0" prefWidth="391.0" spacing="10.0">
-                                       <children>
-                                          <Label alignment="BASELINE_RIGHT" prefHeight="30.0" prefWidth="100.0" text="Date of Birth:" textFill="WHITE" />
-                                          <DatePicker fx:id="getStudentBirth" disable="true" prefHeight="30.0" prefWidth="250.0" />
-                                       </children>
-                                    </HBox>
-                                    <HBox prefHeight="30.0" prefWidth="200.0" spacing="10.0">
-                                       <children>
-                                          <Label alignment="BASELINE_RIGHT" prefHeight="30.0" prefWidth="100.0" text="Email:" textFill="WHITE" />
-                                          <TextField fx:id="getStudentEmail" prefHeight="30.0" prefWidth="250.0" />
-                                       </children>
-                                    </HBox>
-                                    <HBox prefHeight="30.0" prefWidth="391.0" spacing="10.0">
-                                       <children>
-                                          <Label alignment="BASELINE_RIGHT" layoutX="10.0" prefHeight="30.0" prefWidth="100.0" text="Phone:" textFill="WHITE">
-                                             <HBox.margin>
-                                                <Insets />
-                                             </HBox.margin>
-                                          </Label>
-                                          <TextField fx:id="getStudentPhone" prefHeight="30.0" prefWidth="250.0" />
-                                       </children>
-                                       <padding>
-                                          <Insets right="20.0" />
-                                       </padding>
-                                    </HBox>
-                                 </children>
-                              </VBox>
-                              <VBox alignment="TOP_CENTER" layoutX="80.0" layoutY="60.0" prefHeight="176.0" prefWidth="146.0" style="-fx-border-width: 1px; -fx-border-color: black;">
-                                 <children>
-                                    <ImageView fx:id="studentImg" fitHeight="150.0" fitWidth="144.0" pickOnBounds="true">
-                                       <image>
-                                          <Image url="@../../../../image/user.png" />
-                                       </image>
-                                    </ImageView>
-                                    <Button fx:id="insertStudentImg" mnemonicParsing="false" onAction="#insertStudentImg" prefHeight="40.0" prefWidth="145.0" text="Insert Image" />
-                                 </children>
-                              </VBox>
-                           </children>
-                        </Pane>
-                        <Pane layoutX="20.0" layoutY="362.0" prefHeight="209.0" prefWidth="722.0" styleClass="center-setting" stylesheets="@../mainscene.css">
-                           <children>
-                              <HBox layoutX="20.0" layoutY="30.0" prefHeight="128.0" prefWidth="682.0" spacing="25.0">
-                                 <children>
-                                    <VBox prefHeight="178.0" prefWidth="327.0" spacing="10.0">
-                                       <children>
-                                          <HBox prefHeight="30.0" prefWidth="329.0" spacing="10.0">
-                                             <children>
-                                                <Label alignment="BASELINE_RIGHT" prefHeight="30.0" prefWidth="100.0" text="Mother's full name" textFill="WHITE" />
-                                                <TextField fx:id="getStudentMotherName" prefHeight="30.0" prefWidth="195.0" />
-                                             </children>
-                                          </HBox>
-                                          <HBox prefHeight="30.0" prefWidth="329.0" spacing="10.0">
-                                             <children>
-                                                <Label alignment="BASELINE_RIGHT" prefHeight="30.0" prefWidth="100.0" text="Phone" textFill="WHITE" />
-                                                <TextField fx:id="getStudentMotherPhone" prefHeight="30.0" prefWidth="195.0" />
-                                             </children>
-                                          </HBox>
-                                          <HBox prefHeight="30.0" prefWidth="329.0" spacing="10.0">
-                                             <children>
-                                                <Label alignment="BASELINE_RIGHT" prefHeight="30.0" prefWidth="100.0" text="Job" textFill="WHITE" />
-                                                <TextField fx:id="getStudentMotherJob" prefHeight="30.0" prefWidth="195.0" />
-                                             </children>
-                                          </HBox>
+                                          <TextField fx:id="getStudentID" disable="true" prefHeight="28.0" prefWidth="100.0" />
                                        </children>
                                     </VBox>
-                                    <VBox prefHeight="148.0" prefWidth="327.0" spacing="10.0">
+                                    <VBox prefHeight="67.0" prefWidth="275.0">
                                        <children>
-                                          <HBox prefHeight="30.0" prefWidth="329.0" spacing="10.0">
-                                             <children>
-                                                <Label alignment="BASELINE_RIGHT" prefHeight="30.0" prefWidth="100.0" text="Father's full name" textFill="WHITE" />
-                                                <TextField fx:id="getStudentFatherName" prefHeight="29.0" prefWidth="195.0" />
-                                             </children>
-                                          </HBox>
-                                          <HBox prefHeight="30.0" prefWidth="329.0" spacing="10.0">
-                                             <children>
-                                                <Label alignment="BASELINE_RIGHT" prefHeight="30.0" prefWidth="100.0" text="Phone" textFill="WHITE" />
-                                                <TextField fx:id="getStudentFatherPhone" prefHeight="30.0" prefWidth="195.0" />
-                                             </children>
-                                          </HBox>
-                                          <HBox prefHeight="30.0" prefWidth="329.0" spacing="10.0">
-                                             <children>
-                                                <Label alignment="BASELINE_RIGHT" prefHeight="30.0" prefWidth="100.0" text="Job" textFill="WHITE" />
-                                                <TextField fx:id="getStudentFatherJob" prefHeight="30.0" prefWidth="195.0" />
-                                             </children>
-                                          </HBox>
+                                          <Label alignment="BASELINE_LEFT" prefHeight="28.0" prefWidth="100.0" text="Full Name:" textFill="WHITE">
+                                             <font>
+                                                <Font name="System Bold" size="12.0" />
+                                             </font>
+                                          </Label>
+                                          <TextField fx:id="getStudentName" prefHeight="28.0" prefWidth="275.0" />
                                        </children>
                                     </VBox>
                                  </children>
                               </HBox>
-                              <Button layoutX="291.0" layoutY="161.0" mnemonicParsing="false" onAction="#clearStudentInfo" prefHeight="30.0" prefWidth="70.0" text="Clear" />
-                              <Button layoutX="396.0" layoutY="161.0" mnemonicParsing="false" onAction="#updateStudentInfo" prefHeight="30.0" prefWidth="70.0" text="Update" />
+                              <HBox prefHeight="60.0" spacing="30.0">
+                                 <children>
+                                    <VBox prefHeight="0.0" prefWidth="100.0">
+                                       <children>
+                                          <Label alignment="BASELINE_LEFT" prefHeight="28.0" prefWidth="61.0" text="Gender:" textFill="WHITE">
+                                             <font>
+                                                <Font name="System Bold" size="12.0" />
+                                             </font>
+                                          </Label>
+                                          <ComboBox fx:id="getStudentGender" prefHeight="28.0" prefWidth="112.0" />
+                                       </children>
+                                    </VBox>
+                                    <VBox prefHeight="60.0" prefWidth="276.0">
+                                       <children>
+                                          <Label alignment="BASELINE_LEFT" prefHeight="28.0" prefWidth="100.0" text="Date of Birth:" textFill="WHITE">
+                                             <font>
+                                                <Font name="System Bold" size="12.0" />
+                                             </font>
+                                          </Label>
+                                          <DatePicker fx:id="getStudentBirth" prefHeight="28.0" prefWidth="276.0" />
+                                       </children>
+                                    </VBox>
+                                 </children>
+                              </HBox>
+                              <VBox prefHeight="60.0" prefWidth="406.0">
+                                 <children>
+                                    <Label alignment="BASELINE_LEFT" prefHeight="28.0" prefWidth="100.0" text="Email:" textFill="WHITE">
+                                       <font>
+                                          <Font name="System Bold" size="12.0" />
+                                       </font>
+                                    </Label>
+                                    <TextField fx:id="getStudentEmail" prefHeight="28.0" prefWidth="250.0" />
+                                 </children>
+                              </VBox>
+                              <VBox prefHeight="60.0" prefWidth="404.0">
+                                 <children>
+                                    <Label alignment="BASELINE_LEFT" prefHeight="28.0" prefWidth="100.0" text="Phone:" textFill="WHITE">
+                                       <font>
+                                          <Font name="System Bold" size="12.0" />
+                                       </font>
+                                    </Label>
+                                    <TextField fx:id="getStudentPhone" prefHeight="28.0" prefWidth="250.0" />
+                                 </children>
+                              </VBox>
                            </children>
-                        </Pane>
-                        <Label layoutX="311.0" text="Personal Information">
+                        </VBox>
+                        <Button layoutX="50.0" layoutY="515.0" mnemonicParsing="false" onAction="#updateStudentInfo" prefHeight="35.0" prefWidth="60.0" style="-fx-background-color: #5cb85c; -fx-cursor: hand;" text="Update" textFill="WHITE">
                            <font>
-                              <Font name="System Bold" size="14.0" />
+                              <Font name="System Bold" size="12.0" />
                            </font>
-                        </Label>
-                        <Label layoutX="318.0" layoutY="340.0" text="Family Information">
+                        </Button>
+                        <Button layoutX="141.0" layoutY="515.0" mnemonicParsing="false" onAction="#clearStudentInfo" prefHeight="35.0" prefWidth="58.0" style="-fx-background-color: #00bdda; -fx-cursor: hand;" text="Clear" textFill="WHITE">
                            <font>
-                              <Font name="System Bold" size="14.0" />
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Button>
+                        <VBox layoutX="293.0" layoutY="329.0" prefHeight="235.0" prefWidth="408.0" spacing="5.0">
+                           <children>
+                              <HBox prefHeight="60.0" spacing="30.0">
+                                 <children>
+                                    <VBox prefHeight="60.0" prefWidth="259.0">
+                                       <children>
+                                          <Label alignment="BASELINE_LEFT" prefHeight="30.0" prefWidth="82.0" text="Mother Name" textFill="WHITE">
+                                             <font>
+                                                <Font name="System Bold" size="12.0" />
+                                             </font>
+                                          </Label>
+                                          <TextField fx:id="getStudentMotherName" prefHeight="30.0" prefWidth="100.0" />
+                                       </children>
+                                    </VBox>
+                                    <VBox prefHeight="60.0" prefWidth="276.0">
+                                       <children>
+                                          <Label alignment="BASELINE_LEFT" prefHeight="30.0" prefWidth="100.0" text="Mother Job" textFill="WHITE">
+                                             <font>
+                                                <Font name="System Bold" size="12.0" />
+                                             </font>
+                                          </Label>
+                                          <TextField fx:id="getStudentMotherJob" prefHeight="30.0" prefWidth="100.0" />
+                                       </children>
+                                    </VBox>
+                                 </children>
+                              </HBox>
+                              <VBox prefHeight="60.0" prefWidth="404.0">
+                                 <children>
+                                    <Label alignment="BASELINE_LEFT" prefHeight="30.0" prefWidth="100.0" text="Mother Phone:" textFill="WHITE">
+                                       <font>
+                                          <Font name="System Bold" size="12.0" />
+                                       </font>
+                                    </Label>
+                                    <TextField fx:id="getStudentMotherPhone" prefHeight="30.0" prefWidth="250.0" />
+                                 </children>
+                              </VBox>
+                              <HBox prefHeight="60.0" spacing="30.0">
+                                 <children>
+                                    <VBox prefHeight="60.0" prefWidth="259.0">
+                                       <children>
+                                          <Label alignment="BASELINE_LEFT" prefHeight="30.0" prefWidth="82.0" text="Father Name" textFill="WHITE">
+                                             <font>
+                                                <Font name="System Bold" size="12.0" />
+                                             </font>
+                                          </Label>
+                                          <TextField fx:id="getStudentFatherName" prefHeight="30.0" prefWidth="100.0" />
+                                       </children>
+                                    </VBox>
+                                    <VBox prefHeight="60.0" prefWidth="276.0">
+                                       <children>
+                                          <Label alignment="BASELINE_LEFT" prefHeight="30.0" prefWidth="100.0" text="Father Job" textFill="WHITE">
+                                             <font>
+                                                <Font name="System Bold" size="12.0" />
+                                             </font>
+                                          </Label>
+                                          <TextField fx:id="getStudentFatherJob" prefHeight="30.0" prefWidth="100.0" />
+                                       </children>
+                                    </VBox>
+                                 </children>
+                              </HBox>
+                              <VBox prefHeight="60.0" prefWidth="566.0">
+                                 <children>
+                                    <Label alignment="BASELINE_LEFT" prefHeight="30.0" prefWidth="100.0" text="Father Phone" textFill="WHITE">
+                                       <font>
+                                          <Font name="System Bold" size="12.0" />
+                                       </font>
+                                    </Label>
+                                    <TextField fx:id="getStudentFatherPhone" prefHeight="30.0" prefWidth="250.0" />
+                                 </children>
+                              </VBox>
+                           </children>
+                        </VBox>
+                        <Label layoutX="50.0" layoutY="329.0" prefHeight="50.0" prefWidth="194.0" text="FAMILY DETAILS" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="20.0" />
                            </font>
                         </Label>
                      </children>
@@ -244,40 +292,52 @@
             </Tab>
             <Tab closable="false" text="Security">
                <content>
-                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="619.0">
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="619.0" styleClass="center-setting">
                      <children>
-                        <Pane layoutX="20.0" layoutY="20.0" prefHeight="530.0" prefWidth="736.0" styleClass="center-setting" stylesheets="@../mainscene.css">
+                        <VBox layoutX="50.0" layoutY="20.0" prefHeight="333.0" prefWidth="259.0" spacing="5.0">
                            <children>
-                              <VBox layoutX="20.0" layoutY="20.0" prefHeight="333.0" prefWidth="259.0" spacing="5.0">
+                              <Label prefHeight="78.0" prefWidth="719.0" text="CHANGE PASSWORD" textFill="WHITE">
+                                 <font>
+                                    <Font name="System Bold" size="20.0" />
+                                 </font>
+                              </Label>
+                              <VBox prefHeight="70.0" prefWidth="396.0" spacing="10.0">
                                  <children>
-                                    <Label prefHeight="78.0" prefWidth="719.0" text="CHANGE PASSWORD" textFill="WHITE">
+                                    <Label text="Current Password" textFill="WHITE">
                                        <font>
-                                          <Font size="19.0" />
+                                          <Font name="System Bold" size="12.0" />
                                        </font>
                                     </Label>
-                                    <VBox prefHeight="70.0" prefWidth="396.0" spacing="10.0">
-                                       <children>
-                                          <Label text="Current Password" textFill="WHITE" />
-                                          <PasswordField fx:id="currentStudentPass" prefHeight="32.0" prefWidth="245.0" />
-                                       </children>
-                                    </VBox>
-                                    <VBox prefHeight="70.0" prefWidth="410.0" spacing="10.0">
-                                       <children>
-                                          <Label text="New Password" textFill="WHITE" />
-                                          <PasswordField fx:id="newStudentPass" prefHeight="32.0" />
-                                       </children>
-                                    </VBox>
-                                    <VBox prefHeight="70.0" prefWidth="259.0" spacing="10.0">
-                                       <children>
-                                          <Label text="Confirm New Password " textFill="WHITE" />
-                                          <PasswordField fx:id="confirmStudentPass" prefHeight="32.0" />
-                                       </children>
-                                    </VBox>
+                                    <PasswordField fx:id="currentStudentPass" prefHeight="32.0" prefWidth="245.0" />
                                  </children>
                               </VBox>
-                              <Button layoutX="20.0" layoutY="353.0" mnemonicParsing="false" onAction="#changeStudentPassword" prefHeight="35.0" prefWidth="78.0" text="Change" />
+                              <VBox prefHeight="70.0" prefWidth="410.0" spacing="10.0">
+                                 <children>
+                                    <Label text="New Password" textFill="WHITE">
+                                       <font>
+                                          <Font name="System Bold" size="12.0" />
+                                       </font>
+                                    </Label>
+                                    <PasswordField fx:id="newStudentPass" prefHeight="32.0" />
+                                 </children>
+                              </VBox>
+                              <VBox prefHeight="70.0" prefWidth="259.0" spacing="10.0">
+                                 <children>
+                                    <Label text="Confirm New Password " textFill="WHITE">
+                                       <font>
+                                          <Font name="System Bold" size="12.0" />
+                                       </font>
+                                    </Label>
+                                    <PasswordField fx:id="confirmStudentPass" prefHeight="32.0" />
+                                 </children>
+                              </VBox>
                            </children>
-                        </Pane>
+                        </VBox>
+                        <Button layoutX="50.0" layoutY="375.0" mnemonicParsing="false" onAction="#changeStudentPassword" prefHeight="35.0" prefWidth="78.0" style="-fx-background-color: #00bdda; -fx-cursor: hand;" text="Change" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Button>
                      </children>
                   </AnchorPane>
                </content>

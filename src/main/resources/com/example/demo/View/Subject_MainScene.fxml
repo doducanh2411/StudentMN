@@ -263,7 +263,7 @@
                               <Font size="14.0" />
                            </font>
                         </Label>
-                        <Circle fx:id="circleImg" fill="DODGERBLUE" layoutX="120.0" layoutY="197.0" radius="70.0" stroke="BLACK" strokeType="INSIDE" />
+                        <Circle fx:id="circleImg" fill="DODGERBLUE" layoutX="120.0" layoutY="200.0" radius="70.0" stroke="BLACK" strokeType="INSIDE" />
                         <Button fx:id="insertTeacherImg" layoutX="148.0" layoutY="227.0" mnemonicParsing="false" onAction="#insertTeacherImg" prefHeight="40.0" prefWidth="42.0" styleClass="insertImage">
                            <graphic>
                               <ImageView fitHeight="31.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
@@ -273,7 +273,7 @@
                               </ImageView>
                            </graphic>
                         </Button>
-                        <Text fill="WHITE" layoutX="50.0" layoutY="297.0" strokeType="OUTSIDE" strokeWidth="0.0" text="* Only JPEG and JPG supported, * Max 3 MB Upload" wrappingWidth="178.60003662109375" />
+                        <Text fill="WHITE" layoutX="50.0" layoutY="290.0" strokeType="OUTSIDE" strokeWidth="0.0" text="* Only JPEG and JPG supported, * Max 3 MB Upload" wrappingWidth="178.60003662109375" />
                      </children>
                   </AnchorPane>
                </content>

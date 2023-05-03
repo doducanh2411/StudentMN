@@ -16,6 +16,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.ImagePattern;
+import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
@@ -363,10 +365,14 @@ public class Student_MainScene_Controller implements Initializable {
                 getStudentEmail.setText(resultSet.getString("email"));
                 getStudentPhone.setText(resultSet.getString("phone"));
                 Blob blob = resultSet.getBlob("photo");
+                Image image;
                 if (blob != null) {
                     InputStream inputStream = blob.getBinaryStream();
-                    Image image = new Image(inputStream);
-                    studentImg.setImage(image);
+                    image = new Image(inputStream);
+                    circleImg.setFill(new ImagePattern(image));
+                } else{
+                    image = new Image(getClass().getResourceAsStream("/image/default-avatar.jpg"));
+                    circleImg.setFill(new ImagePattern(image));
                 }
 
 
@@ -382,6 +388,8 @@ public class Student_MainScene_Controller implements Initializable {
         }
     }
 
+    @FXML
+    private Circle circleImg;
     private File selectedFile;
 
     public void insertStudentImg() {
@@ -393,7 +401,7 @@ public class Student_MainScene_Controller implements Initializable {
         selectedFile = fileChooser.showOpenDialog(insertStudentImg.getScene().getWindow());
         if (selectedFile != null) {
             Image image = new Image(selectedFile.toURI().toString());
-            studentImg.setImage(image);
+            circleImg.setFill(new ImagePattern(image));
         }
     }
 
@@ -626,6 +634,14 @@ public class Student_MainScene_Controller implements Initializable {
         }
     }
 
+    public void addGenderList(){
+        List<String> listGender = new ArrayList<>();
+        listGender.add("Male");
+        listGender.add("Female");
+        ObservableList ObList = FXCollections.observableArrayList(listGender);
+        getStudentGender.setItems(ObList);
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         showName();
@@ -633,6 +649,6 @@ public class Student_MainScene_Controller implements Initializable {
         showPieChart();
         showStudentPoint();
         getStudentInfo();
-
+        addGenderList();
     }
 }

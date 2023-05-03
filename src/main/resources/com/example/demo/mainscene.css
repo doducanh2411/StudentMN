@@ -158,11 +158,14 @@
     -fx-background-color: #e9e3ff;
     -fx-border-width: 1;
     -fx-border-color: #e9e3ff;
+    -fx-cursor: hand;
+
 }
 .tab:selected {
     -fx-background-color: #8a70d6;
     -fx-border-width: 1;
     -fx-border-color: #8a70d6;
+
 }
 
 .tab-pane .tab-header-area .tab-header-background {
