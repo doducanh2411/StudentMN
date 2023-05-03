@@ -23,6 +23,8 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.ImagePattern;
+import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 
@@ -78,7 +80,7 @@ public class Homeroom_MainScene_Controller implements Initializable {
     private TextField getTeacherEmail;
 
     @FXML
-    private TextField getTeacherGender;
+    private ComboBox<String> getTeacherGender;
 
     @FXML
     private TextField getTeacherID;
@@ -467,10 +469,12 @@ public class Homeroom_MainScene_Controller implements Initializable {
         selectedFile = fileChooser.showOpenDialog(insertTeacherImg.getScene().getWindow());
         if (selectedFile != null) {
             Image image = new Image(selectedFile.toURI().toString());
-            teacherImg.setImage(image);
+            circleImg.setFill(new ImagePattern(image));
         }
     }
 
+    @FXML
+    private Circle circleImg;
     public void getTeacherInfo() {
         String query = "SELECT * FROM teacher WHERE teacher_id = " + username;
         try {
@@ -479,15 +483,19 @@ public class Homeroom_MainScene_Controller implements Initializable {
             if (rs.next()) {
                 getTeacherID.setText(String.valueOf(rs.getInt("teacher_id")));
                 getTeacherName.setText(rs.getString("name"));
-                getTeacherGender.setText(rs.getString("gender"));
+                getTeacherGender.setValue(rs.getString("gender"));
                 getTeacherBirth.setValue(rs.getDate("date_of_birth").toLocalDate());
                 getTeacherEmail.setText(rs.getString("email"));
                 getTeacherPhone.setText(rs.getString("phone"));
                 Blob blob = rs.getBlob("photo");
+                Image image;
                 if (blob != null) {
                     InputStream inputStream = blob.getBinaryStream();
-                    Image image = new Image(inputStream);
-                    teacherImg.setImage(image);
+                    image = new Image(inputStream);
+                    circleImg.setFill(new ImagePattern(image));
+                } else{
+                    image = new Image(getClass().getResourceAsStream("/image/default-avatar.jpg"));
+                    circleImg.setFill(new ImagePattern(image));
                 }
             }
         } catch (Exception e) {
@@ -496,7 +504,7 @@ public class Homeroom_MainScene_Controller implements Initializable {
     }
 
     public void updateTeacherInfo() {
-        if (getTeacherName.getText().isEmpty() || getTeacherGender.getText().isEmpty() ||
+        if (getTeacherName.getText().isEmpty() || getTeacherGender.getValue().isEmpty() ||
                 getTeacherBirth.getValue() == null || getTeacherEmail.getText().isEmpty() ||
                 getTeacherPhone.getText().isEmpty()) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -571,7 +579,7 @@ public class Homeroom_MainScene_Controller implements Initializable {
                 if (flag) {
                     String query = "UPDATE teacher SET "
                             + "name = '" + getTeacherName.getText()
-                            + "', gender = '" + getTeacherGender.getText()
+                            + "', gender = '" + getTeacherGender.getValue()
                             + "', date_of_birth = '" + getTeacherBirth.getValue()
                             + "', email = '" + getTeacherEmail.getText()
                             + "', phone  = '" + getTeacherPhone.getText()
@@ -613,10 +621,18 @@ public class Homeroom_MainScene_Controller implements Initializable {
 
     public void clearTeacherInfo() {
         getTeacherName.setText("");
-        getTeacherGender.setText("");
+        getTeacherGender.setValue("");
         getTeacherBirth.setValue(null);
         getTeacherEmail.setText("");
         getTeacherPhone.setText("");
+    }
+
+    public void addGenderList(){
+        List<String> listGender = new ArrayList<>();
+        listGender.add("Male");
+        listGender.add("Female");
+        ObservableList ObList = FXCollections.observableArrayList(listGender);
+        getTeacherGender.setItems(ObList);
     }
 
     public void changeTeacherPassword() {
@@ -629,7 +645,6 @@ public class Homeroom_MainScene_Controller implements Initializable {
 
             if (rs.next()) {
                 String currentPassword = rs.getString("password");
-                System.out.println("Current password: " + currentPassword);
                 if (currentPassword.equals(currentTeacherPass.getText())) {
                     if (currentTeacherPass.getText().isEmpty()
                             || newTeacherPass.getText().isEmpty()
@@ -644,7 +659,13 @@ public class Homeroom_MainScene_Controller implements Initializable {
                             alert = new Alert(Alert.AlertType.ERROR);
                             alert.setTitle("Error Message");
                             alert.setHeaderText(null);
-                            alert.setContentText("New password must be different from current password");
+                            alert.setContentText("New password must be different from current password!");
+                            alert.showAndWait();
+                        } else if (newTeacherPass.getText().length() < 5 || newTeacherPass.getText().length() > 20) {
+                            alert = new Alert(Alert.AlertType.ERROR);
+                            alert.setTitle("Error Message");
+                            alert.setHeaderText(null);
+                            alert.setContentText("New password must be between 5 and 20 characters!");
                             alert.showAndWait();
                         } else if (newTeacherPass.getText().equals(confirmTeacherPass.getText())) {
                             String query = "UPDATE account SET password = '" + confirmTeacherPass.getText() + "'"
@@ -657,7 +678,7 @@ public class Homeroom_MainScene_Controller implements Initializable {
                             alert = new Alert(Alert.AlertType.INFORMATION);
                             alert.setTitle("");
                             alert.setHeaderText(null);
-                            alert.setContentText("Change password successfully");
+                            alert.setContentText("Change password successfully!");
                             alert.showAndWait();
 
                             currentTeacherPass.setText("");
@@ -694,5 +715,6 @@ public class Homeroom_MainScene_Controller implements Initializable {
         showStudentFinalPoints();
         showChart();
         getTeacherInfo();
+        addGenderList();
     }
 }

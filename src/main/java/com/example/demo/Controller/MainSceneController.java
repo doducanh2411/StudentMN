@@ -13,6 +13,7 @@ import javafx.fxml.Initializable;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.chart.*;
 import javafx.scene.control.*;
@@ -25,7 +26,9 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import javafx.util.StringConverter;
+import org.w3c.dom.events.MouseEvent;
 
 
 import java.io.File;
@@ -168,6 +171,46 @@ public class MainSceneController implements Initializable {
             }
         }
     }
+
+    @FXML
+    private Button logout;
+    private int x;
+    private int y;
+    public void logOut(){
+        try {
+
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Confirmation Message");
+            alert.setHeaderText(null);
+            alert.setContentText("Are you sure you want to logout?");
+
+            Optional<ButtonType> option = alert.showAndWait();
+
+            if (option.get().equals(ButtonType.OK)) {
+
+                //HIDE YOUR DASHBOARD FORM
+                logout.getScene().getWindow().hide();
+
+                //LINK YOUR LOGIN FORM
+                Parent root = FXMLLoader.load(getClass().getResource("LoginForm.fxml"));
+                Stage stage = new Stage();
+                Scene scene = new Scene(root);
+
+
+                stage.initStyle(StageStyle.TRANSPARENT);
+
+                stage.setScene(scene);
+                stage.show();
+
+            } else {
+                return;
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     @FXML
     private ToggleButton notificationButton;
 

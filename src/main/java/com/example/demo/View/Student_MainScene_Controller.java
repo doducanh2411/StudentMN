@@ -21,12 +21,10 @@ import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.InputStream;
 import java.net.URL;
-import java.sql.Blob;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.*;
 
 import static com.example.demo.Controller.LoginFormController.connection;
@@ -143,7 +141,7 @@ public class Student_MainScene_Controller implements Initializable {
         }
     }
 
-    public void showChart(){
+    public void showChart() {
         String query = "SELECT subject.subject_name, " +
                 "CASE " +
                 "WHEN grade.component_point = -1 OR grade.mid_point = -1 OR grade.end_point = -1 " +
@@ -181,7 +179,6 @@ public class Student_MainScene_Controller implements Initializable {
             e.printStackTrace();
         }
     }
-
 
 
     public Map<String, Double[]> getSubjectGrades(int studentId) {
@@ -352,13 +349,13 @@ public class Student_MainScene_Controller implements Initializable {
         }
     }
 
-    public void getStudentInfo(){
+    public void getStudentInfo() {
         String query = "SELECT * FROM student WHERE student_id = " + username;
-        try{
+        try {
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(query);
 
-            if (resultSet.next()){
+            if (resultSet.next()) {
                 getStudentID.setText(String.valueOf(resultSet.getInt("student_id")));
                 getStudentName.setText(resultSet.getString("name"));
                 getStudentGender.setValue(resultSet.getString("gender"));
@@ -380,7 +377,7 @@ public class Student_MainScene_Controller implements Initializable {
                 getStudentFatherPhone.setText(resultSet.getString("father_phone"));
                 getStudentFatherJob.setText(resultSet.getString("father_job"));
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -400,16 +397,233 @@ public class Student_MainScene_Controller implements Initializable {
         }
     }
 
-    public void updateStudentInfo(){
+    public void updateStudentInfo() {
         //TO-DO: update info của học sinh lên nhé
+        Alert alert;
+        if (getStudentEmail.getText().isEmpty()) {
+            alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error Message");
+            alert.setHeaderText(null);
+            alert.setContentText("Please fill email field!");
+            alert.showAndWait();
+        } else if (getStudentPhone.getText().isEmpty()) {
+            alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error Message");
+            alert.setHeaderText(null);
+            alert.setContentText("Please fill phone field!");
+            alert.showAndWait();
+        } else if (getStudentMotherName.getText().isEmpty() && (!getStudentMotherPhone.getText().isEmpty() || !getStudentMotherJob.getText().isEmpty())) {
+            alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error Message");
+            alert.setHeaderText(null);
+            alert.setContentText("Please fill mother's name!");
+            alert.showAndWait();
+        } else if (getStudentFatherName.getText().isEmpty() && (!getStudentFatherPhone.getText().isEmpty() || !getStudentFatherJob.getText().isEmpty())) {
+            alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error Message");
+            alert.setHeaderText(null);
+            alert.setContentText("Please fill father's name!");
+            alert.showAndWait();
+        } else {
+            if (!getStudentEmail.getText().matches("[a-zA-Z0-9]+@[a-zA-Z]+\\.[a-zA-Z]+")) {
+                alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error Message");
+                alert.setHeaderText(null);
+                alert.setContentText("Invalid email!");
+                alert.showAndWait();
+            } else if (!getStudentPhone.getText().matches("\\d{10,11}")) {
+                alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error Message");
+                alert.setHeaderText(null);
+                alert.setContentText("Invalid phone!");
+                alert.showAndWait();
+            } else if (getStudentMotherPhone.getText() != null && !getStudentMotherPhone.getText().isEmpty() && !getStudentMotherPhone.getText().matches("\\d{10,11}")) {
+                alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error Message");
+                alert.setHeaderText(null);
+                alert.setContentText("Invalid mother's phone!");
+                alert.showAndWait();
+
+            } else if (getStudentFatherPhone.getText() != null && !getStudentFatherPhone.getText().isEmpty() && !getStudentFatherPhone.getText().matches("\\d{10,11}")) {
+                alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error Message");
+                alert.setHeaderText(null);
+                alert.setContentText("Invalid mother's phone!");
+                alert.showAndWait();
+
+            } else {
+                boolean flag = true;
+                try {
+                    Statement stmt = connection.createStatement();
+                    ResultSet rs = stmt.executeQuery("SELECT COUNT(*) FROM student WHERE email = '" + getStudentEmail.getText() + "'" + " and student_id <> '" + getStudentID.getText() + "'");
+                    if (rs.next()) {
+                        int count = rs.getInt(1);
+                        if (count > 0) {
+                            flag = false;
+                            alert = new Alert(Alert.AlertType.ERROR);
+                            alert.setTitle("Error message");
+                            alert.setHeaderText(null);
+                            alert.setContentText("This email is already exist!");
+                            alert.showAndWait();
+                        }
+                    }
+                    rs.close();
+                    stmt.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+                if (flag) {
+                    try {
+                        Statement stmt = connection.createStatement();
+                        ResultSet rs = stmt.executeQuery("SELECT COUNT(*) FROM student WHERE phone = '" + getStudentPhone.getText() + "'" + " and student_id <> '" + getStudentID.getText() + "'");
+                        if (rs.next()) {
+                            int count = rs.getInt(1);
+                            if (count > 0) {
+                                flag = false;
+                                alert = new Alert(Alert.AlertType.ERROR);
+                                alert.setTitle("Error message");
+                                alert.setHeaderText(null);
+                                alert.setContentText("This phone is already exist!");
+                                alert.showAndWait();
+                            }
+                        }
+                        rs.close();
+                        stmt.close();
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+                }
+                if (flag) {
+                    String query = "UPDATE student SET "
+                            + "name = '" + getStudentName.getText()
+                            + "', gender = '" + getStudentGender.getValue()
+                            + "', date_of_birth = '" + getStudentBirth.getValue()
+                            + "', email = '" + getStudentEmail.getText()
+                            + "', phone  = '" + getStudentPhone.getText()
+                            + "', father_name = '" + getStudentFatherName.getText()
+                            + "', mother_name = '" + getStudentMotherName.getText()
+                            + "', father_phone = '" + getStudentFatherPhone.getText()
+                            + "', mother_phone = '" + getStudentMotherPhone.getText()
+                            + "', father_job = '" + getStudentFatherJob.getText()
+                            + "', mother_job = '" + getStudentMotherJob.getText()
+                            + "', photo = ?"
+                            + " WHERE student_id = '" + getStudentID.getText() + "'";
+                    try {
+                        alert = new Alert(Alert.AlertType.CONFIRMATION);
+                        alert.setTitle("Confirmation Message");
+                        alert.setHeaderText(null);
+                        alert.setContentText("Are you sure you want to update ?");
+                        Optional<ButtonType> option = alert.showAndWait();
+                        if (option.get().equals(ButtonType.OK)) {
+                            PreparedStatement ps = connection.prepareStatement(query);
+
+                            if (selectedFile != null) {
+                                FileInputStream fis = new FileInputStream(selectedFile);
+                                ps.setBinaryStream(1, fis, selectedFile.length());
+                            } else {
+                                ps.setNull(1, Types.BLOB);
+                            }
+
+                            ps.executeUpdate();
+
+                            alert = new Alert(Alert.AlertType.INFORMATION);
+                            alert.setTitle("Information Message");
+                            alert.setHeaderText(null);
+                            alert.setContentText("Successfully Updated!");
+                            alert.showAndWait();
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }
     }
 
-    public void clearStudentInfo(){
+
+    public void clearStudentInfo() {
         //TO-DO: xóa mấy cái trường cần thiết đi thôi
+        getStudentFatherName.setText(null);
+        getStudentFatherPhone.setText(null);
+        getStudentFatherJob.setText(null);
+        getStudentMotherName.setText(null);
+        getStudentMotherPhone.setText(null);
+        getStudentMotherJob.setText(null);
+        getStudentEmail.setText(null);
+        getStudentPhone.setText(null);
     }
 
-    public void changeStudentPassword(){
+    public void changeStudentPassword() {
         //TO-DO: thay pass của học sinh thui
+        String checkData = "SELECT * FROM account WHERE username = " + username
+                + " AND student = 1";
+        try {
+            Alert alert;
+            Statement st = connection.createStatement();
+            ResultSet rs = st.executeQuery(checkData);
+
+            if (rs.next()) {
+                String currentPassword = rs.getString("password");
+                System.out.println("Current password: " + currentPassword);
+                if (currentPassword.equals(currentStudentPass.getText())) {
+                    if (currentStudentPass.getText().isEmpty()
+                            || newStudentPass.getText().isEmpty()
+                            || confirmStudentPass.getText().isEmpty()) {
+                        alert = new Alert(Alert.AlertType.ERROR);
+                        alert.setTitle("Error Message");
+                        alert.setHeaderText(null);
+                        alert.setContentText("Please fill all blank!");
+                        alert.showAndWait();
+                    } else {
+                        if (currentStudentPass.getText().equals(newStudentPass.getText())) {
+                            alert = new Alert(Alert.AlertType.ERROR);
+                            alert.setTitle("Error Message");
+                            alert.setHeaderText(null);
+                            alert.setContentText("New password must be different from current password!");
+                            alert.showAndWait();
+                        } else if (newStudentPass.getText().length() < 5 || newStudentPass.getText().length() > 20) {
+                            alert = new Alert(Alert.AlertType.ERROR);
+                            alert.setTitle("Error Message");
+                            alert.setHeaderText(null);
+                            alert.setContentText("New password must be between 5 and 20 characters!");
+                            alert.showAndWait();
+                        } else if (newStudentPass.getText().equals(confirmStudentPass.getText())) {
+                            String query = "UPDATE account SET password = '" + confirmStudentPass.getText() + "'"
+                                    + " WHERE username = '" + username + "'"
+                                    + " AND homeroom_teacher = 1";
+
+                            Statement statement = connection.createStatement();
+                            statement.executeUpdate(query);
+
+                            alert = new Alert(Alert.AlertType.INFORMATION);
+                            alert.setTitle("");
+                            alert.setHeaderText(null);
+                            alert.setContentText("Change password successfully!");
+                            alert.showAndWait();
+
+                            currentStudentPass.setText(null);
+                            newStudentPass.setText(null);
+                            confirmStudentPass.setText(null);
+                        } else {
+                            alert = new Alert(Alert.AlertType.ERROR);
+                            alert.setTitle("Error Message");
+                            alert.setHeaderText(null);
+                            alert.setContentText("Check new password and confirm password!");
+                            alert.showAndWait();
+                        }
+                    }
+                } else {
+                    alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Error Message");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Wrong current password!");
+                    alert.showAndWait();
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -419,5 +633,6 @@ public class Student_MainScene_Controller implements Initializable {
         showPieChart();
         showStudentPoint();
         getStudentInfo();
+
     }
 }

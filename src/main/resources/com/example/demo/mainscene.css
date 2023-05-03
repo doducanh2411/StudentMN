@@ -123,7 +123,7 @@
 /* This is setting form css */
 .center-setting{
     -fx-background-color: #8a70d6;
-    -fx-background-radius : 10px;
+
 }
 /* End setting form css */
 
@@ -148,4 +148,30 @@
     -fx-background-color: #f2f7f8;
 }
 
+.logOutButton{
+    -fx-background-color: #e9e3ff;
+    -fx-cursor: hand;
+    -fx-background-radius: 10px;
+}
+
+.tab{
+    -fx-background-color: #e9e3ff;
+    -fx-border-width: 1;
+    -fx-border-color: #e9e3ff;
+}
+.tab:selected {
+    -fx-background-color: #8a70d6;
+    -fx-border-width: 1;
+    -fx-border-color: #8a70d6;
+}
+
+.tab-pane .tab-header-area .tab-header-background {
+    -fx-background-color: #e9e3ff;
+}
+
+.insertImage{
+    -fx-background-radius: 100px;
+    -fx-background-color: #e9e3ff;
+    -fx-cursor: hand;
+}
 /* End center css */
