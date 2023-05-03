@@ -7,6 +7,7 @@ import java.util.Optional;
 
 import com.example.demo.HelloApplication;
 import com.example.demo.View.UpdateStudentController;
+import com.example.demo.View.ViewStudentController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -118,19 +119,22 @@ public class Student {
         viewImg.setPreserveRatio(true);
         viewButton.setGraphic(viewImg);
         viewButton.setStyle("-fx-background-color: transparent; -fx-cursor: hand;");
-        /*viewButton.setOnAction(e -> {
+        viewButton.setOnAction(e -> {
             Stage stage = new Stage();
-            FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("AddStudentForm.fxml"));
-            Scene scene = null;
+            FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("/com/example/demo/View/ViewStudentForm.fxml"));
             try {
-                scene = new Scene(fxmlLoader.load());
+                Parent root = fxmlLoader.load();
+                ViewStudentController controller = fxmlLoader.getController();
+                controller.setStudentId(this.student_id);
+                Scene scene = new Scene(root);
+                stage.setScene(scene);
+                stage.setTitle("EDIT STUDENT");
+                stage.show();
             } catch (IOException ex) {
-                throw new RuntimeException(ex);
+                ex.printStackTrace();
             }
-            stage.setScene(scene);
-            stage.setTitle("VIEW ");
-            stage.show();
-        });*/
+        });
+
         hbox.getChildren().addAll(viewButton, editBtn, deleteBtn);
     }
 

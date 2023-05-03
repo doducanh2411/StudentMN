@@ -43,10 +43,14 @@ import static java.sql.Types.NULL;
 
 
 public class MainSceneController implements Initializable {
+    @FXML
+    private  Button notiButton;
 
     @FXML
     private Pane centerPane;
 
+    @FXML
+    private Pane notificationPane;
 
     @FXML
     private Button settingButton;
@@ -164,11 +168,25 @@ public class MainSceneController implements Initializable {
             }
         }
     }
+    @FXML
+    private ToggleButton notificationButton;
+
+    public void showNoti(){
+        if(notificationButton.isSelected()){
+            notificationPane.setVisible(true);
+            notificationPane.toFront();
+            centerPane.toBack();
+
+        }else{
+            notificationPane.setVisible(false);
+        }
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         dashBoardButton.getStyleClass().add("button-active");
         setFXMLFile();
+
     }
 
     private void setActiveButton(Button button) {

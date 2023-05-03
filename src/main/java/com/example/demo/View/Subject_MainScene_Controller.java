@@ -110,7 +110,25 @@ public class Subject_MainScene_Controller implements Initializable {
     private Pane gradeForm;
 
     @FXML
-    private TableView<?> gradeViewTable;
+    private TableView<Grade> gradeViewTable;
+
+    @FXML
+    private TableColumn<Grade, Float> grade_component_col;
+
+    @FXML
+    private TableColumn<Grade, Float> grade_end_col;
+
+    @FXML
+    private TableColumn<Grade, Float> grade_final_col;
+
+    @FXML
+    private TableColumn<Grade, Float> grade_mid_col;
+
+    @FXML
+    private TableColumn<Grade, Float> grade_student_id_col;
+
+    @FXML
+    private TableColumn<Grade, Float> grade_student_name_col;
 
     @FXML
     private Pane inputGradeForm;
@@ -311,6 +329,146 @@ public class Subject_MainScene_Controller implements Initializable {
         }
     }
 
+
+    public static ObservableList<Grade> gradeList = FXCollections.observableArrayList();
+    public ObservableList<Grade> addGradeList(int selectedClass, int selectedSubject) {
+        ObservableList<Grade> listGrade = FXCollections.observableArrayList();
+
+        String query = "SELECT s.student_id, s.name, "
+                + "COALESCE(g.component_point, -1) AS component_point, "
+                + "COALESCE(g.mid_point, -1) AS mid_point, "
+                + "COALESCE(g.end_point, -1) AS end_point, "
+                + "COALESCE(g.grade_id, -1) AS grade_id "
+                + "FROM student s "
+                + "LEFT JOIN (SELECT * FROM grade WHERE subject_id = ?) g "
+                + "ON s.student_id = g.student_id "
+                + "WHERE s.class_id = ?";
+
+        try {
+            PreparedStatement ps = connection.prepareStatement(query);
+            ps.setInt(1, selectedSubject);
+            ps.setInt(2, selectedClass);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                int grade_id = rs.getInt("grade_id");
+                int student_id = rs.getInt("student_id");
+                String studentName = rs.getString("name");
+                Float componentPoint = rs.getFloat("component_point");
+                Float midPoint = rs.getFloat("mid_point");
+                Float endPoint = rs.getFloat("end_point");
+
+                //Fix this bug - Done
+                Float finalPoint = (float) (0.1 * componentPoint + 0.3 * midPoint + 0.6 * endPoint);
+                Grade grade = new Grade(grade_id, student_id, studentName, componentPoint, midPoint, endPoint, finalPoint);
+
+                listGrade.add(grade);
+            }
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return listGrade;
+    }
+
+    public void handleGrade(){
+        //Fix this bug
+        classList.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            if (classList.getValue() != null) {
+                int selectedClass = classList.getValue();
+                addSubjectList(selectedClass);
+            }
+            if (classList.getValue() != null && subjectList.getValue() != null) {
+                int selectedClass = classList.getValue(); // Lấy giá trị của combobox lớp
+                int selectedSubject = subjectList.getValue(); // Lấy giá trị của combobox môn học
+                showStudentGrade(selectedClass, selectedSubject); // Hiển thị dữ liệu trong tableview
+            }
+        });
+
+        subjectList.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            if (classList.getValue() != null && subjectList.getValue() != null) {
+                int selectedClass = classList.getValue(); // Lấy giá trị của combobox lớp
+                int selectedSubject = subjectList.getValue(); // Lấy giá trị của combobox môn học
+                showStudentGrade(selectedClass, selectedSubject); // Hiển thị dữ liệu trong tableview
+            }
+        });
+
+
+    }
+
+    public void showStudentGrade(int selectedClass, int selectedSubject){
+        gradeList = addGradeList(selectedClass, selectedSubject);
+
+        grade_student_id_col.setCellValueFactory(new PropertyValueFactory<>("student_id"));
+        grade_student_name_col.setCellValueFactory(new PropertyValueFactory<>("student_name"));
+
+        grade_component_col.setCellValueFactory(new PropertyValueFactory<>("component_point"));
+        grade_component_col.setCellFactory(column -> {
+            return new TableCell<Grade, Float>() {
+                @Override
+                protected void updateItem(Float item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if (empty || item == -1) {
+                        setText(null);
+                    } else {
+                        setText(item.toString());
+                    }
+                }
+            };
+        });
+
+        grade_mid_col.setCellValueFactory(new PropertyValueFactory<>("mid_point"));
+        grade_mid_col.setCellFactory(column -> {
+            return new TableCell<Grade, Float>() {
+                @Override
+                protected void updateItem(Float item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if (empty || item == -1) {
+                        setText(null);
+                    } else {
+                        setText(item.toString());
+                    }
+                }
+            };
+        });
+
+        grade_end_col.setCellValueFactory(new PropertyValueFactory<>("end_point"));
+        grade_end_col.setCellFactory(column -> {
+            return new TableCell<Grade, Float>() {
+                @Override
+                protected void updateItem(Float item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if (empty || item == -1) {
+                        setText(null);
+                    } else {
+                        setText(item.toString());
+                    }
+                }
+            };
+        });
+
+        grade_final_col.setCellValueFactory(new PropertyValueFactory<>("final_point"));
+        grade_final_col.setCellFactory(column -> {
+            return new TableCell<Grade, Float>() {
+                @Override
+                protected void updateItem(Float item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if (empty || item == -1 || getTableRow().getItem().getComponent_point() == -1
+                            || getTableRow().getItem().getMid_point() == -1
+                            || getTableRow().getItem().getEnd_point() == -1) {
+                        setText(null);
+                    } else {
+                        setText(item.toString());
+                    }
+                }
+            };
+        });
+
+        gradeViewTable.setItems(gradeList);
+
+        gradeViewTable.getSortOrder().add(input_student_id_col);
+    }
+
     AtomicBoolean updating = new AtomicBoolean(false);
 
     public void handleInputGrade() {
@@ -334,6 +492,8 @@ public class Subject_MainScene_Controller implements Initializable {
                 showInputGrade(selectedClass, selectedSubject); // Hiển thị dữ liệu trong tableview
             }
         });
+
+
 
         getGradeStudentId.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (!updating.get() && getGradeStudentId.getValue() != null) {
@@ -374,47 +534,7 @@ public class Subject_MainScene_Controller implements Initializable {
         });
     }
 
-    public static ObservableList<Grade> gradeList = FXCollections.observableArrayList();
 
-    public ObservableList<Grade> addGradeList(int selectedClass, int selectedSubject) {
-        ObservableList<Grade> listGrade = FXCollections.observableArrayList();
-        ;
-        String query = "SELECT s.student_id, s.name, "
-                + "COALESCE(g.component_point, -1) AS component_point, "
-                + "COALESCE(g.mid_point, -1) AS mid_point, "
-                + "COALESCE(g.end_point, -1) AS end_point, "
-                + "COALESCE(g.grade_id, -1) AS grade_id "
-                + "FROM student s "
-                + "LEFT JOIN (SELECT * FROM grade WHERE subject_id = ?) g "
-                + "ON s.student_id = g.student_id "
-                + "WHERE s.class_id = ?";
-
-        try {
-            PreparedStatement ps = connection.prepareStatement(query);
-            ps.setInt(1, selectedSubject);
-            ps.setInt(2, selectedClass);
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                int grade_id = rs.getInt("grade_id");
-                int student_id = rs.getInt("student_id");
-                String studentName = rs.getString("name");
-                Float componentPoint = rs.getFloat("component_point");
-                Float midPoint = rs.getFloat("mid_point");
-                Float endPoint = rs.getFloat("end_point");
-
-                //Fix this bug - Done
-                Float finalPoint = (float) (0.1 * componentPoint + 0.3 * midPoint + 0.6 * endPoint);
-                Grade grade = new Grade(grade_id, student_id, studentName, componentPoint, midPoint, endPoint, finalPoint);
-
-                listGrade.add(grade);
-            }
-
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return listGrade;
-    }
 
     public void showInputGrade(int selectedClass, int selectedSubject) {
         gradeList = addGradeList(selectedClass, selectedSubject);
@@ -846,13 +966,15 @@ public class Subject_MainScene_Controller implements Initializable {
     public void showChart() {
 
         //Fix this bug
+        //HELPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP
         String barQuery = "SELECT class.class_name, AVG(CASE WHEN grade.component_point >= 0 AND grade.mid_point >= 0 AND grade.end_point >= 0 THEN 0.1 * grade.component_point + 0.3 * grade.mid_point + 0.6 * grade.end_point ELSE NULL END) AS avg_grade, subject.subject_name " +
                 "FROM teach " +
                 "INNER JOIN grade ON teach.subject_id = grade.subject_id " +
                 "INNER JOIN subject ON teach.subject_id = subject.subject_id " +
                 "INNER JOIN class ON teach.class_id = class.class_id " +
                 "WHERE teach.teacher_id = " + username + " "+
-                "GROUP BY teach.class_id, subject.subject_name";
+                "GROUP BY teach.class_id, teach.teacher_id, subject.subject_id, class.class_id";
+
 
 
         String pieQuery = "SELECT COUNT(DISTINCT teach.subject_id) AS num_subjects, COUNT(DISTINCT teach.class_id) AS num_classes "
@@ -935,6 +1057,7 @@ public class Subject_MainScene_Controller implements Initializable {
         //addSubjectList();
         addClassList();
         handleInputGrade();
+        handleGrade();
         getTeacherInfo();
     }
 }

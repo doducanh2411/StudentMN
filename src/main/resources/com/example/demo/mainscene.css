@@ -127,4 +127,25 @@
 }
 /* End setting form css */
 
+.border-left{
+    -fx-border-color: #e1e1e1;
+    -fx-border-width: 0.5 0 0.5 1px;
+}
+.border-top{
+    -fx-border-color: #e1e1e1;
+    -fx-border-width: 1 0 0.5 1px;
+}
+
+.border-bot{
+    -fx-border-color: #e1e1e1;
+    -fx-border-width: 0.5 0 1 1px;
+}
+.border-right{
+    -fx-border-color: #e1e1e1;
+    -fx-border-width: 0.5 1 0.5 1px;
+}
+.even-hbox{
+    -fx-background-color: #f2f7f8;
+}
+
 /* End center css */

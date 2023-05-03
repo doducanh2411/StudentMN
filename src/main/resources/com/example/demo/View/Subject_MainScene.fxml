@@ -26,7 +26,7 @@
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="640.0" prefWidth="804.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo.View.Subject_MainScene_Controller">
    <children>
-      <Pane fx:id="dashBoardForm" prefHeight="640.0" prefWidth="804.0" stylesheets="@../mainscene.css">
+      <Pane fx:id="dashBoardForm" prefHeight="640.0" prefWidth="804.0" stylesheets="@../mainscene.css" visible="false">
          <children>
             <Pane layoutX="20.0" layoutY="20.0" styleClass="name" stylesheets="@../mainscene.css">
                <children>
@@ -84,10 +84,18 @@
             </Pane>
          </children>
       </Pane>
-      <Pane fx:id="gradeForm" layoutX="20.0" layoutY="20.0" prefHeight="605.0" prefWidth="763.0" styleClass="center-radius" stylesheets="@../mainscene.css" visible="false">
+      <Pane fx:id="gradeForm" layoutX="20.0" layoutY="20.0" prefHeight="605.0" prefWidth="763.0" styleClass="center-radius" stylesheets="@../mainscene.css">
          <children>
             <ComboBox fx:id="classList" layoutX="148.0" layoutY="15.0" prefHeight="25.0" prefWidth="105.0" />
-            <TableView fx:id="gradeViewTable" layoutX="20.0" layoutY="106.0" prefHeight="485.0" prefWidth="724.0" styleClass="tableView" stylesheets="@../mainscene.css" />
+            <TableView fx:id="gradeViewTable" layoutX="20.0" layoutY="106.0" prefHeight="485.0" prefWidth="724.0" styleClass="tableView" stylesheets="@../mainscene.css">
+               <columns>
+                  <TableColumn fx:id="grade_student_id_col" prefWidth="67.20001220703125" text="Student #" />
+                  <TableColumn fx:id="grade_student_name_col" prefWidth="193.59996795654297" text="Name" />
+                  <TableColumn fx:id="grade_component_col" prefWidth="163.20001220703125" text="Component" />
+                  <TableColumn fx:id="grade_mid_col" prefWidth="88.80007934570312" text="Mid" />
+                  <TableColumn fx:id="grade_end_col" prefWidth="99.20001220703125" text="End" />
+                  <TableColumn fx:id="grade_final_col" prefWidth="111.20001220703125" text="Final" />
+               </columns></TableView>
             <TextField fx:id="searchStudentFinalPoint" layoutX="20.0" layoutY="64.0" onKeyTyped="#searchGradeStudent" prefHeight="30.0" prefWidth="300.0" promptText="Search" styleClass="search" stylesheets="@../mainscene.css">
                <font>
                   <Font size="14.0" />

@@ -42,6 +42,7 @@ public class UpdateStudentController implements Initializable {
 
     public void setStudent(Student student) {
         this.student = student;
+
         getStudentName.setText(student.getName());
         getStudentId.setText(Integer.toString(student.getStudent_id()));
         getStudentGender.getSelectionModel().select(student.getGender());
