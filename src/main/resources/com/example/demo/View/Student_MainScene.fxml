@@ -59,15 +59,6 @@
             <PieChart fx:id="piechart" layoutX="20.0" layoutY="404.0" prefHeight="222.0" prefWidth="504.0" styleClass="pieChart" stylesheets="@../mainscene.css" />
             <Pane layoutX="560.0" layoutY="20.0" prefHeight="373.0" prefWidth="222.0" styleClass="miniProfile" stylesheets="@../mainscene.css">
                <children>
-                  <Label alignment="BASELINE_CENTER" layoutX="77.0" layoutY="21.0" prefHeight="60.0" prefWidth="60.0" style="-fx-border-color: black; -fx-border-radius: 100px; -fx-border-width: 2px;">
-                     <graphic>
-                        <ImageView fitHeight="64.0" fitWidth="64.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../../../../image/user.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                  </Label>
                   <Label fx:id="name1" alignment="BASELINE_CENTER" layoutY="90.0" prefHeight="23.0" prefWidth="222.0" text="Đỗ Đức Anh" textAlignment="CENTER">
                      <font>
                         <Font name="Tahoma" size="18.0" />
@@ -79,6 +70,7 @@
                         <Font size="13.0" />
                      </font>
                   </Text>
+                  <Circle fx:id="avatarImg" fill="DODGERBLUE" layoutX="111.0" layoutY="49.0" radius="35.0" stroke="BLACK" strokeType="INSIDE" />
                </children>
             </Pane>
          </children>
@@ -100,7 +92,7 @@
             </Button>
          </children>
       </Pane>
-      <TabPane fx:id="teacherSettingForm" layoutX="20.0" layoutY="20.0" prefHeight="610.0" prefWidth="764.0" styleClass="center-radius" stylesheets="@../mainscene.css" tabClosingPolicy="UNAVAILABLE">
+      <TabPane fx:id="studentSettingForm" layoutX="20.0" layoutY="20.0" prefHeight="610.0" prefWidth="764.0" styleClass="center-radius" stylesheets="@../mainscene.css" tabClosingPolicy="UNAVAILABLE">
          <tabs>
             <Tab closable="false" text="Information">
                <content>
@@ -117,7 +109,7 @@
                            </font>
                         </Label>
                         <Circle fx:id="circleImg" fill="DODGERBLUE" layoutX="120.0" layoutY="200.0" radius="70.0" stroke="BLACK" strokeType="INSIDE" />
-                        <Text fill="WHITE" layoutX="50.0" layoutY="290.0" strokeType="OUTSIDE" strokeWidth="0.0" text="* Only JPEG and JPG supported, * Max 3 MB Upload" wrappingWidth="178.60003662109375" />
+                        <Text fill="WHITE" layoutX="50.0" layoutY="290.0" strokeType="OUTSIDE" strokeWidth="0.0" text="* Only JPEG, PNG and JPG supported, * Max 3 MB Upload" wrappingWidth="178.60003662109375" />
                         <Button fx:id="insertStudentImg" layoutX="148.0" layoutY="227.0" mnemonicParsing="false" onAction="#insertStudentImg" prefHeight="40.0" prefWidth="42.0" styleClass="insertImage">
                            <graphic>
                               <ImageView fitHeight="31.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
@@ -184,7 +176,7 @@
                                           <Font name="System Bold" size="12.0" />
                                        </font>
                                     </Label>
-                                    <TextField fx:id="getStudentEmail" prefHeight="28.0" prefWidth="250.0" />
+                                    <TextField fx:id="getStudentEmail" prefHeight="28.0" prefWidth="250.0" promptText="e.x username@exmaple.com" />
                                  </children>
                               </VBox>
                               <VBox prefHeight="60.0" prefWidth="404.0">
@@ -194,7 +186,7 @@
                                           <Font name="System Bold" size="12.0" />
                                        </font>
                                     </Label>
-                                    <TextField fx:id="getStudentPhone" prefHeight="28.0" prefWidth="250.0" />
+                                    <TextField fx:id="getStudentPhone" prefHeight="28.0" prefWidth="250.0" promptText="e.x 0123456789" />
                                  </children>
                               </VBox>
                            </children>
@@ -242,7 +234,7 @@
                                           <Font name="System Bold" size="12.0" />
                                        </font>
                                     </Label>
-                                    <TextField fx:id="getStudentMotherPhone" prefHeight="30.0" prefWidth="250.0" />
+                                    <TextField fx:id="getStudentMotherPhone" prefHeight="30.0" prefWidth="250.0" promptText="e.x 0123456789" />
                                  </children>
                               </VBox>
                               <HBox prefHeight="60.0" spacing="30.0">
@@ -276,7 +268,7 @@
                                           <Font name="System Bold" size="12.0" />
                                        </font>
                                     </Label>
-                                    <TextField fx:id="getStudentFatherPhone" prefHeight="30.0" prefWidth="250.0" />
+                                    <TextField fx:id="getStudentFatherPhone" prefHeight="30.0" prefWidth="250.0" promptText="e.x 0123456789" />
                                  </children>
                               </VBox>
                            </children>
@@ -346,7 +338,10 @@
       </TabPane>
       <Pane fx:id="studentForm" prefHeight="640.0" prefWidth="804.0" visible="false">
          <children>
-            <Label layoutX="200.0" layoutY="212.0" text="Nothing" />
+            <Label layoutX="256.0" layoutY="310.0" text="Sorry! You are not authorized to access here">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font></Label>
          </children>
       </Pane>
    </children>

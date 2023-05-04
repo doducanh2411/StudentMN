@@ -36,6 +36,9 @@ import static com.example.demo.Controller.LoginFormController.username;
 public class Student_MainScene_Controller implements Initializable {
 
     @FXML
+    private Circle avatarImg;
+
+    @FXML
     private PasswordField confirmStudentPass;
 
     @FXML
@@ -124,7 +127,7 @@ public class Student_MainScene_Controller implements Initializable {
 
     private Map<String, Double[]> subjectGrades;
 
-    public void showName() {
+    public void showData() {
         String query = "SELECT * FROM student "
                 + "INNER JOIN class ON class.class_id = student.class_id "
                 + "WHERE student_id = " + username;
@@ -137,6 +140,18 @@ public class Student_MainScene_Controller implements Initializable {
                 name.setText(student_name);
                 name1.setText(student_name);
                 description.setText(des);
+
+                Blob blob = resultSet.getBlob("photo");
+                Image image;
+                if (blob != null) {
+                    InputStream inputStream = blob.getBinaryStream();
+                    image = new Image(inputStream);
+                    avatarImg.setFill(new ImagePattern(image));
+                } else{
+                    image = new Image(getClass().getResourceAsStream("/image/default-avatar.jpg"));
+                    avatarImg.setFill(new ImagePattern(image));
+                }
+
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -644,7 +659,7 @@ public class Student_MainScene_Controller implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        showName();
+        showData();
         showChart();
         showPieChart();
         showStudentPoint();

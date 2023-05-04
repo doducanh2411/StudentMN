@@ -38,6 +38,9 @@ import static java.sql.Types.NULL;
 public class Subject_MainScene_Controller implements Initializable {
 
     @FXML
+    private Circle avatarImg;
+
+    @FXML
     private CategoryAxis xAsis;
 
     @FXML
@@ -186,15 +189,25 @@ public class Subject_MainScene_Controller implements Initializable {
     @FXML
     private Label type;
 
-    public void showName() {
-        String query = "SELECT name FROM teacher WHERE teacher_id = " + username;
+    public void showData() {
+        String query = "SELECT * FROM teacher WHERE teacher_id = " + username;
         try {
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(query);
             if (resultSet.next()) {
-
                 name.setText(resultSet.getString("name"));
                 name1.setText(resultSet.getString("name"));
+                description.setText("You are subject teacher");
+                Blob blob = resultSet.getBlob("photo");
+                Image image;
+                if (blob != null) {
+                    InputStream inputStream = blob.getBinaryStream();
+                    image = new Image(inputStream);
+                    avatarImg.setFill(new ImagePattern(image));
+                } else{
+                    image = new Image(getClass().getResourceAsStream("/image/default-avatar.jpg"));
+                    avatarImg.setFill(new ImagePattern(image));
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -1074,7 +1087,7 @@ public class Subject_MainScene_Controller implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        showName();
+        showData();
         showChart();
         //addSubjectList();
         addClassList();

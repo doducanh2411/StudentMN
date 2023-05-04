@@ -165,7 +165,7 @@ public class MainSceneController implements Initializable {
                 dashBoardForm = (Pane) loader.getNamespace().get("dashBoardForm");
                 studentForm = (Pane) loader.getNamespace().get("studentForm");
                 gradeForm = (Pane) loader.getNamespace().get("gradeForm");
-                settingForm = (TabPane) loader.getNamespace().get("teacherSettingForm");
+                settingForm = (TabPane) loader.getNamespace().get("studentSettingForm");
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }

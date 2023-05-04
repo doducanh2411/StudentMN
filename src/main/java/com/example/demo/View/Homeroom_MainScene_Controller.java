@@ -148,7 +148,10 @@ public class Homeroom_MainScene_Controller implements Initializable {
     @FXML
     private TabPane teacherSettingForm;
 
-    public void showName() {
+    @FXML
+    private Circle avatarImg;
+
+    public void showData() {
         String classQuery = "SELECT * FROM class c INNER JOIN teacher t ON c.teacher_id = t.teacher_id";
         try {
             Statement statement = connection.createStatement();
@@ -157,6 +160,17 @@ public class Homeroom_MainScene_Controller implements Initializable {
                 description.setText("You are homeroom teacher of class: " + resultSet.getString("class_name"));
                 name.setText(resultSet.getString("name"));
                 name1.setText(resultSet.getString("name"));
+
+                Blob blob = resultSet.getBlob("photo");
+                Image image;
+                if (blob != null) {
+                    InputStream inputStream = blob.getBinaryStream();
+                    image = new Image(inputStream);
+                    avatarImg.setFill(new ImagePattern(image));
+                } else{
+                    image = new Image(getClass().getResourceAsStream("/image/default-avatar.jpg"));
+                    avatarImg.setFill(new ImagePattern(image));
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -709,7 +723,7 @@ public class Homeroom_MainScene_Controller implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        showName();
+        showData();
         //showChart();
         showStudentListData();
         showStudentFinalPoints();

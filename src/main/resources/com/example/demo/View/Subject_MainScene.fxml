@@ -60,15 +60,6 @@
             <PieChart fx:id="piechart" layoutX="20.0" layoutY="404.0" prefHeight="222.0" prefWidth="500.0" styleClass="pieChart" stylesheets="@../mainscene.css" />
             <Pane layoutX="560.0" layoutY="20.0" prefHeight="347.0" prefWidth="222.0" styleClass="miniProfile" stylesheets="@../mainscene.css">
                <children>
-                  <Label alignment="BASELINE_CENTER" layoutX="77.0" layoutY="21.0" prefHeight="60.0" prefWidth="60.0" style="-fx-border-color: black; -fx-border-radius: 100px; -fx-border-width: 2px;">
-                     <graphic>
-                        <ImageView fitHeight="64.0" fitWidth="64.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../../../../image/user.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                  </Label>
                   <Label fx:id="name1" alignment="BASELINE_CENTER" layoutY="90.0" prefHeight="23.0" prefWidth="222.0" text="Đỗ Đức Anh" textAlignment="CENTER">
                      <font>
                         <Font name="Tahoma" size="18.0" />
@@ -80,6 +71,7 @@
                         <Font size="13.0" />
                      </font>
                   </Text>
+                  <Circle fx:id="avatarImg" fill="DODGERBLUE" layoutX="111.0" layoutY="49.0" radius="35.0" stroke="BLACK" strokeType="INSIDE" />
                </children>
             </Pane>
          </children>
@@ -165,7 +157,7 @@
             </TableView>
          </children>
       </Pane>
-      <TabPane fx:id="teacherSettingForm1" layoutX="20.0" layoutY="20.0" prefHeight="600.0" prefWidth="764.0" stylesheets="@../mainscene.css" tabClosingPolicy="UNAVAILABLE">
+      <TabPane fx:id="teacherSettingForm" layoutX="20.0" layoutY="20.0" prefHeight="600.0" prefWidth="764.0" stylesheets="@../mainscene.css" tabClosingPolicy="UNAVAILABLE">
          <tabs>
             <Tab closable="false" onSelectionChanged="#getTeacherInfo" text="Information">
                <content>
@@ -228,7 +220,7 @@
                                           <Font name="System Bold" size="12.0" />
                                        </font>
                                     </Label>
-                                    <TextField fx:id="getTeacherEmail" prefHeight="30.0" prefWidth="250.0" />
+                                    <TextField fx:id="getTeacherEmail" prefHeight="30.0" prefWidth="250.0" promptText="e.x username@example.com" />
                                  </children>
                               </VBox>
                               <VBox prefHeight="60.0" prefWidth="404.0">
@@ -238,7 +230,7 @@
                                           <Font name="System Bold" size="12.0" />
                                        </font>
                                     </Label>
-                                    <TextField fx:id="getTeacherPhone" prefHeight="30.0" prefWidth="250.0" />
+                                    <TextField fx:id="getTeacherPhone" prefHeight="30.0" prefWidth="250.0" promptText="e.x 0123456789" />
                                  </children>
                               </VBox>
                            </children>
