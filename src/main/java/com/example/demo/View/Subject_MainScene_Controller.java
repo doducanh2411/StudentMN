@@ -991,7 +991,6 @@ public class Subject_MainScene_Controller implements Initializable {
     }
 
     public void showChart() {
-
         //Fix this bug
         //HELPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP
         String barQuery = "SELECT class.class_name, AVG(CASE WHEN grade.component_point >= 0 AND grade.mid_point >= 0 AND grade.end_point >= 0 THEN 0.1 * grade.component_point + 0.3 * grade.mid_point + 0.6 * grade.end_point ELSE NULL END) AS avg_grade, subject.subject_name " +
@@ -1001,8 +1000,6 @@ public class Subject_MainScene_Controller implements Initializable {
                 "INNER JOIN class ON teach.class_id = class.class_id " +
                 "WHERE teach.teacher_id = " + username + " "+
                 "GROUP BY teach.class_id, teach.teacher_id, subject.subject_id, class.class_id";
-
-
 
         String pieQuery = "SELECT COUNT(DISTINCT teach.subject_id) AS num_subjects, COUNT(DISTINCT teach.class_id) AS num_classes "
                     + "FROM teach "
@@ -1089,7 +1086,6 @@ public class Subject_MainScene_Controller implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         showData();
         showChart();
-        //addSubjectList();
         addClassList();
         handleInputGrade();
         handleGrade();

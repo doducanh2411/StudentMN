@@ -3,6 +3,9 @@ package com.example.demo.Controller;
 import com.example.demo.Component.Grade;
 import com.example.demo.Component.Student;
 import com.example.demo.HelloApplication;
+import com.example.demo.View.Homeroom_MainScene_Controller;
+import com.example.demo.View.Student_MainScene_Controller;
+import com.example.demo.View.Subject_MainScene_Controller;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -95,6 +98,18 @@ public class MainSceneController implements Initializable {
             studentForm.setVisible(false);
             gradeForm.setVisible(false);
             settingForm.setVisible(false);
+
+            if (isHomeroom == 1){
+                Homeroom_MainScene_Controller controller = loader.getController();
+                controller.showData();
+            }else if(isSubject == 1){
+                Subject_MainScene_Controller controller = loader.getController();
+                controller.showData();
+            }else if (isStudent == 1){
+                Student_MainScene_Controller controller = loader.getController();
+                controller.showData();
+            }
+
         });
 
         studentButton.setOnAction(e -> {
@@ -125,11 +140,13 @@ public class MainSceneController implements Initializable {
         });
     }
 
+    FXMLLoader loader;
+
     public void setFXMLFile() {
         if (isHomeroom == 1) {
             System.out.println("Homeroom");
             try {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/demo/View/Homeroom_MainScene.fxml"));
+                loader = new FXMLLoader(getClass().getResource("/com/example/demo/View/Homeroom_MainScene.fxml"));
                 Node homeroom = loader.load();
                 centerPane.getChildren().add(homeroom);
 
@@ -137,6 +154,8 @@ public class MainSceneController implements Initializable {
                 studentForm = (Pane) loader.getNamespace().get("studentForm");
                 gradeForm = (Pane) loader.getNamespace().get("gradeForm");
                 settingForm = (TabPane) loader.getNamespace().get("teacherSettingForm");
+
+
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
@@ -144,7 +163,7 @@ public class MainSceneController implements Initializable {
         } else if (isSubject == 1) {
             System.out.println("Subject");
             try {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/demo/View/Subject_MainScene.fxml"));
+                loader = new FXMLLoader(getClass().getResource("/com/example/demo/View/Subject_MainScene.fxml"));
                 Node subject = loader.load();
                 centerPane.getChildren().add(subject);
 
@@ -152,13 +171,14 @@ public class MainSceneController implements Initializable {
                 studentForm = (Pane) loader.getNamespace().get("gradeForm");
                 gradeForm = (Pane) loader.getNamespace().get("inputGradeForm");
                 settingForm = (TabPane) loader.getNamespace().get("teacherSettingForm");
+
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
         } else if (isStudent == 1) {
             System.out.println("Student");
             try {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/demo/View/Student_MainScene.fxml"));
+                loader = new FXMLLoader(getClass().getResource("/com/example/demo/View/Student_MainScene.fxml"));
                 Node student = loader.load();
                 centerPane.getChildren().add(student);
 
@@ -166,6 +186,7 @@ public class MainSceneController implements Initializable {
                 studentForm = (Pane) loader.getNamespace().get("studentForm");
                 gradeForm = (Pane) loader.getNamespace().get("gradeForm");
                 settingForm = (TabPane) loader.getNamespace().get("studentSettingForm");
+
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
@@ -229,7 +250,6 @@ public class MainSceneController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         dashBoardButton.getStyleClass().add("button-active");
         setFXMLFile();
-
     }
 
     private void setActiveButton(Button button) {

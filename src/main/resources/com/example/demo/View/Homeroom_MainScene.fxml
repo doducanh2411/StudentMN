@@ -93,7 +93,7 @@
             </Button>
          </children>
       </Pane>
-      <TabPane fx:id="teacherSettingForm" layoutX="20.0" layoutY="20.0" prefHeight="600.0" prefWidth="764.0" stylesheets="@../mainscene.css" tabClosingPolicy="UNAVAILABLE">
+      <TabPane fx:id="teacherSettingForm" layoutX="20.0" layoutY="20.0" prefHeight="600.0" prefWidth="764.0" stylesheets="@../mainscene.css" tabClosingPolicy="UNAVAILABLE" visible="false">
          <tabs>
             <Tab closable="false" onSelectionChanged="#getTeacherInfo" text="Information">
                <content>
@@ -201,7 +201,7 @@
                               </ImageView>
                            </graphic>
                         </Button>
-                        <Text fill="WHITE" layoutX="50.0" layoutY="290.0" strokeType="OUTSIDE" strokeWidth="0.0" text="* Only JPEG and JPG supported, * Max 3 MB Upload" wrappingWidth="178.60003662109375" />
+                        <Text fill="WHITE" layoutX="50.0" layoutY="290.0" strokeType="OUTSIDE" strokeWidth="0.0" text="* Only JPEG, PNG and JPG supported, * Max 3 MB Upload" wrappingWidth="178.60003662109375" />
                      </children>
                   </AnchorPane>
                </content>
@@ -248,7 +248,7 @@
             </Tab>
          </tabs>
       </TabPane>
-      <Pane fx:id="dashBoardForm" prefHeight="643.0" prefWidth="804.0" stylesheets="@../mainscene.css" visible="false">
+      <Pane fx:id="dashBoardForm" prefHeight="643.0" prefWidth="804.0" stylesheets="@../mainscene.css">
          <children>
             <Pane layoutX="20.0" layoutY="20.0" styleClass="name" stylesheets="@../mainscene.css">
                <children>

@@ -26,7 +26,7 @@
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="640.0" prefWidth="804.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo.View.Subject_MainScene_Controller">
    <children>
-      <Pane fx:id="dashBoardForm" prefHeight="640.0" prefWidth="804.0" stylesheets="@../mainscene.css" visible="false">
+      <Pane fx:id="dashBoardForm" prefHeight="640.0" prefWidth="804.0" stylesheets="@../mainscene.css">
          <children>
             <Pane layoutX="20.0" layoutY="20.0" styleClass="name" stylesheets="@../mainscene.css">
                <children>
@@ -157,7 +157,7 @@
             </TableView>
          </children>
       </Pane>
-      <TabPane fx:id="teacherSettingForm" layoutX="20.0" layoutY="20.0" prefHeight="600.0" prefWidth="764.0" stylesheets="@../mainscene.css" tabClosingPolicy="UNAVAILABLE">
+      <TabPane fx:id="teacherSettingForm" layoutX="20.0" layoutY="20.0" prefHeight="600.0" prefWidth="764.0" stylesheets="@../mainscene.css" tabClosingPolicy="UNAVAILABLE" visible="false">
          <tabs>
             <Tab closable="false" onSelectionChanged="#getTeacherInfo" text="Information">
                <content>
@@ -265,7 +265,7 @@
                               </ImageView>
                            </graphic>
                         </Button>
-                        <Text fill="WHITE" layoutX="50.0" layoutY="290.0" strokeType="OUTSIDE" strokeWidth="0.0" text="* Only JPEG and JPG supported, * Max 3 MB Upload" wrappingWidth="178.60003662109375" />
+                        <Text fill="WHITE" layoutX="50.0" layoutY="290.0" strokeType="OUTSIDE" strokeWidth="0.0" text="* Only JPEG, PNG and JPG supported, * Max 3 MB Upload" wrappingWidth="178.60003662109375" />
                      </children>
                   </AnchorPane>
                </content>
