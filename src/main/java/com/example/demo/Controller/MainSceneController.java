@@ -90,6 +90,7 @@ public class MainSceneController implements Initializable {
         stage.setIconified(true);
     }
 
+
     public void switchForm() {
         dashBoardButton.setOnAction(e -> {
             setActiveButton(dashBoardButton);
@@ -102,14 +103,17 @@ public class MainSceneController implements Initializable {
             if (isHomeroom == 1){
                 Homeroom_MainScene_Controller controller = loader.getController();
                 controller.showData();
+                controller.showChart(); //BUG
             }else if(isSubject == 1){
                 Subject_MainScene_Controller controller = loader.getController();
                 controller.showData();
+                controller.showChart(); //BUG
+                //controller.clearChart();
             }else if (isStudent == 1){
                 Student_MainScene_Controller controller = loader.getController();
                 controller.showData();
+                controller.showChart(); //BUG
             }
-
         });
 
         studentButton.setOnAction(e -> {
@@ -119,6 +123,13 @@ public class MainSceneController implements Initializable {
             studentForm.setVisible(true);
             gradeForm.setVisible(false);
             settingForm.setVisible(false);
+            if (isHomeroom == 1){
+                Homeroom_MainScene_Controller controller = loader.getController();
+                controller.showStudentListData();
+            }else if (isSubject == 1){
+                Subject_MainScene_Controller controller = loader.getController();
+                controller.showStudentGrade();
+            }
         });
 
         gradeButton.setOnAction(e -> {
@@ -128,6 +139,16 @@ public class MainSceneController implements Initializable {
             studentForm.setVisible(false);
             gradeForm.setVisible(true);
             settingForm.setVisible(false);
+            if (isHomeroom == 1){
+                Homeroom_MainScene_Controller controller = loader.getController();
+                controller.showStudentFinalPoints(false);
+            }else if(isSubject == 1){
+                Subject_MainScene_Controller controller = loader.getController();
+                controller.showInputGrade();
+            }else if (isStudent == 1){
+                Student_MainScene_Controller controller = loader.getController();
+                controller.showStudentPoint(false);
+            }
         });
 
         settingButton.setOnAction(e -> {
@@ -137,6 +158,17 @@ public class MainSceneController implements Initializable {
             studentForm.setVisible(false);
             gradeForm.setVisible(false);
             settingForm.setVisible(true);
+
+            if (isHomeroom == 1){
+                Homeroom_MainScene_Controller controller = loader.getController();
+                controller.getTeacherInfo();
+            }else if(isSubject == 1){
+                Subject_MainScene_Controller controller = loader.getController();
+                controller.getTeacherInfo();
+            }else if (isStudent == 1){
+                Student_MainScene_Controller controller = loader.getController();
+                controller.getStudentInfo();
+            }
         });
     }
 

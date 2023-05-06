@@ -1,7 +1,11 @@
 package com.example.demo.View;
 
 import com.example.demo.Component.Grade;
+
+
+
 import com.example.demo.HelloApplication;
+
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -16,6 +20,7 @@ import javafx.scene.chart.BarChart;
 import javafx.scene.chart.PieChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -27,15 +32,16 @@ import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
+import com.itextpdf.text.*;
+import com.itextpdf.text.pdf.*;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.net.URL;
 import java.sql.*;
 import java.time.LocalDate;
 import java.util.*;
+import java.util.List;
+import java.util.stream.Stream;
 
 import static com.example.demo.Controller.LoginFormController.connection;
 import static com.example.demo.Controller.LoginFormController.username;
@@ -94,8 +100,7 @@ public class Homeroom_MainScene_Controller implements Initializable {
     @FXML
     private Pane gradeForm;
 
-    @FXML
-    private TableView<Map.Entry<Integer, Map<String, Object>>> gradeViewTable;
+
 
     @FXML
     private Button insertTeacherImg;
@@ -193,6 +198,9 @@ public class Homeroom_MainScene_Controller implements Initializable {
     }
 
     public void showChart() {
+        piechart.getData().clear();
+        barChart.getData().clear();
+
         ObservableList<PieChart.Data> data = FXCollections.observableArrayList();
         String query = "SELECT gender, COUNT(*) FROM student"
                 + " WHERE class_id = " + getTeacherClass()
@@ -290,13 +298,17 @@ public class Homeroom_MainScene_Controller implements Initializable {
     private int countBelowAvg;
     private int countAboveAvg;
 
-    public void showStudentFinalPoints() {
+
+    @FXML
+    private TableView<Map.Entry<Integer, Map<String, Object>>> gradeViewTable;
+
+    public void showStudentFinalPoints(boolean updateTable) {
         try {
             // Get all grades from the database
-            String query = "SELECT student_id, name, subject.subject_name, g.component_point, g.mid_point, g.end_point "
-                    + "FROM grade g "
-                    + "INNER JOIN subject ON g.subject_id = subject.subject_id "
-                    + "INNER JOIN student USING(student_id) "
+            String query = "SELECT student.student_id, student.name, subject.subject_name, grade.component_point, grade.mid_point, grade.end_point "
+                    + "FROM student "
+                    + "LEFT JOIN grade ON student.student_id = grade.student_id "
+                    + "LEFT JOIN subject ON grade.subject_id = subject.subject_id "
                     + "WHERE student.class_id = " + getTeacherClass() + " "
                     + "ORDER BY student_id, subject.subject_name";
 
@@ -362,26 +374,37 @@ public class Homeroom_MainScene_Controller implements Initializable {
 
             TableColumn<Map.Entry<Integer, Map<String, Object>>, Integer> studentIdCol = new TableColumn<>("Student#");
             studentIdCol.setCellValueFactory(data -> new SimpleObjectProperty<>(data.getValue().getKey()));
-            gradeViewTable.getColumns().add(studentIdCol);
+            //gradeViewTable.getColumns().add(studentIdCol);
 
             TableColumn<Map.Entry<Integer, Map<String, Object>>, String> studentNameCol = new TableColumn<>("Name");
             studentNameCol.setCellValueFactory(data -> new SimpleObjectProperty<>((String) data.getValue().getValue().get("name")));
-            gradeViewTable.getColumns().add(studentNameCol);
+            //gradeViewTable.getColumns().add(studentNameCol);
+            if (updateTable){
+                gradeViewTable.getColumns().add(studentIdCol);
+                gradeViewTable.getColumns().add(studentNameCol);
+            }
 
             for (String subject : subjects) {
-                if (!subject.equals("name") && !subject.equals("num_subjects") && !subject.equals("total_points") && !subject.equals("final_grade_point")) {
+                if (subject != null && !subject.equals("name") && !subject.equals("num_subjects") && !subject.equals("total_points") && !subject.equals("final_grade_point")) {
                     TableColumn<Map.Entry<Integer, Map<String, Object>>, Number> subjectPointCol = new TableColumn<>(subject);
                     subjectPointCol.setCellValueFactory(data -> new SimpleObjectProperty<>((Number) data.getValue().getValue().get(subject)));
-                    gradeViewTable.getColumns().add(subjectPointCol);
+                    if (updateTable){
+                        gradeViewTable.getColumns().add(subjectPointCol);
+                    }
                 }
             }
+
 
 
             gradeViewTable.getItems().setAll(finalPoints.entrySet());
 
             TableColumn<Map.Entry<Integer, Map<String, Object>>, Float> finalGradePointCol = new TableColumn<>("Final Point");
             finalGradePointCol.setCellValueFactory(data -> new SimpleObjectProperty<>((Float) data.getValue().getValue().get("final_grade_point")));
-            gradeViewTable.getColumns().add(finalGradePointCol);
+
+            if (updateTable){
+                gradeViewTable.getColumns().add(finalGradePointCol);
+            }
+
 
             gradeViewTable.getSortOrder().add(studentIdCol);
         } catch (SQLException e) {
@@ -466,10 +489,185 @@ public class Homeroom_MainScene_Controller implements Initializable {
 
     public void exportStudent() {
         //TO-DO: Xuất bảng học sinh ra PDF
+        try {
+            Alert alert;
+
+            String className = getClassName(getTeacherClass());
+
+            FileOutputStream fos = new FileOutputStream("student's info of class " + className + ".pdf");
+            Document document = new Document();
+            PdfWriter writer = PdfWriter.getInstance(document, fos);
+            document.open();
+
+            BaseFont font = BaseFont.createFont(BaseFont.HELVETICA_BOLD, BaseFont.CP1252, BaseFont.NOT_EMBEDDED);
+            Font headerFont = new Font(font, 16);
+            Paragraph header = new Paragraph("Student's information", headerFont);
+            header.setAlignment(Element.ALIGN_CENTER);
+            header.setSpacingAfter(20);
+            document.add(header);
+
+            Paragraph infoParagraph = new Paragraph();
+            infoParagraph.add("Class: " + className);
+            infoParagraph.add(Chunk.NEWLINE);
+            infoParagraph.add(Chunk.NEWLINE);
+            document.add(infoParagraph);
+
+
+            PdfPTable pdfTable = new PdfPTable(6);
+            addTableHeader(pdfTable);
+            for (Student student : studentViewTable.getItems()) {
+                pdfTable.addCell(Integer.toString(student.getStudent_id()));
+                pdfTable.addCell(student.getName());
+                pdfTable.addCell(student.getGender());
+                pdfTable.addCell(student.getDateOfBirth().toString());
+                pdfTable.addCell(student.getPhone());
+                pdfTable.addCell(student.getEmail());
+            }
+            document.add(pdfTable);
+            document.close();
+            writer.close();
+
+            alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("");
+            alert.setHeaderText(null);
+            alert.setContentText("Exported successfully to Student's info of class " + className + ".pdf");
+            alert.showAndWait();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
+
+    private void addTableHeader(PdfPTable table) {
+        Stream.of("ID", "Name", "Gender", "Birth", "Phone", "Email")
+                .forEach(columnTitle -> {
+                    PdfPCell header = new PdfPCell();
+                    header.setBackgroundColor(BaseColor.LIGHT_GRAY);
+                    header.setBorderWidth(1);
+                    header.setPhrase(new Phrase(columnTitle));
+                    table.addCell(header);
+                });
     }
 
     public void exportStudentGrade() {
-        //TO-DO: Xuất bảng điểm của học sinh ra PDF
+        try {
+            Alert alert;
+
+            String className = getClassName(getTeacherClass());
+
+            // Get all grades from the database
+            String query = "SELECT student_id, name, subject.subject_name, g.component_point, g.mid_point, g.end_point "
+                    + "FROM grade g "
+                    + "INNER JOIN subject ON g.subject_id = subject.subject_id "
+                    + "INNER JOIN student USING(student_id) "
+                    + "WHERE student.class_id = " + getTeacherClass() + " "
+                    + "ORDER BY student_id, subject.subject_name";
+
+            PreparedStatement statement = connection.prepareStatement(query);
+            ResultSet result = statement.executeQuery();
+
+            // Create a PDF file to write the grades
+            Document document = new Document();
+            PdfWriter.getInstance(document, new FileOutputStream("student's grades of class " + className + ".pdf"));
+            document.open();
+
+            PdfPTable table = new PdfPTable(7); // 7 columns for Student ID, Name, Subject, Component Point, Mid Point, End Point, Final Point
+
+            BaseFont font = BaseFont.createFont(BaseFont.HELVETICA_BOLD, BaseFont.CP1252, BaseFont.NOT_EMBEDDED);
+            Font headerFont = new Font(font, 16);
+            Paragraph header = new Paragraph("Student's grade", headerFont);
+            header.setAlignment(Element.ALIGN_CENTER);
+            header.setSpacingAfter(20);
+            document.add(header);
+
+            Paragraph infoParagraph = new Paragraph();
+            infoParagraph.add("Class: " + className);
+            infoParagraph.add(Chunk.NEWLINE);
+            infoParagraph.add(Chunk.NEWLINE);
+            document.add(infoParagraph);
+
+            // Add headers to the table
+            table.addCell("Student ID");
+            table.addCell("Name");
+            table.addCell("Subject");
+            table.addCell("Component Point");
+            table.addCell("Mid Point");
+            table.addCell("End Point");
+            table.addCell("Final Point");
+
+            // Iterate through the grades and add them to the table
+            while (result.next()) {
+                int student_id = result.getInt("student_id");
+                String student_name = result.getString("name");
+                String subject_name = result.getString("subject_name");
+                float component_point = result.getFloat("component_point");
+                float mid_point = result.getFloat("mid_point");
+                float end_point = result.getFloat("end_point");
+                Float final_point = null;
+
+                // Check if any of the points is missing
+                if (component_point != -1 && mid_point != -1 && end_point != -1) {
+                    final_point = (float) (0.1 * component_point + 0.3 * mid_point + 0.6 * end_point);
+                }
+
+                // Add the grade to the table
+                table.addCell(String.valueOf(student_id));
+                table.addCell(student_name);
+                table.addCell(subject_name);
+                table.addCell(getValueOrDash((double)component_point));
+                table.addCell(getValueOrDash((double)mid_point));
+                table.addCell(getValueOrDash((double)end_point));
+
+                if (final_point == null) {
+                    table.addCell("-");
+                } else {
+                    table.addCell(getValueOrDash((double)final_point));
+                }
+
+            }
+
+            document.add(table);
+            document.close();
+
+            alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("");
+            alert.setHeaderText(null);
+            alert.setContentText("Exported successfully to Student's grades of class " + className + ".pdf");
+            alert.showAndWait();
+
+        } catch (SQLException | IOException | DocumentException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+
+    private String getValueOrDash(Double value) {
+        return value != -1 ? String.valueOf(value) : "-";
+    }
+
+    private String getClassName(int classId) {
+        // Query the database or retrieve the class name based on classId
+        // Return the class name
+        String className = "";
+
+        String query = "SELECT class_name FROM class WHERE class_id = ?";
+        try {
+            PreparedStatement stmt = connection.prepareStatement(query);
+            stmt.setInt(1, classId);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                className = rs.getString("class_name");
+            }
+
+            rs.close();
+            stmt.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return className;
     }
 
     private File selectedFile;
@@ -726,7 +924,7 @@ public class Homeroom_MainScene_Controller implements Initializable {
         showData();
         //showChart();
         showStudentListData();
-        showStudentFinalPoints();
+        showStudentFinalPoints(true);
         showChart();
         getTeacherInfo();
         addGenderList();

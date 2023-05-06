@@ -1,5 +1,9 @@
 package com.example.demo.View;
 
+import com.itextpdf.text.*;
+import com.itextpdf.text.pdf.BaseFont;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -22,12 +26,11 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStream;
+import java.io.*;
 import java.net.URL;
 import java.sql.*;
 import java.util.*;
+import java.util.List;
 
 import static com.example.demo.Controller.LoginFormController.connection;
 import static com.example.demo.Controller.LoginFormController.username;
@@ -159,6 +162,8 @@ public class Student_MainScene_Controller implements Initializable {
     }
 
     public void showChart() {
+        piechart.getData().clear();
+        barChart.getData().clear();
         String query = "SELECT subject.subject_name, " +
                 "CASE " +
                 "WHEN grade.component_point = -1 OR grade.mid_point = -1 OR grade.end_point = -1 " +
@@ -191,6 +196,35 @@ public class Student_MainScene_Controller implements Initializable {
 
             barChart.getData().add(series);
             barChart.setAnimated(true);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        String pieQuery = "SELECT COUNT(*) AS count, " +
+                "CASE WHEN 0.1*grade.component_point + 0.4*grade.mid_point+ 0.6*grade.end_point >= 8 THEN 'Above 8' " +
+                "WHEN 0.1*grade.component_point + 0.4*grade.mid_point+ 0.6*grade.end_point < 5 THEN 'Below 5' " +
+                "ELSE 'Between 5 and 8' END AS category " +
+                "FROM grade " +
+                "WHERE grade.student_id = " + username + " " +
+                "AND grade.component_point != -1 AND grade.mid_point != -1 AND grade.end_point != -1 " +
+                "GROUP BY category;";
+
+        try {
+            Statement st = connection.createStatement();
+            ResultSet rs = st.executeQuery(pieQuery);
+
+            ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList();
+
+            while (rs.next()) {
+                int count = rs.getInt("count");
+                String category = rs.getString("category");
+                PieChart.Data data = new PieChart.Data(category, count);
+                data.setName(category + ": " + count);
+
+                pieChartData.add(data);
+            }
+
+            piechart.setData(pieChartData);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -235,7 +269,7 @@ public class Student_MainScene_Controller implements Initializable {
     }
 
 
-    public void showStudentPoint() {
+    public void showStudentPoint(boolean updateTable) {
         subjectGrades = getSubjectGrades(Integer.parseInt(username));
         TableColumn<Map.Entry<String, Double[]>, String> subjectNameColumn = new TableColumn<>("Subject Name");
         subjectNameColumn.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getKey()));
@@ -331,40 +365,13 @@ public class Student_MainScene_Controller implements Initializable {
 
         ObservableList<Map.Entry<String, Double[]>> data = FXCollections.observableArrayList(subjectGrades.entrySet());
         gradeViewTable.setItems(data);
-        gradeViewTable.getColumns().addAll(subjectNameColumn, componentGradeColumn, midGradeColumn, endGradeColumn, finalGradeColumn);
-    }
-
-    public void showPieChart() {
-        String query = "SELECT COUNT(*) AS count, " +
-                "CASE WHEN 0.1*grade.component_point + 0.4*grade.mid_point+ 0.6*grade.end_point >= 8 THEN 'Above 8' " +
-                "WHEN 0.1*grade.component_point + 0.4*grade.mid_point+ 0.6*grade.end_point < 5 THEN 'Below 5' " +
-                "ELSE 'Between 5 and 8' END AS category " +
-                "FROM grade " +
-                "WHERE grade.student_id = " + username + " " +
-                "AND grade.component_point != -1 AND grade.mid_point != -1 AND grade.end_point != -1 " +
-                "GROUP BY category;";
-
-        try {
-            Statement st = connection.createStatement();
-            ResultSet rs = st.executeQuery(query);
-
-            ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList();
-
-            while (rs.next()) {
-                int count = rs.getInt("count");
-                String category = rs.getString("category");
-                PieChart.Data data = new PieChart.Data(category, count);
-                data.setName(category + ": " + count);
-
-                pieChartData.add(data);
-            }
-
-            piechart.setData(pieChartData);
-
-        } catch (Exception e) {
-            e.printStackTrace();
+        if (updateTable){
+            gradeViewTable.getColumns().addAll(subjectNameColumn, componentGradeColumn, midGradeColumn, endGradeColumn, finalGradeColumn);
         }
+        //gradeViewTable.getColumns().addAll(subjectNameColumn, componentGradeColumn, midGradeColumn, endGradeColumn, finalGradeColumn);
     }
+
+
 
     public void getStudentInfo() {
         String query = "SELECT * FROM student WHERE student_id = " + username;
@@ -649,6 +656,94 @@ public class Student_MainScene_Controller implements Initializable {
         }
     }
 
+    private String getValueOrDash(Double value) {
+        return value != -1 ? String.valueOf(value) : "-";
+    }
+
+    public void exportStudentSubjectGrades() {
+        //TODO: Export student's grade to pdf
+
+        // Get the student name and ID
+        String studentName = name.getText();  // Assuming "name" is a Label component storing the student name
+        String studentId = username;  // Assuming "username" is a String variable storing the student ID
+
+        // Get the subject grades for the student
+        Map<String, Double[]> subjectGrades = getSubjectGrades(Integer.parseInt(username));
+
+        // Create a new document
+        Document document = new Document();
+
+        try {
+            Alert alert;
+            // Specify the file path for the PDF
+            String filePath = "grade report of " + name.getText() + ".pdf";
+
+            // Create a PDF writer instance
+            PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(filePath));
+
+            // Open the document
+            document.open();
+
+            // Add header
+            BaseFont font = BaseFont.createFont(BaseFont.HELVETICA_BOLD, BaseFont.CP1252, BaseFont.NOT_EMBEDDED);
+            Font headerFont = new Font(font, 16);
+            Paragraph header = new Paragraph("Student's report", headerFont);
+            header.setAlignment(Element.ALIGN_CENTER);
+            header.setSpacingAfter(20);
+            document.add(header);
+
+            // Add the student name and ID above the table
+            Paragraph infoParagraph = new Paragraph();
+            infoParagraph.add("Student name: " + studentName);
+            infoParagraph.add(Chunk.NEWLINE);
+            infoParagraph.add("ID: " + studentId);
+            infoParagraph.add(Chunk.NEWLINE);
+            infoParagraph.add(Chunk.NEWLINE);
+            document.add(infoParagraph);
+
+            // Create a table with four columns
+            PdfPTable table = new PdfPTable(4);
+
+            // Set table width percentage to 100%
+            table.setWidthPercentage(100);
+
+            // Add table headers
+            table.addCell("Subject");
+            table.addCell("Component Point");
+            table.addCell("Mid Point");
+            table.addCell("End Point");
+
+            // Iterate over subject grades and add data to the table
+            for (Map.Entry<String, Double[]> entry : subjectGrades.entrySet()) {
+                String subjectName = entry.getKey();
+                Double[] grades = entry.getValue();
+
+                table.addCell(subjectName);
+                table.addCell(getValueOrDash(grades[0]));
+                table.addCell(getValueOrDash(grades[1]));
+                table.addCell(getValueOrDash(grades[2]));
+            }
+
+            // Add the table to the document
+            document.add(table);
+
+            // Close the document
+            document.close();
+
+            // Show a success message
+            alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("");
+            alert.setHeaderText(null);
+            alert.setContentText("Student's report exported successfully!");
+            alert.showAndWait();
+
+        } catch (FileNotFoundException | DocumentException e) {
+            // Handle any exceptions that occurred during PDF creation
+            e.printStackTrace();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
     public void addGenderList(){
         List<String> listGender = new ArrayList<>();
         listGender.add("Male");
@@ -661,8 +756,8 @@ public class Student_MainScene_Controller implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         showData();
         showChart();
-        showPieChart();
-        showStudentPoint();
+        //showPieChart();
+        showStudentPoint(true);
         getStudentInfo();
         addGenderList();
     }

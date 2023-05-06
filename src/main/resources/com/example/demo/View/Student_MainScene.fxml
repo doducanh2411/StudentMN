@@ -75,10 +75,10 @@
             </Pane>
          </children>
       </Pane>
-      <Pane fx:id="gradeForm" layoutX="20.0" layoutY="20.0" prefHeight="600.0" prefWidth="764.0" styleClass="center-radius" stylesheets="@../mainscene.css" visible="false">
+      <Pane fx:id="gradeForm" layoutX="20.0" layoutY="20.0" prefHeight="600.0" prefWidth="764.0" styleClass="center-radius" stylesheets="@../mainscene.css">
          <children>
             <TableView fx:id="gradeViewTable" layoutX="20.0" layoutY="70.0" prefHeight="510.0" prefWidth="722.0" styleClass="tableView" stylesheets="@../mainscene.css" />
-            <Button layoutX="657.0" layoutY="14.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="85.0" styleClass="exportButton" stylesheets="@../mainscene.css" text="Export" textFill="WHITE">
+            <Button layoutX="657.0" layoutY="14.0" mnemonicParsing="false" onAction="#exportStudentSubjectGrades" prefHeight="40.0" prefWidth="85.0" styleClass="exportButton" stylesheets="@../mainscene.css" text="Export" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="13.0" />
                </font>

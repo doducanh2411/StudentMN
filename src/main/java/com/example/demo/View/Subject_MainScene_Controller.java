@@ -1,6 +1,10 @@
 package com.example.demo.View;
 
 import com.example.demo.Component.Grade;
+import com.itextpdf.text.*;
+import com.itextpdf.text.pdf.BaseFont;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -21,13 +25,12 @@ import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.util.StringConverter;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStream;
+import java.io.*;
 import java.net.URL;
 import java.sql.*;
 import java.time.LocalDate;
 import java.util.*;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Collectors;
 
@@ -41,7 +44,7 @@ public class Subject_MainScene_Controller implements Initializable {
     private Circle avatarImg;
 
     @FXML
-    private CategoryAxis xAsis;
+    private CategoryAxis xAxis;
 
     @FXML
     private NumberAxis yAxis;
@@ -386,33 +389,36 @@ public class Subject_MainScene_Controller implements Initializable {
         return listGrade;
     }
 
+
+    private int gradeSelectedClass;
+    private int gradeSelectSubject;
     public void handleGrade(){
         //Fix this bug
         classList.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (classList.getValue() != null) {
-                int selectedClass = classList.getValue();
-                addSubjectList(selectedClass);
+                gradeSelectedClass = classList.getValue();
+                addSubjectList(gradeSelectedClass);
             }
             if (classList.getValue() != null && subjectList.getValue() != null) {
-                int selectedClass = classList.getValue(); // Lấy giá trị của combobox lớp
-                int selectedSubject = subjectList.getValue(); // Lấy giá trị của combobox môn học
-                showStudentGrade(selectedClass, selectedSubject); // Hiển thị dữ liệu trong tableview
+                gradeSelectedClass = classList.getValue(); // Lấy giá trị của combobox lớp
+                gradeSelectSubject = subjectList.getValue(); // Lấy giá trị của combobox môn học
+                showStudentGrade(); // Hiển thị dữ liệu trong tableview
             }
         });
 
         subjectList.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (classList.getValue() != null && subjectList.getValue() != null) {
-                int selectedClass = classList.getValue(); // Lấy giá trị của combobox lớp
-                int selectedSubject = subjectList.getValue(); // Lấy giá trị của combobox môn học
-                showStudentGrade(selectedClass, selectedSubject); // Hiển thị dữ liệu trong tableview
+                gradeSelectedClass = classList.getValue(); // Lấy giá trị của combobox lớp
+                gradeSelectSubject = subjectList.getValue(); // Lấy giá trị của combobox môn học
+                showStudentGrade(); // Hiển thị dữ liệu trong tableview
             }
         });
 
 
     }
 
-    public void showStudentGrade(int selectedClass, int selectedSubject){
-        gradeList = addGradeList(selectedClass, selectedSubject);
+    public void showStudentGrade(){
+        gradeList = addGradeList(gradeSelectedClass, gradeSelectSubject);
 
         grade_student_id_col.setCellValueFactory(new PropertyValueFactory<>("student_id"));
         grade_student_name_col.setCellValueFactory(new PropertyValueFactory<>("student_name"));
@@ -485,26 +491,28 @@ public class Subject_MainScene_Controller implements Initializable {
     }
 
     AtomicBoolean updating = new AtomicBoolean(false);
+    private int inputSelectedClass;
+    private int inputSelectedSubject;
 
     public void handleInputGrade() {
         getClassList.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (getClassList.getValue() != null) {
-                int selectedClass = getClassList.getValue();
-                addStudentToCombobox(selectedClass);
-                addSubjectList(selectedClass);
+                inputSelectedClass = getClassList.getValue();
+                addStudentToCombobox(inputSelectedClass);
+                addSubjectList(inputSelectedClass);
             }
             if (getClassList.getValue() != null && getSubjectList.getValue() != null) {
-                int selectedClass = getClassList.getValue(); // Lấy giá trị của combobox lớp
-                int selectedSubject = getSubjectList.getValue(); // Lấy giá trị của combobox môn học
-                showInputGrade(selectedClass, selectedSubject); // Hiển thị dữ liệu trong tableview
+                inputSelectedClass = getClassList.getValue(); // Lấy giá trị của combobox lớp
+                inputSelectedSubject = getSubjectList.getValue(); // Lấy giá trị của combobox môn học
+                showInputGrade(); // Hiển thị dữ liệu trong tableview
             }
         });
 
         getSubjectList.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (getClassList.getValue() != null && getSubjectList.getValue() != null) {
-                int selectedClass = getClassList.getValue(); // Lấy giá trị của combobox lớp
-                int selectedSubject = getSubjectList.getValue(); // Lấy giá trị của combobox môn học
-                showInputGrade(selectedClass, selectedSubject); // Hiển thị dữ liệu trong tableview
+                inputSelectedClass = getClassList.getValue(); // Lấy giá trị của combobox lớp
+                inputSelectedSubject = getSubjectList.getValue(); // Lấy giá trị của combobox môn học
+                showInputGrade(); // Hiển thị dữ liệu trong tableview
             }
         });
 
@@ -551,8 +559,8 @@ public class Subject_MainScene_Controller implements Initializable {
 
 
 
-    public void showInputGrade(int selectedClass, int selectedSubject) {
-        gradeList = addGradeList(selectedClass, selectedSubject);
+    public void showInputGrade() {
+        gradeList = addGradeList(inputSelectedClass, inputSelectedSubject);
 
         input_student_id_col.setCellValueFactory(new PropertyValueFactory<>("student_id"));
         input_student_name_col.setCellValueFactory(new PropertyValueFactory<>("student_name"));
@@ -698,7 +706,7 @@ public class Subject_MainScene_Controller implements Initializable {
                         Statement st = connection.createStatement();
                         st.executeUpdate(updateQuery);
                     }
-                    showInputGrade(getClassList.getValue(), getSubjectList.getValue());
+                    showInputGrade();
                 } else {
                     System.out.println("Not have");
                     if (!getComponentPoint.getText().isEmpty()
@@ -726,7 +734,7 @@ public class Subject_MainScene_Controller implements Initializable {
                         System.out.println("Do nothing");
                     }
 
-                    showInputGrade(getClassList.getValue(), getSubjectList.getValue());
+                    showInputGrade();
                 }
             }
         } catch (Exception e) {
@@ -987,62 +995,230 @@ public class Subject_MainScene_Controller implements Initializable {
     }
 
     public void exportGradeStudent(){
+        //TODO: Export student's grade to pdf
 
+        // Create a new document
+        Document document = new Document();
+
+        try {
+            Alert alert;
+
+            if (classList.getValue() == null || subjectList.getValue() == null) {
+                alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error Message");
+                alert.setHeaderText(null);
+                alert.setContentText("You have to choose both class and subject");
+                alert.showAndWait();
+                return;
+            }
+            // Get the class name and subject name based on selectedClass and selectedSubject
+            int selectedClass = classList.getValue(); // Lấy giá trị của combobox lớp
+            int selectedSubject = subjectList.getValue(); // Lấy giá trị của combobox môn học
+
+            String className = getClassName(selectedClass);
+            String subjectName = getSubjectName(selectedSubject);
+
+            // Specify the file path for the PDF
+            String filePath = "grade report of " + subjectName + " " + className + ".pdf";
+
+            // Create a PDF writer instance
+            PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(filePath));
+
+            // Open the document
+            document.open();
+
+            BaseFont font = BaseFont.createFont(BaseFont.HELVETICA_BOLD, BaseFont.CP1252, BaseFont.NOT_EMBEDDED);
+            Font headerFont = new Font(font, 16);
+            Paragraph header = new Paragraph("Grade report", headerFont);
+            header.setAlignment(Element.ALIGN_CENTER);
+            header.setSpacingAfter(20);
+            document.add(header);
+
+
+
+            // Add the student name and ID above the table
+            Paragraph infoParagraph = new Paragraph();
+            infoParagraph.add("Class: " + className);
+            infoParagraph.add(Chunk.NEWLINE);
+            infoParagraph.add("Subject: " + subjectName);
+            infoParagraph.add(Chunk.NEWLINE);
+            infoParagraph.add(Chunk.NEWLINE);
+            document.add(infoParagraph);
+
+            // Create a table with four columns
+            PdfPTable table = new PdfPTable(6);
+
+            // Set table width percentage to 100%
+            table.setWidthPercentage(100);
+
+            // Add table headers
+            table.addCell("Student ID");
+            table.addCell("Student Name");
+            table.addCell("Component Point");
+            table.addCell("Mid Point");
+            table.addCell("End Point");
+            table.addCell("Final Point");
+
+            // Iterate over your gradeList and add data to the table
+            for (Grade grade : gradeList) {
+                table.addCell(Integer.toString(grade.getStudent_id()));
+                table.addCell(grade.getStudent_name());
+                table.addCell(getValueOrDash(grade.getComponent_point()));
+                table.addCell(getValueOrDash(grade.getMid_point()));
+                table.addCell(getValueOrDash(grade.getEnd_point()));
+                table.addCell(getValueOrDash(grade.getFinal_point()));
+            }
+
+            // Add the table to the document
+            document.add(table);
+
+            // Close the document
+            document.close();
+
+            // Show a success message
+            alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("");
+            alert.setHeaderText(null);
+            alert.setContentText("Exported successfully to Grade report of " + subjectName + " " + className + ".pdf!");
+            alert.showAndWait();
+
+        } catch (FileNotFoundException | DocumentException e) {
+            // Handle any exceptions that occurred during PDF creation
+            e.printStackTrace();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
-    public void showChart() {
-        //Fix this bug
-        //HELPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP
-        String barQuery = "SELECT class.class_name, AVG(CASE WHEN grade.component_point >= 0 AND grade.mid_point >= 0 AND grade.end_point >= 0 THEN 0.1 * grade.component_point + 0.3 * grade.mid_point + 0.6 * grade.end_point ELSE NULL END) AS avg_grade, subject.subject_name " +
-                "FROM teach " +
-                "INNER JOIN grade ON teach.subject_id = grade.subject_id " +
-                "INNER JOIN subject ON teach.subject_id = subject.subject_id " +
-                "INNER JOIN class ON teach.class_id = class.class_id " +
-                "WHERE teach.teacher_id = " + username + " "+
-                "GROUP BY teach.class_id, teach.teacher_id, subject.subject_id, class.class_id";
+    private String getValueOrDash(float value) {
+        return value != -1 ? String.valueOf(value) : "-";
+    }
 
-        String pieQuery = "SELECT COUNT(DISTINCT teach.subject_id) AS num_subjects, COUNT(DISTINCT teach.class_id) AS num_classes "
-                    + "FROM teach "
-                    + "WHERE teach.teacher_id = " +  username;
+    // Helper method to get the class name based on classId
+    private String getClassName(int classId) {
+        // Query the database or retrieve the class name based on classId
+        // Return the class name
+        String className = "";
+
+        String query = "SELECT class_name FROM class WHERE class_id = ?";
         try {
-            Statement st = connection.createStatement();
-            ResultSet resultSet = st.executeQuery(barQuery);
+            PreparedStatement stmt = connection.prepareStatement(query);
+            stmt.setInt(1, classId);
+            ResultSet rs = stmt.executeQuery();
 
-            Statement statement = connection.createStatement();
-            ResultSet resultSet1 = statement.executeQuery(pieQuery);
+            if (rs.next()) {
+                className = rs.getString("class_name");
+            }
 
-            // Create a map to store the series for each subject
-            Map<String, XYChart.Series<String, Number>> subjectSeriesMap = new HashMap<>();
+            rs.close();
+            stmt.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
-            ObservableList<PieChart.Data> pieData = FXCollections.observableArrayList();
+        return className;
+    }
 
-            while (resultSet.next()) {
-                String className = resultSet.getString("class_name");
-                Double avgGrade = resultSet.getDouble("avg_grade");
-                String subjectName = resultSet.getString("subject_name");
+    // Helper method to get the subject name based on subjectId
+    private String getSubjectName(int subjectId) {
+        // Query the database or retrieve the subject name based on subjectId
+        // Return the subject name
+        String subjectName = "";
 
-                // Get or create the series for the current subject
-                XYChart.Series<String, Number> series = subjectSeriesMap.computeIfAbsent(subjectName, k -> new XYChart.Series<>());
-                series.setName(subjectName);
+        String query = "SELECT subject_name FROM subject WHERE subject_id = ?";
+        try {
+            PreparedStatement stmt = connection.prepareStatement(query);
+            stmt.setInt(1, subjectId);
+            ResultSet rs = stmt.executeQuery();
 
-                // Create the data point with the average grade
-                XYChart.Data<String, Number> data = new XYChart.Data<>(className, avgGrade);
+            if (rs.next()) {
+                subjectName = rs.getString("subject_name");
+            }
 
-                // Create a label to display the average grade
+            rs.close();
+            stmt.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return subjectName;
+    }
+
+
+    public void showChart() {
+        try {
+            // Prepare the SQL statement
+            String barQuery = "SELECT class.class_name, AVG(CASE WHEN grade.component_point >= 0 AND grade.mid_point >= 0 AND grade.end_point >= 0 THEN 0.1 * grade.component_point + 0.3 * grade.mid_point + 0.6 * grade.end_point ELSE NULL END) AS avg_grade, subject.subject_name " +
+                    "FROM teach " +
+                    "INNER JOIN grade ON teach.subject_id = grade.subject_id " +
+                    "INNER JOIN subject ON teach.subject_id = subject.subject_id " +
+                    "INNER JOIN class ON teach.class_id = class.class_id " +
+                    "WHERE teach.teacher_id = " + username + " "+
+                    "GROUP BY teach.class_id, teach.teacher_id, subject.subject_id, class.class_id";
+
+            Statement stmt = connection.createStatement();
+
+            // Execute the SQL query and store the result in a ResultSet object
+            ResultSet rs = stmt.executeQuery(barQuery);
+
+            // Create an ObservableList to store the data for the chart
+            ObservableList<XYChart.Series<String, Number>> data = FXCollections.observableArrayList();
+
+            // Parse the ResultSet and extract the necessary data
+            while (rs.next()) {
+                String className = rs.getString("class_name");
+                String subjectName = rs.getString("subject_name");
+                double avgGrade = rs.getDouble("avg_grade");
+
+                // Check if the series for this class already exists in the data list
+                XYChart.Series<String, Number> series = null;
+                for (XYChart.Series<String, Number> s : data) {
+                    if (s.getName().equals(className)) {
+                        series = s;
+                        break;
+                    }
+                }
+
+                // If the series doesn't exist, create a new one and add it to the data list
+                if (series == null) {
+                    series = new XYChart.Series<>();
+                    series.setName(className);
+                    data.add(series);
+                }
+
+                XYChart.Data<String, Number> dataPoint = new XYChart.Data<>(subjectName, avgGrade);
                 Label label = new Label(String.format("%.2f", avgGrade));
                 label.setTextFill(Color.WHITE);
-
-                // Create a StackPane to hold both the label and the bar
                 StackPane stackPane = new StackPane();
                 stackPane.getChildren().addAll(new Rectangle(0, 0, 50, 0), label);
-                stackPane.setAlignment(Pos.BASELINE_CENTER);
+                stackPane.setAlignment(Pos.TOP_CENTER);
+                dataPoint.setNode(stackPane);
 
-                // Set the StackPane as the node for the data point
-                data.setNode(stackPane);
 
-                // Add the data point to the series
-                series.getData().add(data);
+                // Add the new data point to the series
+                series.getData().add(dataPoint);
             }
+
+            // Update the data on the chart
+            stackedBarChart.setData(data);
+            stackedBarChart.setTitle("Average Grades by Class and Subject for Teacher " + 2);
+            xAxis.setLabel("Subject");
+            yAxis.setLabel("Average Grade");
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    public void setPiechart(){
+        String pieQuery = "SELECT COUNT(DISTINCT teach.subject_id) AS num_subjects, COUNT(DISTINCT teach.class_id) AS num_classes "
+                + "FROM teach "
+                + "WHERE teach.teacher_id = " +  username;
+        try{
+            Statement statement = connection.createStatement();
+            ResultSet resultSet1 = statement.executeQuery(pieQuery);
+            ObservableList<PieChart.Data> pieData = FXCollections.observableArrayList();
 
             while(resultSet1.next()){
                 int num_subject = resultSet1.getInt("num_subjects");
@@ -1054,22 +1230,8 @@ public class Subject_MainScene_Controller implements Initializable {
                 pieData.add(subjectData);
                 pieData.add(classData);
             }
-
             piechart.setData(pieData);
-
-
-            // Add the series for each subject to the stacked bar chart
-            stackedBarChart.getData().addAll(subjectSeriesMap.values());
-
-            // Add the class categories to the x-axis
-            xAsis.getCategories().addAll(subjectSeriesMap.values().stream()
-                    .flatMap(series -> series.getData().stream())
-                    .map(data -> data.getXValue())
-                    .distinct()
-                    .sorted()
-                    .collect(Collectors.toList()));
-
-        } catch (Exception e) {
+        }catch (Exception e){
             e.printStackTrace();
         }
     }
