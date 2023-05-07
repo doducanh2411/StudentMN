@@ -488,15 +488,22 @@ public class Homeroom_MainScene_Controller  implements Initializable {
     }
 
     public void exportStudent() {
-        //TO-DO: Xuất bảng học sinh ra PDF
         try {
             Alert alert;
 
             String className = getClassName(getTeacherClass());
 
-            FileOutputStream fos = new FileOutputStream("student's info of class " + className + ".pdf");
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Export Student Report");
+            fileChooser.setInitialFileName("Student's info of class " + className + ".pdf");
+            fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("PDF Files", "*.pdf"));
+            File file = fileChooser.showSaveDialog(null);
+            if (file == null) {
+                return;
+            }
+
             Document document = new Document();
-            PdfWriter writer = PdfWriter.getInstance(document, fos);
+            PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(file));
             document.open();
 
             BaseFont font = BaseFont.createFont(BaseFont.HELVETICA_BOLD, BaseFont.CP1252, BaseFont.NOT_EMBEDDED);
@@ -511,7 +518,6 @@ public class Homeroom_MainScene_Controller  implements Initializable {
             infoParagraph.add(Chunk.NEWLINE);
             infoParagraph.add(Chunk.NEWLINE);
             document.add(infoParagraph);
-
 
             PdfPTable pdfTable = new PdfPTable(6);
             addTableHeader(pdfTable);
@@ -530,12 +536,13 @@ public class Homeroom_MainScene_Controller  implements Initializable {
             alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("");
             alert.setHeaderText(null);
-            alert.setContentText("Exported successfully to Student's info of class " + className + ".pdf");
+            alert.setContentText("Exported successfully to " + file.getName());
             alert.showAndWait();
         } catch (Exception ex) {
             ex.printStackTrace();
         }
     }
+
 
 
     private void addTableHeader(PdfPTable table) {
@@ -567,8 +574,16 @@ public class Homeroom_MainScene_Controller  implements Initializable {
             ResultSet result = statement.executeQuery();
 
             // Create a PDF file to write the grades
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Export Student Grade Report");
+            fileChooser.setInitialFileName("student's grades of class " + className + ".pdf");
+            fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("PDF Files", "*.pdf"));
+            File file = fileChooser.showSaveDialog(null);
+            if (file == null) {
+                return;
+            }
             Document document = new Document();
-            PdfWriter.getInstance(document, new FileOutputStream("student's grades of class " + className + ".pdf"));
+            PdfWriter.getInstance(document, new FileOutputStream(file));
             document.open();
 
             PdfPTable table = new PdfPTable(7); // 7 columns for Student ID, Name, Subject, Component Point, Mid Point, End Point, Final Point

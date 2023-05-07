@@ -1,4 +1,4 @@
-package com.example.studentmn.ViewController;
+package com.example.studentmn.StudentManagementController;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;

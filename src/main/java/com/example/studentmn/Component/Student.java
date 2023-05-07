@@ -6,8 +6,8 @@ import java.time.LocalDate;
 import java.util.Optional;
 
 import com.example.studentmn.HelloApplication;
-import com.example.studentmn.ViewController.UpdateStudentController;
-import com.example.studentmn.ViewController.ViewStudentController;
+import com.example.studentmn.StudentManagementController.UpdateStudentController;
+import com.example.studentmn.StudentManagementController.ViewStudentController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;

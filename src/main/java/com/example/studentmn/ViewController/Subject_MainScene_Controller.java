@@ -994,8 +994,6 @@ public class Subject_MainScene_Controller implements Initializable {
     }
 
     public void exportStudentGrade(){
-        //TODO: Export student's grade to pdf
-
         // Create a new document
         Document document = new Document();
 
@@ -1017,11 +1015,22 @@ public class Subject_MainScene_Controller implements Initializable {
             String className = getClassName(selectedClass);
             String subjectName = getSubjectName(selectedSubject);
 
-            // Specify the file path for the PDF
-            String filePath = "grade report of " + subjectName + " " + className + ".pdf";
+            // Create a file chooser dialog
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Export Grade Report");
+            fileChooser.setInitialFileName("Grade report of " + subjectName + " " + className + ".pdf");
+            fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("PDF Files", "*.pdf"));
+
+            // Show the file chooser dialog
+            File file = fileChooser.showSaveDialog(null);
+
+            if (file == null) {
+                // User cancelled the dialog
+                return;
+            }
 
             // Create a PDF writer instance
-            PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(filePath));
+            PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(file));
 
             // Open the document
             document.open();
@@ -1044,7 +1053,7 @@ public class Subject_MainScene_Controller implements Initializable {
             infoParagraph.add(Chunk.NEWLINE);
             document.add(infoParagraph);
 
-            // Create a table with four columns
+            // Create a table with six columns
             PdfPTable table = new PdfPTable(6);
 
             // Set table width percentage to 100%
@@ -1078,11 +1087,11 @@ public class Subject_MainScene_Controller implements Initializable {
             alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("");
             alert.setHeaderText(null);
-            alert.setContentText("Exported successfully to Grade report of " + subjectName + " " + className + ".pdf!");
+            alert.setContentText("Exported successfully to " + file.getName() + "!");
             alert.showAndWait();
 
         } catch (FileNotFoundException | DocumentException e) {
-            // Handle any exceptions that occurred during PDF creation
+            // Handle any exceptions that occurred during PDF
             e.printStackTrace();
         } catch (IOException e) {
             throw new RuntimeException(e);

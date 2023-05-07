@@ -675,12 +675,13 @@ public class Student_MainScene_Controller implements Initializable {
             // Create a PDF writer instance
             FileChooser fileChooser = new FileChooser();
             fileChooser.setTitle("Export Student Report");
-            fileChooser.setInitialFileName("grade report of " + name.getText() + ".pdf");
+            fileChooser.setInitialFileName("Grade report of " + name.getText() + ".pdf");
+            fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("PDF Files", "*.pdf"));
             File file = fileChooser.showSaveDialog(null);
             if (file == null) {
                 return;
             }
-            PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(file));
+            //PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(file));
 
             // Open the document
             document.open();

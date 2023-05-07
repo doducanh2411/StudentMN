@@ -1,4 +1,4 @@
-package com.example.studentmn.ViewController;
+package com.example.studentmn.StudentManagementController;
 
 
 import com.example.studentmn.Component.Student;
@@ -93,7 +93,12 @@ public class AddStudentController implements Initializable {
                 alert.setHeaderText(null);
                 alert.setContentText("Please fill all blank!");
                 alert.showAndWait();
-
+            } else if(!getStudentId.getText().matches("^[0-9]+$")){
+                alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error message");
+                alert.setHeaderText(null);
+                alert.setContentText("Invalid Student ID!");
+                alert.showAndWait();
             } else if (getStudentBirth.getValue().isAfter(present)) {
                 alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Error message");
@@ -225,7 +230,7 @@ public class AddStudentController implements Initializable {
     }
 
 
-    public void checkRegExp(){
+    /*public void checkRegExp(){
         getStudentId.focusedProperty().addListener((observable, oldValue, newValue) ->{
             if (!newValue){
                 VBox container = (VBox) getStudentId.getParent().getParent();
@@ -237,10 +242,10 @@ public class AddStudentController implements Initializable {
                 }
             }
         });
-    }
+    }*/
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         addGenderList();
-        checkRegExp();
+        //checkRegExp();
     }
 }

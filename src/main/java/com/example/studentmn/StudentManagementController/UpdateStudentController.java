@@ -1,4 +1,4 @@
-package com.example.studentmn.ViewController;
+package com.example.studentmn.StudentManagementController;
 
 import com.example.studentmn.Component.Student;
 import javafx.collections.FXCollections;
@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
-import static com.example.studentmn.ViewController.AddStudentController.getTeacherClass;
+import static com.example.studentmn.StudentManagementController.AddStudentController.getTeacherClass;
 import static com.example.studentmn.MainController.LoginFormController.connection;
 import static com.example.studentmn.ViewController.Homeroom_MainScene_Controller.listStudents;
 
