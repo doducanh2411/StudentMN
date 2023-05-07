@@ -1,4 +1,4 @@
-package com.example.demo;
+package com.example.studentmn;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -15,7 +15,7 @@ public class HelloApplication extends Application {
     private double y = 0;
     @Override
     public void start(Stage stage) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("/com/example/demo/Controller/LoginForm.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/com/example/studentmn/MainController/LoginForm.fxml"));
 
         root.setOnMousePressed((MouseEvent e) -> {
             x = e.getSceneX();

@@ -1,4 +1,4 @@
-package com.example.demo.Component;
+package com.example.studentmn.Component;
 
 public class Grade {
     private int grade_id;

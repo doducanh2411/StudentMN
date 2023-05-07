@@ -1,10 +1,7 @@
-package com.example.demo.View;
-
-import com.example.demo.Component.Grade;
+package com.example.studentmn.ViewController;
 
 
-
-import com.example.demo.HelloApplication;
+import com.example.studentmn.HelloApplication;
 
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
@@ -43,14 +40,14 @@ import java.util.*;
 import java.util.List;
 import java.util.stream.Stream;
 
-import static com.example.demo.Controller.LoginFormController.connection;
-import static com.example.demo.Controller.LoginFormController.username;
+import static com.example.studentmn.MainController.LoginFormController.connection;
+import static com.example.studentmn.MainController.LoginFormController.username;
 
-import com.example.demo.Component.Student;
+import com.example.studentmn.Component.Student;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
-public class Homeroom_MainScene_Controller implements Initializable {
+public class Homeroom_MainScene_Controller  implements Initializable {
 
     @FXML
     private Label aboveAvgLabel;
@@ -351,6 +348,9 @@ public class Homeroom_MainScene_Controller implements Initializable {
                 finalPoints.get(student_id).put(subject_name, final_point);
             }
 
+            countBelowAvg = 0;
+            countAboveAvg = 0;
+
             for (Map<String, Object> studentPoints : finalPoints.values()) {
                 float totalPoints = (float) studentPoints.getOrDefault("total_points", 0f);
                 int numSubjects = (int) studentPoints.getOrDefault("num_subjects", 0);
@@ -480,7 +480,7 @@ public class Homeroom_MainScene_Controller implements Initializable {
 
     public void addStudent() throws IOException {
         Stage stage = new Stage();
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("/com/example/demo/View/AddStudentForm.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("/com/example/studentmn/ViewController/AddStudentForm.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         stage.setScene(scene);
         stage.setTitle("ADD STUDENT");
@@ -614,14 +614,14 @@ public class Homeroom_MainScene_Controller implements Initializable {
                 table.addCell(String.valueOf(student_id));
                 table.addCell(student_name);
                 table.addCell(subject_name);
-                table.addCell(getValueOrDash((double)component_point));
-                table.addCell(getValueOrDash((double)mid_point));
-                table.addCell(getValueOrDash((double)end_point));
+                table.addCell(getValueOrDash(component_point));
+                table.addCell(getValueOrDash(mid_point));
+                table.addCell(getValueOrDash(end_point));
 
                 if (final_point == null) {
                     table.addCell("-");
                 } else {
-                    table.addCell(getValueOrDash((double)final_point));
+                    table.addCell(getValueOrDash(final_point));
                 }
 
             }
@@ -642,7 +642,7 @@ public class Homeroom_MainScene_Controller implements Initializable {
 
 
 
-    private String getValueOrDash(Double value) {
+    public String getValueOrDash(float value) {
         return value != -1 ? String.valueOf(value) : "-";
     }
 
@@ -922,7 +922,6 @@ public class Homeroom_MainScene_Controller implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         showData();
-        //showChart();
         showStudentListData();
         showStudentFinalPoints(true);
         showChart();

@@ -1,51 +1,25 @@
-package com.example.demo.Controller;
+package com.example.studentmn.MainController;
 
-import com.example.demo.Component.Grade;
-import com.example.demo.Component.Student;
-import com.example.demo.HelloApplication;
-import com.example.demo.View.Homeroom_MainScene_Controller;
-import com.example.demo.View.Student_MainScene_Controller;
-import com.example.demo.View.Subject_MainScene_Controller;
-import javafx.beans.property.SimpleObjectProperty;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.collections.transformation.FilteredList;
-import javafx.collections.transformation.SortedList;
+import com.example.studentmn.ViewController.Homeroom_MainScene_Controller;
+import com.example.studentmn.ViewController.Student_MainScene_Controller;
+import com.example.studentmn.ViewController.Subject_MainScene_Controller;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.fxml.FXML;
-import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.chart.*;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
-import javafx.scene.text.Text;
-import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import javafx.util.StringConverter;
-import org.w3c.dom.events.MouseEvent;
 
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.URL;
-import java.sql.*;
-import java.time.LocalDate;
 import java.util.*;
-import java.util.concurrent.atomic.AtomicBoolean;
 
-import static com.example.demo.Controller.LoginFormController.*;
-import static java.sql.Types.NULL;
+import static com.example.studentmn.MainController.LoginFormController.*;
 
 
 public class MainSceneController implements Initializable {
@@ -178,7 +152,7 @@ public class MainSceneController implements Initializable {
         if (isHomeroom == 1) {
             System.out.println("Homeroom");
             try {
-                loader = new FXMLLoader(getClass().getResource("/com/example/demo/View/Homeroom_MainScene.fxml"));
+                loader = new FXMLLoader(getClass().getResource("/com/example/studentmn/ViewController/Homeroom_MainScene.fxml"));
                 Node homeroom = loader.load();
                 centerPane.getChildren().add(homeroom);
 
@@ -195,7 +169,7 @@ public class MainSceneController implements Initializable {
         } else if (isSubject == 1) {
             System.out.println("Subject");
             try {
-                loader = new FXMLLoader(getClass().getResource("/com/example/demo/View/Subject_MainScene.fxml"));
+                loader = new FXMLLoader(getClass().getResource("/com/example/studentmn/ViewController/Subject_MainScene.fxml"));
                 Node subject = loader.load();
                 centerPane.getChildren().add(subject);
 
@@ -210,7 +184,7 @@ public class MainSceneController implements Initializable {
         } else if (isStudent == 1) {
             System.out.println("Student");
             try {
-                loader = new FXMLLoader(getClass().getResource("/com/example/demo/View/Student_MainScene.fxml"));
+                loader = new FXMLLoader(getClass().getResource("/com/example/studentmn/ViewController/Student_MainScene.fxml"));
                 Node student = loader.load();
                 centerPane.getChildren().add(student);
 

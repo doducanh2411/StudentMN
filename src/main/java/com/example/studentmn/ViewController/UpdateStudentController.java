@@ -1,6 +1,6 @@
-package com.example.demo.View;
+package com.example.studentmn.ViewController;
 
-import com.example.demo.Component.Student;
+import com.example.studentmn.Component.Student;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -14,9 +14,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
-import static com.example.demo.View.AddStudentController.getTeacherClass;
-import static com.example.demo.Controller.LoginFormController.connection;
-import static com.example.demo.View.Homeroom_MainScene_Controller.listStudents;
+import static com.example.studentmn.ViewController.AddStudentController.getTeacherClass;
+import static com.example.studentmn.MainController.LoginFormController.connection;
+import static com.example.studentmn.ViewController.Homeroom_MainScene_Controller.listStudents;
 
 public class UpdateStudentController implements Initializable {
 

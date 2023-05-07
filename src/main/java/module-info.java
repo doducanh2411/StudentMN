@@ -5,12 +5,12 @@ module com.example.demo {
     requires itextpdf;
 
 
-    opens com.example.demo to javafx.fxml;
-    exports com.example.demo;
-    exports com.example.demo.Controller;
-    opens com.example.demo.Controller to javafx.fxml;
-    exports com.example.demo.Component;
-    opens com.example.demo.Component to javafx.fxml;
-    exports com.example.demo.View;
-    opens com.example.demo.View to javafx.fxml;
+    opens com.example.studentmn to javafx.fxml;
+    exports com.example.studentmn;
+    exports com.example.studentmn.MainController;
+    opens com.example.studentmn.MainController to javafx.fxml;
+    exports com.example.studentmn.Component;
+    opens com.example.studentmn.Component to javafx.fxml;
+    exports com.example.studentmn.ViewController;
+    opens com.example.studentmn.ViewController to javafx.fxml;
 }

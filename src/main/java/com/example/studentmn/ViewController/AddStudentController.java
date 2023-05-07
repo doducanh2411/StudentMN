@@ -1,7 +1,7 @@
-package com.example.demo.View;
+package com.example.studentmn.ViewController;
 
 
-import com.example.demo.Component.Student;
+import com.example.studentmn.Component.Student;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -18,8 +18,8 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
-import static com.example.demo.Controller.LoginFormController.*;
-import static com.example.demo.View.Homeroom_MainScene_Controller.listStudents;
+import static com.example.studentmn.MainController.LoginFormController.*;
+import static com.example.studentmn.ViewController.Homeroom_MainScene_Controller.listStudents;
 import static java.sql.Types.NULL;
 
 public class AddStudentController implements Initializable {

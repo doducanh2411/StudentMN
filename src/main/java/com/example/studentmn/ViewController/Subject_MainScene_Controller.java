@@ -1,6 +1,6 @@
-package com.example.demo.View;
+package com.example.studentmn.ViewController;
 
-import com.example.demo.Component.Grade;
+import com.example.studentmn.Component.Grade;
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfPTable;
@@ -32,10 +32,9 @@ import java.time.LocalDate;
 import java.util.*;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.stream.Collectors;
 
-import static com.example.demo.Controller.LoginFormController.connection;
-import static com.example.demo.Controller.LoginFormController.username;
+import static com.example.studentmn.MainController.LoginFormController.connection;
+import static com.example.studentmn.MainController.LoginFormController.username;
 import static java.sql.Types.NULL;
 
 public class Subject_MainScene_Controller implements Initializable {
@@ -994,7 +993,7 @@ public class Subject_MainScene_Controller implements Initializable {
 
     }
 
-    public void exportGradeStudent(){
+    public void exportStudentGrade(){
         //TODO: Export student's grade to pdf
 
         // Create a new document
@@ -1090,7 +1089,7 @@ public class Subject_MainScene_Controller implements Initializable {
         }
     }
 
-    private String getValueOrDash(float value) {
+    public String getValueOrDash(float value) {
         return value != -1 ? String.valueOf(value) : "-";
     }
 

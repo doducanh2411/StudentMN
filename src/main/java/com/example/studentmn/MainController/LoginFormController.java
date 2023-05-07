@@ -1,6 +1,6 @@
-package com.example.demo.Controller;
+package com.example.studentmn.MainController;
 
-import com.example.demo.ConnectJDBC;
+import com.example.studentmn.ConnectJDBC;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -58,7 +58,7 @@ public class LoginFormController {
 
                     signInBut.getScene().getWindow().hide();
 
-                    Parent root = FXMLLoader.load(getClass().getResource("/com/example/demo/Controller/MainScene.fxml"));
+                    Parent root = FXMLLoader.load(getClass().getResource("/com/example/studentmn/MainController/MainScene.fxml"));
                     Stage stage = new Stage();
                     Scene scene = new Scene(root);
 

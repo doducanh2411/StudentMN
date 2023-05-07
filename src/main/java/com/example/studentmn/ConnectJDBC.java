@@ -1,4 +1,4 @@
-package com.example.demo;
+package com.example.studentmn;
 import java.sql.*;
 public class ConnectJDBC {
     public static Connection getConnection(){

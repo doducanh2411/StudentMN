@@ -1,12 +1,9 @@
-package com.example.demo.View;
+package com.example.studentmn.ViewController;
 
-import com.example.demo.Component.Student;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Group;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
@@ -18,7 +15,7 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ResourceBundle;
 
-import static com.example.demo.Controller.LoginFormController.connection;
+import static com.example.studentmn.MainController.LoginFormController.connection;
 
 public class ViewStudentController implements Initializable {
     @FXML

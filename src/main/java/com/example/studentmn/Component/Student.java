@@ -1,13 +1,13 @@
-package com.example.demo.Component;
+package com.example.studentmn.Component;
 
 import java.io.IOException;
 import java.sql.*;
 import java.time.LocalDate;
 import java.util.Optional;
 
-import com.example.demo.HelloApplication;
-import com.example.demo.View.UpdateStudentController;
-import com.example.demo.View.ViewStudentController;
+import com.example.studentmn.HelloApplication;
+import com.example.studentmn.ViewController.UpdateStudentController;
+import com.example.studentmn.ViewController.ViewStudentController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -20,8 +20,8 @@ import javafx.scene.control.Button;
 import javafx.stage.Stage;
 
 
-import static com.example.demo.Controller.LoginFormController.connection;
-import static com.example.demo.View.Homeroom_MainScene_Controller.listStudents;
+import static com.example.studentmn.MainController.LoginFormController.connection;
+import static com.example.studentmn.ViewController.Homeroom_MainScene_Controller.listStudents;
 
 public class Student {
     private int student_id;
@@ -54,7 +54,7 @@ public class Student {
         editBtn.setStyle("-fx-background-color: transparent; -fx-cursor: hand;");
         editBtn.setOnAction(event -> {
             Stage stage = new Stage();
-            FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("/com/example/demo/View/UpdateStudentForm.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("/com/example/studentmn/ViewController/UpdateStudentForm.fxml"));
             try {
                 Parent root = fxmlLoader.load();
                 UpdateStudentController controller = fxmlLoader.getController();
@@ -121,7 +121,7 @@ public class Student {
         viewButton.setStyle("-fx-background-color: transparent; -fx-cursor: hand;");
         viewButton.setOnAction(e -> {
             Stage stage = new Stage();
-            FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("/com/example/demo/View/ViewStudentForm.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("/com/example/studentmn/ViewController/ViewStudentForm.fxml"));
             try {
                 Parent root = fxmlLoader.load();
                 ViewStudentController controller = fxmlLoader.getController();

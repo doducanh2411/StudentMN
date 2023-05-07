@@ -1,4 +1,4 @@
-package com.example.demo.View;
+package com.example.studentmn.ViewController;
 
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.BaseFont;
@@ -32,8 +32,8 @@ import java.sql.*;
 import java.util.*;
 import java.util.List;
 
-import static com.example.demo.Controller.LoginFormController.connection;
-import static com.example.demo.Controller.LoginFormController.username;
+import static com.example.studentmn.MainController.LoginFormController.connection;
+import static com.example.studentmn.MainController.LoginFormController.username;
 
 
 public class Student_MainScene_Controller implements Initializable {
@@ -661,11 +661,9 @@ public class Student_MainScene_Controller implements Initializable {
     }
 
     public void exportStudentSubjectGrades() {
-        //TODO: Export student's grade to pdf
-
         // Get the student name and ID
-        String studentName = name.getText();  // Assuming "name" is a Label component storing the student name
-        String studentId = username;  // Assuming "username" is a String variable storing the student ID
+        String studentName = name.getText();
+        String studentId = username;
 
         // Get the subject grades for the student
         Map<String, Double[]> subjectGrades = getSubjectGrades(Integer.parseInt(username));
@@ -674,12 +672,15 @@ public class Student_MainScene_Controller implements Initializable {
         Document document = new Document();
 
         try {
-            Alert alert;
-            // Specify the file path for the PDF
-            String filePath = "grade report of " + name.getText() + ".pdf";
-
             // Create a PDF writer instance
-            PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(filePath));
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Export Student Report");
+            fileChooser.setInitialFileName("grade report of " + name.getText() + ".pdf");
+            File file = fileChooser.showSaveDialog(null);
+            if (file == null) {
+                return;
+            }
+            PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(file));
 
             // Open the document
             document.open();
@@ -731,7 +732,7 @@ public class Student_MainScene_Controller implements Initializable {
             document.close();
 
             // Show a success message
-            alert = new Alert(Alert.AlertType.INFORMATION);
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("");
             alert.setHeaderText(null);
             alert.setContentText("Student's report exported successfully!");
@@ -744,6 +745,7 @@ public class Student_MainScene_Controller implements Initializable {
             throw new RuntimeException(e);
         }
     }
+
     public void addGenderList(){
         List<String> listGender = new ArrayList<>();
         listGender.add("Male");
