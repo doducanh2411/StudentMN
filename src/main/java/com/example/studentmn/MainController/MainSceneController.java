@@ -3,57 +3,56 @@ package com.example.studentmn.MainController;
 import com.example.studentmn.ViewController.Homeroom_MainScene_Controller;
 import com.example.studentmn.ViewController.Student_MainScene_Controller;
 import com.example.studentmn.ViewController.Subject_MainScene_Controller;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.layout.*;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
-
 import java.io.IOException;
 import java.net.URL;
-import java.util.*;
+import java.util.Optional;
+import java.util.ResourceBundle;
 
 import static com.example.studentmn.MainController.LoginFormController.*;
 
 
 public class MainSceneController implements Initializable {
+    FXMLLoader loader;
     @FXML
-    private  Button notiButton;
-
+    private Button notiButton;
     @FXML
     private Pane centerPane;
-
     @FXML
     private Pane notificationPane;
-
     @FXML
     private Button settingButton;
-
     @FXML
     private Label PaneLable;
-
     @FXML
     private Button dashBoardButton;
-
     @FXML
     private Button gradeButton;
-
     @FXML
     private BorderPane main_form;
-
     @FXML
     private Button studentButton;
-
     private Pane dashBoardForm;
     private Pane studentForm;
     private Pane gradeForm;
     private TabPane settingForm;
+    @FXML
+    private Button logout;
+    private int x;
+    private int y;
+    @FXML
+    private ToggleButton notificationButton;
 
     public void close() {
         System.exit(0);
@@ -64,7 +63,6 @@ public class MainSceneController implements Initializable {
         stage.setIconified(true);
     }
 
-
     public void switchForm() {
         dashBoardButton.setOnAction(e -> {
             setActiveButton(dashBoardButton);
@@ -74,16 +72,16 @@ public class MainSceneController implements Initializable {
             gradeForm.setVisible(false);
             settingForm.setVisible(false);
 
-            if (isHomeroom == 1){
+            if (isHomeroom == 1) {
                 Homeroom_MainScene_Controller controller = loader.getController();
                 controller.showData();
                 controller.showChart(); //BUG
-            }else if(isSubject == 1){
+            } else if (isSubject == 1) {
                 Subject_MainScene_Controller controller = loader.getController();
                 controller.showData();
                 controller.showChart(); //BUG
                 //controller.clearChart();
-            }else if (isStudent == 1){
+            } else if (isStudent == 1) {
                 Student_MainScene_Controller controller = loader.getController();
                 controller.showData();
                 controller.showChart(); //BUG
@@ -97,10 +95,10 @@ public class MainSceneController implements Initializable {
             studentForm.setVisible(true);
             gradeForm.setVisible(false);
             settingForm.setVisible(false);
-            if (isHomeroom == 1){
+            if (isHomeroom == 1) {
                 Homeroom_MainScene_Controller controller = loader.getController();
                 controller.showStudentListData();
-            }else if (isSubject == 1){
+            } else if (isSubject == 1) {
                 Subject_MainScene_Controller controller = loader.getController();
                 controller.showStudentGrade();
             }
@@ -113,13 +111,13 @@ public class MainSceneController implements Initializable {
             studentForm.setVisible(false);
             gradeForm.setVisible(true);
             settingForm.setVisible(false);
-            if (isHomeroom == 1){
+            if (isHomeroom == 1) {
                 Homeroom_MainScene_Controller controller = loader.getController();
                 controller.showStudentFinalPoints(false);
-            }else if(isSubject == 1){
+            } else if (isSubject == 1) {
                 Subject_MainScene_Controller controller = loader.getController();
                 controller.showInputGrade();
-            }else if (isStudent == 1){
+            } else if (isStudent == 1) {
                 Student_MainScene_Controller controller = loader.getController();
                 controller.showStudentPoint(false);
             }
@@ -133,20 +131,18 @@ public class MainSceneController implements Initializable {
             gradeForm.setVisible(false);
             settingForm.setVisible(true);
 
-            if (isHomeroom == 1){
+            if (isHomeroom == 1) {
                 Homeroom_MainScene_Controller controller = loader.getController();
                 controller.getTeacherInfo();
-            }else if(isSubject == 1){
+            } else if (isSubject == 1) {
                 Subject_MainScene_Controller controller = loader.getController();
                 controller.getTeacherInfo();
-            }else if (isStudent == 1){
+            } else if (isStudent == 1) {
                 Student_MainScene_Controller controller = loader.getController();
                 controller.getStudentInfo();
             }
         });
     }
-
-    FXMLLoader loader;
 
     public void setFXMLFile() {
         if (isHomeroom == 1) {
@@ -199,11 +195,7 @@ public class MainSceneController implements Initializable {
         }
     }
 
-    @FXML
-    private Button logout;
-    private int x;
-    private int y;
-    public void logOut(){
+    public void logOut() {
         try {
 
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -230,7 +222,6 @@ public class MainSceneController implements Initializable {
                 stage.show();
 
             } else {
-                return;
             }
 
         } catch (Exception e) {
@@ -238,16 +229,13 @@ public class MainSceneController implements Initializable {
         }
     }
 
-    @FXML
-    private ToggleButton notificationButton;
-
-    public void showNoti(){
-        if(notificationButton.isSelected()){
+    public void showNoti() {
+        if (notificationButton.isSelected()) {
             notificationPane.setVisible(true);
             notificationPane.toFront();
             centerPane.toBack();
 
-        }else{
+        } else {
             notificationPane.setVisible(false);
         }
     }

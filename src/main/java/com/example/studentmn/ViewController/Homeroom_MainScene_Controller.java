@@ -1,8 +1,13 @@
 package com.example.studentmn.ViewController;
 
 
+import com.example.studentmn.Component.Student;
 import com.example.studentmn.HelloApplication;
-
+import com.itextpdf.text.*;
+import com.itextpdf.text.pdf.BaseFont;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -17,7 +22,6 @@ import javafx.scene.chart.BarChart;
 import javafx.scene.chart.PieChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
-import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -29,129 +33,98 @@ import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
-import com.itextpdf.text.*;
-import com.itextpdf.text.pdf.*;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 
 import java.io.*;
 import java.net.URL;
 import java.sql.*;
 import java.time.LocalDate;
-import java.util.*;
 import java.util.List;
+import java.util.*;
 import java.util.stream.Stream;
 
 import static com.example.studentmn.MainController.LoginFormController.connection;
 import static com.example.studentmn.MainController.LoginFormController.username;
 
-import com.example.studentmn.Component.Student;
-import javafx.stage.FileChooser;
-import javafx.stage.Stage;
+public class Homeroom_MainScene_Controller implements Initializable {
 
-public class Homeroom_MainScene_Controller  implements Initializable {
-
+    public static ObservableList<Student> listStudents;
     @FXML
     private Label aboveAvgLabel;
-
     @FXML
     private Label belowAvgLabel;
-
     @FXML
     private TableColumn<Student, HBox> action;
-
     @FXML
     private BarChart<String, Number> barChart;
-
     @FXML
     private PasswordField confirmTeacherPass;
-
     @FXML
     private Button createStudent;
-
     @FXML
     private PasswordField currentTeacherPass;
-
     @FXML
     private Pane dashBoardForm;
-
     @FXML
     private Text description;
-
     @FXML
     private DatePicker getTeacherBirth;
-
     @FXML
     private TextField getTeacherEmail;
-
     @FXML
     private ComboBox<String> getTeacherGender;
-
     @FXML
     private TextField getTeacherID;
-
     @FXML
     private TextField getTeacherName;
-
     @FXML
     private TextField getTeacherPhone;
-
     @FXML
     private Pane gradeForm;
-
-
-
     @FXML
     private Button insertTeacherImg;
-
     @FXML
     private Label name;
-
     @FXML
     private Label name1;
-
     @FXML
     private PasswordField newTeacherPass;
-
     @FXML
     private PieChart piechart;
-
     @FXML
     private TextField searchStudent;
-
     @FXML
     private TextField searchStudentFinalPoint;
-
     @FXML
     private Pane studentForm;
-
     @FXML
     private TableView<Student> studentViewTable;
-
     @FXML
     private TableColumn<Student, String> student_birth_col;
-
     @FXML
     private TableColumn<Student, String> student_email_col;
-
     @FXML
     private TableColumn<Student, String> student_gender_col;
-
     @FXML
     private TableColumn<Student, String> student_id_col;
-
     @FXML
     private TableColumn<Student, String> student_name_col;
-
     @FXML
     private TableColumn<Student, String> student_phone_col;
-
     @FXML
     private ImageView teacherImg;
-
     @FXML
     private TabPane teacherSettingForm;
-
     @FXML
     private Circle avatarImg;
+    private int countBelowAvg;
+    private int countAboveAvg;
+    @FXML
+    private TableView<Map.Entry<Integer, Map<String, Object>>> gradeViewTable;
+    private File selectedFile;
+    @FXML
+    private Circle circleImg;
 
     public void showData() {
         String classQuery = "SELECT * FROM class c INNER JOIN teacher t ON c.teacher_id = t.teacher_id";
@@ -169,7 +142,7 @@ public class Homeroom_MainScene_Controller  implements Initializable {
                     InputStream inputStream = blob.getBinaryStream();
                     image = new Image(inputStream);
                     avatarImg.setFill(new ImagePattern(image));
-                } else{
+                } else {
                     image = new Image(getClass().getResourceAsStream("/image/default-avatar.jpg"));
                     avatarImg.setFill(new ImagePattern(image));
                 }
@@ -251,8 +224,6 @@ public class Homeroom_MainScene_Controller  implements Initializable {
         aboveAvgLabel.setText(String.valueOf(countAboveAvg));
     }
 
-    public static ObservableList<Student> listStudents;
-
     public ObservableList<Student> addStudentList() {
         ObservableList<Student> listStudents = FXCollections.observableArrayList();
         String query = "SELECT * FROM student WHERE class_id = " + getTeacherClass();
@@ -291,13 +262,6 @@ public class Homeroom_MainScene_Controller  implements Initializable {
         studentViewTable.setItems(listStudents);
         studentViewTable.getSortOrder().add(student_id_col);
     }
-
-    private int countBelowAvg;
-    private int countAboveAvg;
-
-
-    @FXML
-    private TableView<Map.Entry<Integer, Map<String, Object>>> gradeViewTable;
 
     public void showStudentFinalPoints(boolean updateTable) {
         try {
@@ -356,10 +320,10 @@ public class Homeroom_MainScene_Controller  implements Initializable {
                 int numSubjects = (int) studentPoints.getOrDefault("num_subjects", 0);
                 if (numSubjects > 0) {
                     float finalGradePoint = totalPoints / numSubjects;
-                    if (finalGradePoint < 5){
+                    if (finalGradePoint < 5) {
                         countBelowAvg++;
                     }
-                    if (finalGradePoint >= 8){
+                    if (finalGradePoint >= 8) {
                         countAboveAvg++;
                     }
                     studentPoints.put("final_grade_point", finalGradePoint);
@@ -379,7 +343,7 @@ public class Homeroom_MainScene_Controller  implements Initializable {
             TableColumn<Map.Entry<Integer, Map<String, Object>>, String> studentNameCol = new TableColumn<>("Name");
             studentNameCol.setCellValueFactory(data -> new SimpleObjectProperty<>((String) data.getValue().getValue().get("name")));
             //gradeViewTable.getColumns().add(studentNameCol);
-            if (updateTable){
+            if (updateTable) {
                 gradeViewTable.getColumns().add(studentIdCol);
                 gradeViewTable.getColumns().add(studentNameCol);
             }
@@ -388,12 +352,11 @@ public class Homeroom_MainScene_Controller  implements Initializable {
                 if (subject != null && !subject.equals("name") && !subject.equals("num_subjects") && !subject.equals("total_points") && !subject.equals("final_grade_point")) {
                     TableColumn<Map.Entry<Integer, Map<String, Object>>, Number> subjectPointCol = new TableColumn<>(subject);
                     subjectPointCol.setCellValueFactory(data -> new SimpleObjectProperty<>((Number) data.getValue().getValue().get(subject)));
-                    if (updateTable){
+                    if (updateTable) {
                         gradeViewTable.getColumns().add(subjectPointCol);
                     }
                 }
             }
-
 
 
             gradeViewTable.getItems().setAll(finalPoints.entrySet());
@@ -401,7 +364,7 @@ public class Homeroom_MainScene_Controller  implements Initializable {
             TableColumn<Map.Entry<Integer, Map<String, Object>>, Float> finalGradePointCol = new TableColumn<>("Final Point");
             finalGradePointCol.setCellValueFactory(data -> new SimpleObjectProperty<>((Float) data.getValue().getValue().get("final_grade_point")));
 
-            if (updateTable){
+            if (updateTable) {
                 gradeViewTable.getColumns().add(finalGradePointCol);
             }
 
@@ -411,7 +374,6 @@ public class Homeroom_MainScene_Controller  implements Initializable {
             e.printStackTrace();
         }
     }
-
 
     public void searchStudent() {
         FilteredList<Student> filter = new FilteredList<>(listStudents, e -> true);
@@ -435,11 +397,7 @@ public class Homeroom_MainScene_Controller  implements Initializable {
                     return true;
                 } else if (predicateStudentData.getDateOfBirth().toString().contains(searchKey)) {
                     return true;
-                } else if (predicateStudentData.getEmail() != null && predicateStudentData.getEmail().toLowerCase().contains(searchKey)) {
-                    return true;
-                } else {
-                    return false;
-                }
+                } else return predicateStudentData.getEmail() != null && predicateStudentData.getEmail().toLowerCase().contains(searchKey);
             });
         });
         SortedList<Student> sortList = new SortedList<>(filter);
@@ -464,11 +422,7 @@ public class Homeroom_MainScene_Controller  implements Initializable {
                 } else {
                     Map<String, Object> valueMap = studentData.getValue();
                     String studentName = valueMap.get("name").toString().toLowerCase();
-                    if (String.valueOf(studentData.getKey()).toLowerCase().contains(lowerCaseFilter) || studentName.contains(lowerCaseFilter)) {
-                        return true;
-                    } else {
-                        return false;
-                    }
+                    return String.valueOf(studentData.getKey()).toLowerCase().contains(lowerCaseFilter) || studentName.contains(lowerCaseFilter);
                 }
             });
         });
@@ -542,8 +496,6 @@ public class Homeroom_MainScene_Controller  implements Initializable {
             ex.printStackTrace();
         }
     }
-
-
 
     private void addTableHeader(PdfPTable table) {
         Stream.of("ID", "Name", "Gender", "Birth", "Phone", "Email")
@@ -655,8 +607,6 @@ public class Homeroom_MainScene_Controller  implements Initializable {
         }
     }
 
-
-
     public String getValueOrDash(float value) {
         return value != -1 ? String.valueOf(value) : "-";
     }
@@ -685,8 +635,6 @@ public class Homeroom_MainScene_Controller  implements Initializable {
         return className;
     }
 
-    private File selectedFile;
-
     public void insertTeacherImg() {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Choose Image File");
@@ -700,8 +648,6 @@ public class Homeroom_MainScene_Controller  implements Initializable {
         }
     }
 
-    @FXML
-    private Circle circleImg;
     public void getTeacherInfo() {
         String query = "SELECT * FROM teacher WHERE teacher_id = " + username;
         try {
@@ -720,7 +666,7 @@ public class Homeroom_MainScene_Controller  implements Initializable {
                     InputStream inputStream = blob.getBinaryStream();
                     image = new Image(inputStream);
                     circleImg.setFill(new ImagePattern(image));
-                } else{
+                } else {
                     image = new Image(getClass().getResourceAsStream("/image/default-avatar.jpg"));
                     circleImg.setFill(new ImagePattern(image));
                 }
@@ -739,8 +685,7 @@ public class Homeroom_MainScene_Controller  implements Initializable {
             alert.setHeaderText(null);
             alert.setContentText("Please fill all blank!");
             alert.showAndWait();
-        }
-        else {
+        } else {
             LocalDate present = LocalDate.now();
 
             if (getTeacherBirth.getValue().isAfter(present)) {
@@ -854,7 +799,7 @@ public class Homeroom_MainScene_Controller  implements Initializable {
         getTeacherPhone.setText("");
     }
 
-    public void addGenderList(){
+    public void addGenderList() {
         List<String> listGender = new ArrayList<>();
         listGender.add("Male");
         listGender.add("Female");

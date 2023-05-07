@@ -14,8 +14,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
-import static com.example.studentmn.StudentManagementController.AddStudentController.getTeacherClass;
 import static com.example.studentmn.MainController.LoginFormController.connection;
+import static com.example.studentmn.StudentManagementController.AddStudentController.getTeacherClass;
 import static com.example.studentmn.ViewController.Homeroom_MainScene_Controller.listStudents;
 
 public class UpdateStudentController implements Initializable {
@@ -51,7 +51,7 @@ public class UpdateStudentController implements Initializable {
         getStudentBirth.setValue(student.getDateOfBirth());
     }
 
-    public void clearSelected(){
+    public void clearSelected() {
         getStudentName.setText("");
         getStudentId.setText("");
         getStudentGender.getSelectionModel().clearSelection();
@@ -60,7 +60,7 @@ public class UpdateStudentController implements Initializable {
         getStudentBirth.setValue(null);
     }
 
-    public void updateStudent(){
+    public void updateStudent() {
         String query = "UPDATE student SET "
                 + "name = '" + getStudentName.getText()
                 + "', gender = '" + getStudentGender.getSelectionModel().getSelectedItem()
@@ -69,7 +69,7 @@ public class UpdateStudentController implements Initializable {
                 + "', phone  = '" + getStudentPhone.getText()
                 + "', class_id  = '" + getTeacherClass()
                 + "' WHERE student_id = '" + getStudentId.getText() + "'";
-        try{
+        try {
             Alert alert;
             if (getStudentName.getText().isEmpty()
                     || getStudentGender.getSelectionModel().getSelectedItem() == null
@@ -87,10 +87,10 @@ public class UpdateStudentController implements Initializable {
                 alert.setContentText("Are you sure you want to UPDATE Student #" + getStudentId.getText() + "?");
                 Optional<ButtonType> option = alert.showAndWait();
                 if (option.get().equals(ButtonType.OK)) {
-                    if (getStudentPhone.getText() == null){
+                    if (getStudentPhone.getText() == null) {
                         getStudentEmail.setText("");
                     }
-                    if (getStudentPhone.getText() == null){
+                    if (getStudentPhone.getText() == null) {
                         getStudentPhone.setText("");
                     }
                     Statement st = connection.createStatement();
@@ -112,20 +112,21 @@ public class UpdateStudentController implements Initializable {
 
                     listStudents.set(index, student);
                 } else {
-                    return;
                 }
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
-    public void addGenderList(){
+
+    public void addGenderList() {
         List<String> listGender = new ArrayList<>();
         listGender.add("Male");
         listGender.add("Female");
         ObservableList ObList = FXCollections.observableArrayList(listGender);
         getStudentGender.setItems(ObList);
     }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         addGenderList();

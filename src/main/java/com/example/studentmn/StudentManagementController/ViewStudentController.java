@@ -69,7 +69,7 @@ public class ViewStudentController implements Initializable {
         try {
             Statement statement = connection.createStatement();
             ResultSet rs = statement.executeQuery(query);
-            if (rs.next()){
+            if (rs.next()) {
                 setStudentID.setText(rs.getString("student_id"));
                 setStudentName.setText(rs.getString("name"));
                 setStudentGender.setText(rs.getString("gender"));
@@ -91,7 +91,7 @@ public class ViewStudentController implements Initializable {
                     circle.setFill(new ImagePattern(image));
                 }
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

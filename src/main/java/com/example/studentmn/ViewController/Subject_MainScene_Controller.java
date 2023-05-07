@@ -29,8 +29,8 @@ import java.io.*;
 import java.net.URL;
 import java.sql.*;
 import java.time.LocalDate;
-import java.util.*;
 import java.util.List;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import static com.example.studentmn.MainController.LoginFormController.connection;
@@ -38,158 +38,117 @@ import static com.example.studentmn.MainController.LoginFormController.username;
 import static java.sql.Types.NULL;
 
 public class Subject_MainScene_Controller implements Initializable {
-
+    public static ObservableList<Grade> gradeList = FXCollections.observableArrayList();
+    AtomicBoolean updating = new AtomicBoolean(false);
     @FXML
     private Circle avatarImg;
-
     @FXML
     private CategoryAxis xAxis;
-
     @FXML
     private NumberAxis yAxis;
-
     @FXML
     private StackedBarChart<String, Number> stackedBarChart;
-
     @FXML
     private ComboBox<Integer> classList;
     @FXML
     private ComboBox<Integer> subjectList;
-
     @FXML
     private BarChart<String, Number> barChart;
-
     @FXML
     private Button clearGrade;
-
     @FXML
     private PasswordField confirmTeacherPass;
-
     @FXML
     private PasswordField currentTeacherPass;
-
     @FXML
     private Pane dashBoardForm;
-
     @FXML
     private Text description;
-
     @FXML
     private ComboBox<Integer> getClassList;
-
     @FXML
     private TextField getComponentPoint;
-
     @FXML
     private TextField getEndPoint;
-
     @FXML
     private ComboBox<Integer> getGradeStudentId;
-
     @FXML
     private ComboBox<String> getGradeStudentName;
-
     @FXML
     private TextField getMidPoint;
-
     @FXML
     private ComboBox<Integer> getSubjectList;
-
     @FXML
     private DatePicker getTeacherBirth;
-
     @FXML
     private TextField getTeacherEmail;
-
     @FXML
     private ComboBox<String> getTeacherGender;
-
     @FXML
     private TextField getTeacherID;
-
     @FXML
     private TextField getTeacherName;
-
     @FXML
     private TextField getTeacherPhone;
-
     @FXML
     private Pane gradeForm;
-
     @FXML
     private TableView<Grade> gradeViewTable;
-
     @FXML
     private TableColumn<Grade, Float> grade_component_col;
-
     @FXML
     private TableColumn<Grade, Float> grade_end_col;
-
     @FXML
     private TableColumn<Grade, Float> grade_final_col;
-
     @FXML
     private TableColumn<Grade, Float> grade_mid_col;
-
     @FXML
     private TableColumn<Grade, Float> grade_student_id_col;
-
     @FXML
     private TableColumn<Grade, Float> grade_student_name_col;
-
     @FXML
     private Pane inputGradeForm;
-
     @FXML
     private TableView<Grade> inputGradeTable;
-
     @FXML
     private TableColumn<Grade, Float> input_component_col;
-
     @FXML
     private TableColumn<Grade, Float> input_end_col;
-
     @FXML
     private TableColumn<Grade, Float> input_final_col;
-
     @FXML
     private TableColumn<Grade, Float> input_mid_col;
-
     @FXML
     private TableColumn<Grade, String> input_student_id_col;
-
     @FXML
     private TableColumn<Grade, String> input_student_name_col;
-
     @FXML
     private Button insertGrade;
-
     @FXML
     private Button insertTeacherImg;
-
     @FXML
     private Label name;
-
     @FXML
     private Label name1;
-
     @FXML
     private PasswordField newTeacherPass;
-
     @FXML
     private PieChart piechart;
-
     @FXML
     private TextField searchStudentFinalPoint;
-
     @FXML
     private ImageView teacherImg;
-
     @FXML
     private TabPane teacherSettingForm;
-
     @FXML
     private Label type;
+    private int gradeSelectedClass;
+    private int gradeSelectSubject;
+    private int inputSelectedClass;
+    private int inputSelectedSubject;
+    @FXML
+    private Circle circleImg;
+    private File selectedFile;
 
     public void showData() {
         String query = "SELECT * FROM teacher WHERE teacher_id = " + username;
@@ -206,7 +165,7 @@ public class Subject_MainScene_Controller implements Initializable {
                     InputStream inputStream = blob.getBinaryStream();
                     image = new Image(inputStream);
                     avatarImg.setFill(new ImagePattern(image));
-                } else{
+                } else {
                     image = new Image(getClass().getResourceAsStream("/image/default-avatar.jpg"));
                     avatarImg.setFill(new ImagePattern(image));
                 }
@@ -298,6 +257,7 @@ public class Subject_MainScene_Controller implements Initializable {
                     }
                     return null;
                 }
+
                 @Override
                 public Integer fromString(String className) {
                     return classMap.get(className);
@@ -314,6 +274,7 @@ public class Subject_MainScene_Controller implements Initializable {
                     }
                     return null;
                 }
+
                 @Override
                 public Integer fromString(String className) {
                     return classMap.get(className);
@@ -346,8 +307,6 @@ public class Subject_MainScene_Controller implements Initializable {
         }
     }
 
-
-    public static ObservableList<Grade> gradeList = FXCollections.observableArrayList();
     public ObservableList<Grade> addGradeList(int selectedClass, int selectedSubject) {
         ObservableList<Grade> listGrade = FXCollections.observableArrayList();
 
@@ -388,10 +347,7 @@ public class Subject_MainScene_Controller implements Initializable {
         return listGrade;
     }
 
-
-    private int gradeSelectedClass;
-    private int gradeSelectSubject;
-    public void handleGrade(){
+    public void handleGrade() {
         //Fix this bug
         classList.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (classList.getValue() != null) {
@@ -416,7 +372,7 @@ public class Subject_MainScene_Controller implements Initializable {
 
     }
 
-    public void showStudentGrade(){
+    public void showStudentGrade() {
         gradeList = addGradeList(gradeSelectedClass, gradeSelectSubject);
 
         grade_student_id_col.setCellValueFactory(new PropertyValueFactory<>("student_id"));
@@ -489,10 +445,6 @@ public class Subject_MainScene_Controller implements Initializable {
         gradeViewTable.getSortOrder().add(input_student_id_col);
     }
 
-    AtomicBoolean updating = new AtomicBoolean(false);
-    private int inputSelectedClass;
-    private int inputSelectedSubject;
-
     public void handleInputGrade() {
         getClassList.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (getClassList.getValue() != null) {
@@ -514,7 +466,6 @@ public class Subject_MainScene_Controller implements Initializable {
                 showInputGrade(); // Hiển thị dữ liệu trong tableview
             }
         });
-
 
 
         getGradeStudentId.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
@@ -555,8 +506,6 @@ public class Subject_MainScene_Controller implements Initializable {
             }
         });
     }
-
-
 
     public void showInputGrade() {
         gradeList = addGradeList(inputSelectedClass, inputSelectedSubject);
@@ -748,6 +697,7 @@ public class Subject_MainScene_Controller implements Initializable {
         getMidPoint.setText("");
         getEndPoint.setText("");
     }
+
     public void getTeacherInfo() {
         String query = "SELECT * FROM teacher WHERE teacher_id = " + username;
         try {
@@ -766,7 +716,7 @@ public class Subject_MainScene_Controller implements Initializable {
                     InputStream inputStream = blob.getBinaryStream();
                     image = new Image(inputStream);
                     circleImg.setFill(new ImagePattern(image));
-                } else{
+                } else {
                     image = new Image(getClass().getResourceAsStream("/image/default-avatar.jpg"));
                     circleImg.setFill(new ImagePattern(image));
                 }
@@ -775,11 +725,6 @@ public class Subject_MainScene_Controller implements Initializable {
             e.printStackTrace();
         }
     }
-
-
-    @FXML
-    private Circle circleImg;
-    private File selectedFile;
 
     public void insertTeacherImg() {
         FileChooser fileChooser = new FileChooser();
@@ -803,8 +748,7 @@ public class Subject_MainScene_Controller implements Initializable {
             alert.setHeaderText(null);
             alert.setContentText("Please fill all blank!");
             alert.showAndWait();
-        }
-        else {
+        } else {
             LocalDate present = LocalDate.now();
 
             if (getTeacherBirth.getValue().isAfter(present)) {
@@ -989,11 +933,11 @@ public class Subject_MainScene_Controller implements Initializable {
         }
     }
 
-    public void searchGradeStudent(){
+    public void searchGradeStudent() {
 
     }
 
-    public void exportStudentGrade(){
+    public void exportStudentGrade() {
         // Create a new document
         Document document = new Document();
 
@@ -1041,7 +985,6 @@ public class Subject_MainScene_Controller implements Initializable {
             header.setAlignment(Element.ALIGN_CENTER);
             header.setSpacingAfter(20);
             document.add(header);
-
 
 
             // Add the student name and ID above the table
@@ -1161,7 +1104,7 @@ public class Subject_MainScene_Controller implements Initializable {
                     "INNER JOIN grade ON teach.subject_id = grade.subject_id " +
                     "INNER JOIN subject ON teach.subject_id = subject.subject_id " +
                     "INNER JOIN class ON teach.class_id = class.class_id " +
-                    "WHERE teach.teacher_id = " + username + " "+
+                    "WHERE teach.teacher_id = " + username + " " +
                     "GROUP BY teach.class_id, teach.teacher_id, subject.subject_id, class.class_id";
 
             Statement stmt = connection.createStatement();
@@ -1219,16 +1162,16 @@ public class Subject_MainScene_Controller implements Initializable {
     }
 
 
-    public void setPiechart(){
+    public void setPiechart() {
         String pieQuery = "SELECT COUNT(DISTINCT teach.subject_id) AS num_subjects, COUNT(DISTINCT teach.class_id) AS num_classes "
                 + "FROM teach "
-                + "WHERE teach.teacher_id = " +  username;
-        try{
+                + "WHERE teach.teacher_id = " + username;
+        try {
             Statement statement = connection.createStatement();
             ResultSet resultSet1 = statement.executeQuery(pieQuery);
             ObservableList<PieChart.Data> pieData = FXCollections.observableArrayList();
 
-            while(resultSet1.next()){
+            while (resultSet1.next()) {
                 int num_subject = resultSet1.getInt("num_subjects");
                 int num_classes = resultSet1.getInt("num_classes");
                 PieChart.Data subjectData = new PieChart.Data("Số môn học", num_subject);
@@ -1239,12 +1182,12 @@ public class Subject_MainScene_Controller implements Initializable {
                 pieData.add(classData);
             }
             piechart.setData(pieData);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public void addGenderList(){
+    public void addGenderList() {
         List<String> listGender = new ArrayList<>();
         listGender.add("Male");
         listGender.add("Female");

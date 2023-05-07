@@ -3,7 +3,6 @@ package com.example.studentmn.ViewController;
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfPTable;
-import com.itextpdf.text.pdf.PdfWriter;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -29,8 +28,8 @@ import javafx.stage.FileChooser;
 import java.io.*;
 import java.net.URL;
 import java.sql.*;
-import java.util.*;
 import java.util.List;
+import java.util.*;
 
 import static com.example.studentmn.MainController.LoginFormController.connection;
 import static com.example.studentmn.MainController.LoginFormController.username;
@@ -129,6 +128,9 @@ public class Student_MainScene_Controller implements Initializable {
     private Label type;
 
     private Map<String, Double[]> subjectGrades;
+    @FXML
+    private Circle circleImg;
+    private File selectedFile;
 
     public void showData() {
         String query = "SELECT * FROM student "
@@ -150,7 +152,7 @@ public class Student_MainScene_Controller implements Initializable {
                     InputStream inputStream = blob.getBinaryStream();
                     image = new Image(inputStream);
                     avatarImg.setFill(new ImagePattern(image));
-                } else{
+                } else {
                     image = new Image(getClass().getResourceAsStream("/image/default-avatar.jpg"));
                     avatarImg.setFill(new ImagePattern(image));
                 }
@@ -231,7 +233,6 @@ public class Student_MainScene_Controller implements Initializable {
         }
     }
 
-
     public Map<String, Double[]> getSubjectGrades(int studentId) {
         Map<String, Double[]> subjectGrades = new HashMap<>();
         String query = "SELECT subject.subject_name, COALESCE(grade.component_point, -1) AS component_point, COALESCE(grade.mid_point, -1) AS mid_point, " +
@@ -267,7 +268,6 @@ public class Student_MainScene_Controller implements Initializable {
         }
         return subjectGrades;
     }
-
 
     public void showStudentPoint(boolean updateTable) {
         subjectGrades = getSubjectGrades(Integer.parseInt(username));
@@ -365,13 +365,11 @@ public class Student_MainScene_Controller implements Initializable {
 
         ObservableList<Map.Entry<String, Double[]>> data = FXCollections.observableArrayList(subjectGrades.entrySet());
         gradeViewTable.setItems(data);
-        if (updateTable){
+        if (updateTable) {
             gradeViewTable.getColumns().addAll(subjectNameColumn, componentGradeColumn, midGradeColumn, endGradeColumn, finalGradeColumn);
         }
         //gradeViewTable.getColumns().addAll(subjectNameColumn, componentGradeColumn, midGradeColumn, endGradeColumn, finalGradeColumn);
     }
-
-
 
     public void getStudentInfo() {
         String query = "SELECT * FROM student WHERE student_id = " + username;
@@ -392,7 +390,7 @@ public class Student_MainScene_Controller implements Initializable {
                     InputStream inputStream = blob.getBinaryStream();
                     image = new Image(inputStream);
                     circleImg.setFill(new ImagePattern(image));
-                } else{
+                } else {
                     image = new Image(getClass().getResourceAsStream("/image/default-avatar.jpg"));
                     circleImg.setFill(new ImagePattern(image));
                 }
@@ -409,10 +407,6 @@ public class Student_MainScene_Controller implements Initializable {
             e.printStackTrace();
         }
     }
-
-    @FXML
-    private Circle circleImg;
-    private File selectedFile;
 
     public void insertStudentImg() {
         FileChooser fileChooser = new FileChooser();
@@ -747,7 +741,7 @@ public class Student_MainScene_Controller implements Initializable {
         }
     }
 
-    public void addGenderList(){
+    public void addGenderList() {
         List<String> listGender = new ArrayList<>();
         listGender.add("Male");
         listGender.add("Female");

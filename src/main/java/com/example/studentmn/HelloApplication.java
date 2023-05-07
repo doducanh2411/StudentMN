@@ -13,6 +13,11 @@ import java.io.IOException;
 public class HelloApplication extends Application {
     private double x = 0;
     private double y = 0;
+
+    public static void main(String[] args) {
+        launch();
+    }
+
     @Override
     public void start(Stage stage) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("/com/example/studentmn/MainController/LoginForm.fxml"));
@@ -32,9 +37,5 @@ public class HelloApplication extends Application {
         stage.initStyle(StageStyle.TRANSPARENT);
         stage.setScene(scene);
         stage.show();
-    }
-
-    public static void main(String[] args) {
-        launch();
     }
 }

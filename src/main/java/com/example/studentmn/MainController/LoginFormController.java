@@ -19,12 +19,12 @@ import java.sql.ResultSet;
 
 public class LoginFormController {
     public static Connection connection = ConnectJDBC.getConnection();
-    private double x = 0;
-    private double y = 0;
     public static String username;
     public static int isHomeroom = 0;
     public static int isSubject = 0;
     public static int isStudent = 0;
+    private double x = 0;
+    private double y = 0;
     @FXML
     private PasswordField getPassword;
 
@@ -34,27 +34,27 @@ public class LoginFormController {
     @FXML
     private Button signInBut;
 
-    public void login(){
+    public void login() {
         String query = "SELECT * FROM account WHERE username = ? AND password = ?";
-        try{
+        try {
             Alert alert;
             PreparedStatement ps = connection.prepareStatement(query);
             ps.setString(1, getUsername.getText());
             ps.setString(2, getPassword.getText());
 
             ResultSet rs = ps.executeQuery();
-            if(getUsername.getText().isEmpty() || getPassword.getText().isEmpty()){
+            if (getUsername.getText().isEmpty() || getPassword.getText().isEmpty()) {
                 alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Error Message");
                 alert.setHeaderText(null);
                 alert.setContentText("Please fill all blank fields");
                 alert.showAndWait();
-            }else{
-                if (rs.next()){
+            } else {
+                if (rs.next()) {
                     username = rs.getString("username");
                     isHomeroom = rs.getInt("homeroom_teacher");
                     isSubject = rs.getInt("subject_teacher");
-                    isStudent =  rs.getInt("student");
+                    isStudent = rs.getInt("student");
 
                     signInBut.getScene().getWindow().hide();
 
@@ -76,7 +76,7 @@ public class LoginFormController {
                     stage.initStyle(StageStyle.TRANSPARENT);
                     stage.setScene(scene);
                     stage.show();
-                }else {
+                } else {
                     alert = new Alert(Alert.AlertType.ERROR);
                     alert.setTitle("Error Message");
                     alert.setHeaderText(null);
@@ -85,10 +85,11 @@ public class LoginFormController {
                 }
             }
 
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
     public void close() {
         System.exit(0);
     }

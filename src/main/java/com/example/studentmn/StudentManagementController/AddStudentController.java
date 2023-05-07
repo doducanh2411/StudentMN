@@ -6,8 +6,10 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.*;
-import javafx.scene.layout.VBox;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.TextField;
 
 import java.net.URL;
 import java.sql.PreparedStatement;
@@ -16,7 +18,9 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.ResourceBundle;
 
 import static com.example.studentmn.MainController.LoginFormController.*;
 import static com.example.studentmn.ViewController.Homeroom_MainScene_Controller.listStudents;
@@ -44,28 +48,28 @@ public class AddStudentController implements Initializable {
 
     private Student student;
 
-    public void setStudent(Student student) {
-        this.student = student;
-    }
-
-    public static int getTeacherClass(){
+    public static int getTeacherClass() {
         int result = 0;
-        if (isHomeroom == 1){
+        if (isHomeroom == 1) {
             String query = "SELECT class_id FROM class WHERE teacher_id = " + username;
-            try{
+            try {
                 Statement st = connection.createStatement();
                 ResultSet rs = st.executeQuery(query);
                 if (rs.next()) {
                     result = rs.getInt("class_id");
                 }
-            }catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
         return result;
     }
 
-    public void addGenderList(){
+    public void setStudent(Student student) {
+        this.student = student;
+    }
+
+    public void addGenderList() {
         List<String> listGender = new ArrayList<>();
         listGender.add("Male");
         listGender.add("Female");
@@ -82,8 +86,8 @@ public class AddStudentController implements Initializable {
 
             Alert alert;
             LocalDate present = LocalDate.now();
-            if ( getStudentId.getText().isEmpty()
-                    ||getStudentName.getText().isEmpty()
+            if (getStudentId.getText().isEmpty()
+                    || getStudentName.getText().isEmpty()
                     || getStudentGender.getSelectionModel().getSelectedItem() == null
                     || getStudentBirth.getValue() == null
                     || getStudentEmail.getText().isEmpty()
@@ -93,7 +97,7 @@ public class AddStudentController implements Initializable {
                 alert.setHeaderText(null);
                 alert.setContentText("Please fill all blank!");
                 alert.showAndWait();
-            } else if(!getStudentId.getText().matches("^[0-9]+$")){
+            } else if (!getStudentId.getText().matches("^[0-9]+$")) {
                 alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Error message");
                 alert.setHeaderText(null);
@@ -215,12 +219,12 @@ public class AddStudentController implements Initializable {
                     clearSelected();
                 }
             }
-        } catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public void clearSelected(){
+    public void clearSelected() {
         getStudentName.setText("");
         getStudentId.setText("");
         getStudentGender.getSelectionModel().clearSelection();

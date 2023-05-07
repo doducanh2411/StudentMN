@@ -1,202 +1,210 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Pane?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 <?import javafx.scene.shape.Circle?>
-<?import javafx.scene.text.Font?>
-
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="600.0" styleClass="center" stylesheets="@../mainscene.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.studentmn.StudentManagementController.ViewStudentController">
-   <children>
-      <Circle fx:id="circle" fill="DODGERBLUE" layoutX="300.0" layoutY="70.0" radius="60.0" stroke="BLACK" strokeType="INSIDE" />
-      <VBox layoutX="20.0" layoutY="150.0" prefHeight="313.0" prefWidth="560.0">
-         <children>
-            <HBox prefHeight="50.0" prefWidth="560.0" styleClass="even-hbox">
-               <children>
-                  <HBox prefWidth="280.0" styleClass="border-top">
-                     <children>
-                        <Label prefHeight="49.0" prefWidth="104.0" text="Student ID: ">
-                           <font>
-                              <Font name="System Bold" size="14.0" />
-                           </font>
-                           <opaqueInsets>
-                              <Insets />
-                           </opaqueInsets>
-                           <padding>
-                              <Insets left="10.0" />
-                           </padding>
-                        </Label>
-                        <Label fx:id="setStudentID" prefHeight="50.0" prefWidth="202.0" text="ID" />
-                     </children>
-                  </HBox>
-                  <HBox prefWidth="280.0" style="-fx-border-color: #e1e1e1; -fx-border-width: 1 1 0.5 0.5;" styleClass="border-top">
-                     <children>
-                        <Label prefHeight="49.0" prefWidth="104.0" text="Full Name:">
-                           <font>
-                              <Font name="System Bold" size="14.0" />
-                           </font>
-                           <padding>
-                              <Insets left="10.0" />
-                           </padding>
-                        </Label>
-                        <Label fx:id="setStudentName" prefHeight="50.0" prefWidth="200.0" text="Name" />
-                     </children>
-                  </HBox>
-               </children>
-            </HBox>
-            <HBox prefHeight="50.0" prefWidth="560.0">
-               <children>
-                  <HBox prefHeight="50.0" prefWidth="280.0" styleClass="border-left" stylesheets="@../mainscene.css">
-                     <children>
-                        <Label prefHeight="49.0" prefWidth="150.0" text="Gender:">
-                           <font>
-                              <Font name="System Bold" size="14.0" />
-                           </font>
-                           <padding>
-                              <Insets left="10.0" />
-                           </padding>
-                        </Label>
-                        <Label fx:id="setStudentGender" prefHeight="50.0" prefWidth="280.0" text="Gender" />
-                     </children>
-                  </HBox>
-                  <HBox prefHeight="50.0" prefWidth="280.0" styleClass="border-right">
-                     <children>
-                        <Label prefHeight="49.0" prefWidth="215.0" text="Date of Birth:">
-                           <font>
-                              <Font name="System Bold" size="14.0" />
-                           </font>
-                           <padding>
-                              <Insets left="10.0" />
-                           </padding>
-                        </Label>
-                        <Label fx:id="setStudentBirth" prefHeight="50.0" prefWidth="280.0" text="Date Of Birth" />
-                     </children>
-                  </HBox>
-               </children>
-            </HBox>
-            <HBox prefHeight="50.0" prefWidth="560.0" styleClass="even-hbox">
-               <children>
-                  <HBox prefHeight="50.0" prefWidth="280.0" styleClass="border-left" stylesheets="@../mainscene.css">
-                     <children>
-                        <Label prefHeight="49.0" prefWidth="114.0" text="Email:">
-                           <font>
-                              <Font name="System Bold" size="14.0" />
-                           </font>
-                           <padding>
-                              <Insets left="10.0" />
-                           </padding>
-                        </Label>
-                        <Label fx:id="setStudentEmail" prefHeight="50.0" prefWidth="280.0" text="Email" />
-                     </children>
-                  </HBox>
-                  <HBox prefHeight="50.0" prefWidth="280.0" styleClass="border-right">
-                     <children>
-                        <Label prefHeight="49.0" prefWidth="132.0" text="Phone:">
-                           <font>
-                              <Font name="System Bold" size="14.0" />
-                           </font>
-                           <padding>
-                              <Insets left="10.0" />
-                           </padding>
-                        </Label>
-                        <Label fx:id="setStudentPhone" prefHeight="50.0" prefWidth="280.0" text="Phone" />
-                     </children>
-                  </HBox>
-               </children>
-            </HBox>
-            <HBox prefHeight="50.0" prefWidth="560.0">
-               <children>
-                  <HBox prefHeight="50.0" prefWidth="280.0" styleClass="border-left" stylesheets="@../mainscene.css">
-                     <children>
-                        <Label prefHeight="49.0" prefWidth="208.0" text="Father Name:">
-                           <font>
-                              <Font name="System Bold" size="14.0" />
-                           </font>
-                           <padding>
-                              <Insets left="10.0" />
-                           </padding>
-                        </Label>
-                        <Label fx:id="setFatherName" prefHeight="50.0" prefWidth="280.0" text="Father name" />
-                     </children>
-                  </HBox>
-                  <HBox prefHeight="50.0" prefWidth="280.0" styleClass="border-right">
-                     <children>
-                        <Label prefHeight="49.0" prefWidth="226.0" text="Mother Name:">
-                           <font>
-                              <Font name="System Bold" size="14.0" />
-                           </font>
-                           <padding>
-                              <Insets left="10.0" />
-                           </padding>
-                        </Label>
-                        <Label fx:id="setMotherName" prefHeight="50.0" prefWidth="280.0" text="Mother name" />
-                     </children>
-                  </HBox>
-               </children>
-            </HBox>
-            <HBox prefHeight="50.0" prefWidth="560.0" styleClass="even-hbox">
-               <children>
-                  <HBox prefHeight="50.0" prefWidth="280.0" styleClass="border-left" stylesheets="@../mainscene.css">
-                     <children>
-                        <Label prefHeight="49.0" prefWidth="218.0" text="Father Phone:">
-                           <font>
-                              <Font name="System Bold" size="14.0" />
-                           </font>
-                           <padding>
-                              <Insets left="10.0" />
-                           </padding>
-                        </Label>
-                        <Label fx:id="setFatherPhone" prefHeight="50.0" prefWidth="280.0" text="Father phone" />
-                     </children>
-                  </HBox>
-                  <HBox prefHeight="50.0" prefWidth="280.0" styleClass="border-right">
-                     <children>
-                        <Label prefHeight="49.0" prefWidth="235.0" text="Mother Phone:">
-                           <font>
-                              <Font name="System Bold" size="14.0" />
-                           </font>
-                           <padding>
-                              <Insets left="10.0" />
-                           </padding>
-                        </Label>
-                        <Label fx:id="setMotherPhone" prefHeight="50.0" prefWidth="280.0" text="Mother phone" />
-                     </children>
-                  </HBox>
-               </children>
-            </HBox>
-            <HBox prefHeight="50.0" prefWidth="560.0">
-               <children>
-                  <HBox prefHeight="50.0" prefWidth="280.0" styleClass="border-bot">
-                     <children>
-                        <Label prefHeight="49.0" prefWidth="183.0" text="Father Job:">
-                           <font>
-                              <Font name="System Bold" size="14.0" />
-                           </font>
-                           <padding>
-                              <Insets left="10.0" />
-                           </padding>
-                        </Label>
-                        <Label fx:id="setFatherJob" prefHeight="50.0" prefWidth="280.0" text="Father job" />
-                     </children>
-                  </HBox>
-                  <HBox prefHeight="50.0" prefWidth="280.0" style="-fx-border-color: #e1e1e1; -fx-border-width: 0.5 1 1 1;" styleClass="border-bot">
-                     <children>
-                        <Label prefHeight="49.0" prefWidth="194.0" text="Mother Job:">
-                           <font>
-                              <Font name="System Bold" size="14.0" />
-                           </font>
-                           <padding>
-                              <Insets left="10.0" />
-                           </padding>
-                        </Label>
-                        <Label fx:id="setMotherJob" prefHeight="50.0" prefWidth="280.0" text="Mother Job" />
-                     </children>
-                  </HBox>
-               </children>
-            </HBox>
-         </children>
-      </VBox>
-   </children>
+<?import javafx.scene.text.*?>
+<Pane xmlns:fx="http://javafx.com/fxml/1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+      prefHeight="500.0" prefWidth="600.0" styleClass="center" stylesheets="@../mainscene.css"
+      xmlns="http://javafx.com/javafx/19"
+      fx:controller="com.example.studentmn.StudentManagementController.ViewStudentController">
+    <children>
+        <Circle fx:id="circle" fill="DODGERBLUE" layoutX="300.0" layoutY="70.0" radius="60.0" stroke="BLACK"
+                strokeType="INSIDE"/>
+        <VBox layoutX="20.0" layoutY="150.0" prefHeight="313.0" prefWidth="560.0">
+            <children>
+                <HBox prefHeight="50.0" prefWidth="560.0" styleClass="even-hbox">
+                    <children>
+                        <HBox prefWidth="280.0" styleClass="border-top">
+                            <children>
+                                <Label prefHeight="49.0" prefWidth="104.0" text="Student ID: ">
+                                    <font>
+                                        <Font name="System Bold" size="14.0"/>
+                                    </font>
+                                    <opaqueInsets>
+                                        <Insets/>
+                                    </opaqueInsets>
+                                    <padding>
+                                        <Insets left="10.0"/>
+                                    </padding>
+                                </Label>
+                                <Label fx:id="setStudentID" prefHeight="50.0" prefWidth="202.0" text="ID"/>
+                            </children>
+                        </HBox>
+                        <HBox prefWidth="280.0" style="-fx-border-color: #e1e1e1; -fx-border-width: 1 1 0.5 0.5;"
+                              styleClass="border-top">
+                            <children>
+                                <Label prefHeight="49.0" prefWidth="104.0" text="Full Name:">
+                                    <font>
+                                        <Font name="System Bold" size="14.0"/>
+                                    </font>
+                                    <padding>
+                                        <Insets left="10.0"/>
+                                    </padding>
+                                </Label>
+                                <Label fx:id="setStudentName" prefHeight="50.0" prefWidth="200.0" text="Name"/>
+                            </children>
+                        </HBox>
+                    </children>
+                </HBox>
+                <HBox prefHeight="50.0" prefWidth="560.0">
+                    <children>
+                        <HBox prefHeight="50.0" prefWidth="280.0" styleClass="border-left"
+                              stylesheets="@../mainscene.css">
+                            <children>
+                                <Label prefHeight="49.0" prefWidth="150.0" text="Gender:">
+                                    <font>
+                                        <Font name="System Bold" size="14.0"/>
+                                    </font>
+                                    <padding>
+                                        <Insets left="10.0"/>
+                                    </padding>
+                                </Label>
+                                <Label fx:id="setStudentGender" prefHeight="50.0" prefWidth="280.0" text="Gender"/>
+                            </children>
+                        </HBox>
+                        <HBox prefHeight="50.0" prefWidth="280.0" styleClass="border-right">
+                            <children>
+                                <Label prefHeight="49.0" prefWidth="215.0" text="Date of Birth:">
+                                    <font>
+                                        <Font name="System Bold" size="14.0"/>
+                                    </font>
+                                    <padding>
+                                        <Insets left="10.0"/>
+                                    </padding>
+                                </Label>
+                                <Label fx:id="setStudentBirth" prefHeight="50.0" prefWidth="280.0"
+                                       text="Date Of Birth"/>
+                            </children>
+                        </HBox>
+                    </children>
+                </HBox>
+                <HBox prefHeight="50.0" prefWidth="560.0" styleClass="even-hbox">
+                    <children>
+                        <HBox prefHeight="50.0" prefWidth="280.0" styleClass="border-left"
+                              stylesheets="@../mainscene.css">
+                            <children>
+                                <Label prefHeight="49.0" prefWidth="114.0" text="Email:">
+                                    <font>
+                                        <Font name="System Bold" size="14.0"/>
+                                    </font>
+                                    <padding>
+                                        <Insets left="10.0"/>
+                                    </padding>
+                                </Label>
+                                <Label fx:id="setStudentEmail" prefHeight="50.0" prefWidth="280.0" text="Email"/>
+                            </children>
+                        </HBox>
+                        <HBox prefHeight="50.0" prefWidth="280.0" styleClass="border-right">
+                            <children>
+                                <Label prefHeight="49.0" prefWidth="132.0" text="Phone:">
+                                    <font>
+                                        <Font name="System Bold" size="14.0"/>
+                                    </font>
+                                    <padding>
+                                        <Insets left="10.0"/>
+                                    </padding>
+                                </Label>
+                                <Label fx:id="setStudentPhone" prefHeight="50.0" prefWidth="280.0" text="Phone"/>
+                            </children>
+                        </HBox>
+                    </children>
+                </HBox>
+                <HBox prefHeight="50.0" prefWidth="560.0">
+                    <children>
+                        <HBox prefHeight="50.0" prefWidth="280.0" styleClass="border-left"
+                              stylesheets="@../mainscene.css">
+                            <children>
+                                <Label prefHeight="49.0" prefWidth="208.0" text="Father Name:">
+                                    <font>
+                                        <Font name="System Bold" size="14.0"/>
+                                    </font>
+                                    <padding>
+                                        <Insets left="10.0"/>
+                                    </padding>
+                                </Label>
+                                <Label fx:id="setFatherName" prefHeight="50.0" prefWidth="280.0" text="Father name"/>
+                            </children>
+                        </HBox>
+                        <HBox prefHeight="50.0" prefWidth="280.0" styleClass="border-right">
+                            <children>
+                                <Label prefHeight="49.0" prefWidth="226.0" text="Mother Name:">
+                                    <font>
+                                        <Font name="System Bold" size="14.0"/>
+                                    </font>
+                                    <padding>
+                                        <Insets left="10.0"/>
+                                    </padding>
+                                </Label>
+                                <Label fx:id="setMotherName" prefHeight="50.0" prefWidth="280.0" text="Mother name"/>
+                            </children>
+                        </HBox>
+                    </children>
+                </HBox>
+                <HBox prefHeight="50.0" prefWidth="560.0" styleClass="even-hbox">
+                    <children>
+                        <HBox prefHeight="50.0" prefWidth="280.0" styleClass="border-left"
+                              stylesheets="@../mainscene.css">
+                            <children>
+                                <Label prefHeight="49.0" prefWidth="218.0" text="Father Phone:">
+                                    <font>
+                                        <Font name="System Bold" size="14.0"/>
+                                    </font>
+                                    <padding>
+                                        <Insets left="10.0"/>
+                                    </padding>
+                                </Label>
+                                <Label fx:id="setFatherPhone" prefHeight="50.0" prefWidth="280.0" text="Father phone"/>
+                            </children>
+                        </HBox>
+                        <HBox prefHeight="50.0" prefWidth="280.0" styleClass="border-right">
+                            <children>
+                                <Label prefHeight="49.0" prefWidth="235.0" text="Mother Phone:">
+                                    <font>
+                                        <Font name="System Bold" size="14.0"/>
+                                    </font>
+                                    <padding>
+                                        <Insets left="10.0"/>
+                                    </padding>
+                                </Label>
+                                <Label fx:id="setMotherPhone" prefHeight="50.0" prefWidth="280.0" text="Mother phone"/>
+                            </children>
+                        </HBox>
+                    </children>
+                </HBox>
+                <HBox prefHeight="50.0" prefWidth="560.0">
+                    <children>
+                        <HBox prefHeight="50.0" prefWidth="280.0" styleClass="border-bot">
+                            <children>
+                                <Label prefHeight="49.0" prefWidth="183.0" text="Father Job:">
+                                    <font>
+                                        <Font name="System Bold" size="14.0"/>
+                                    </font>
+                                    <padding>
+                                        <Insets left="10.0"/>
+                                    </padding>
+                                </Label>
+                                <Label fx:id="setFatherJob" prefHeight="50.0" prefWidth="280.0" text="Father job"/>
+                            </children>
+                        </HBox>
+                        <HBox prefHeight="50.0" prefWidth="280.0"
+                              style="-fx-border-color: #e1e1e1; -fx-border-width: 0.5 1 1 1;" styleClass="border-bot">
+                            <children>
+                                <Label prefHeight="49.0" prefWidth="194.0" text="Mother Job:">
+                                    <font>
+                                        <Font name="System Bold" size="14.0"/>
+                                    </font>
+                                    <padding>
+                                        <Insets left="10.0"/>
+                                    </padding>
+                                </Label>
+                                <Label fx:id="setMotherJob" prefHeight="50.0" prefWidth="280.0" text="Mother Job"/>
+                            </children>
+                        </HBox>
+                    </children>
+                </HBox>
+            </children>
+        </VBox>
+    </children>
 </Pane>

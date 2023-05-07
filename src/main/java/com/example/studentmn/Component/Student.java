@@ -1,10 +1,5 @@
 package com.example.studentmn.Component;
 
-import java.io.IOException;
-import java.sql.*;
-import java.time.LocalDate;
-import java.util.Optional;
-
 import com.example.studentmn.HelloApplication;
 import com.example.studentmn.StudentManagementController.UpdateStudentController;
 import com.example.studentmn.StudentManagementController.ViewStudentController;
@@ -12,13 +7,17 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
-import javafx.scene.control.Button;
 import javafx.stage.Stage;
 
+import java.io.IOException;
+import java.sql.Statement;
+import java.time.LocalDate;
+import java.util.Optional;
 
 import static com.example.studentmn.MainController.LoginFormController.connection;
 import static com.example.studentmn.ViewController.Homeroom_MainScene_Controller.listStudents;
@@ -32,7 +31,6 @@ public class Student {
     private String phone;
     private int class_id;
     private HBox hbox;
-
 
     public Student(int student_id, String name, String gender, LocalDate dateOfBirth, String email, String phone, int class_id) {
         this.student_id = student_id;
@@ -81,8 +79,8 @@ public class Student {
             Alert alert;
             String query = "DELETE FROM student WHERE student_id = " + student_id;
             String dltStudentAcc = "DELETE FROM account WHERE username = " + student_id
-                                + " AND student = 1";
-            try{
+                    + " AND student = 1";
+            try {
                 alert = new Alert(Alert.AlertType.CONFIRMATION);
                 alert.setTitle("Confirmation Message");
                 alert.setHeaderText(null);
@@ -90,7 +88,7 @@ public class Student {
 
                 Optional<ButtonType> option = alert.showAndWait();
 
-                if(option.get().equals(ButtonType.OK)){
+                if (option.get().equals(ButtonType.OK)) {
                     Statement st = connection.createStatement();
                     st.executeUpdate(query);
 
@@ -105,7 +103,7 @@ public class Student {
 
                     listStudents.remove(this);
                 }
-            }catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
 
