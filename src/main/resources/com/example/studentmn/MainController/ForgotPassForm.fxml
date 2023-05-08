@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #8a70d6;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.studentmn.MainController.ForgotPassFormController">
+   <children>
+      <VBox layoutX="90.0" layoutY="100.0" prefWidth="180.0" spacing="30.0">
+         <children>
+            <VBox>
+               <children>
+                  <Label text="Enter Your ID" textFill="WHITE" />
+                  <TextField fx:id="getAccountId" />
+               </children>
+            </VBox>
+            <VBox>
+               <children>
+                  <Label text="Enter yout name" textFill="WHITE" />
+                  <TextField fx:id="getAccountName" />
+               </children>
+            </VBox>
+            <VBox>
+               <children>
+                  <Label text="Enter your gender" textFill="WHITE" />
+                  <ComboBox fx:id="getAccountGender" prefHeight="26.0" prefWidth="179.0" promptText="Choose" />
+               </children>
+            </VBox>
+         </children>
+      </VBox>
+      <VBox layoutX="350.0" layoutY="100.0" prefWidth="180.0" spacing="30.0">
+         <children>
+            <VBox>
+               <children>
+                  <Label text="Enter yout date of birth" textFill="WHITE" />
+                  <DatePicker fx:id="getAccountBirth" />
+               </children>
+            </VBox>
+            <VBox>
+               <children>
+                  <Label text="Enter your email" textFill="WHITE" />
+                  <TextField fx:id="getAccountEmail" promptText="e.x username@example.com" />
+               </children>
+            </VBox>
+            <VBox>
+               <children>
+                  <Label text="Enter your phone" textFill="WHITE" />
+                  <TextField fx:id="getAccountPhone" promptText="e.x 12345678910" />
+               </children>
+            </VBox>
+         </children>
+      </VBox>
+      <Button layoutX="502.0" layoutY="342.0" mnemonicParsing="false" onAction="#forgotPassword" text="Reset" />
+   </children>
+</AnchorPane>

@@ -52,7 +52,7 @@ public class Student {
         editBtn.setStyle("-fx-background-color: transparent; -fx-cursor: hand;");
         editBtn.setOnAction(event -> {
             Stage stage = new Stage();
-            FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("/com/example/studentmn/ViewController/UpdateStudentForm.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("/com/example/studentmn/StudentManagementController/UpdateStudentForm.fxml"));
             try {
                 Parent root = fxmlLoader.load();
                 UpdateStudentController controller = fxmlLoader.getController();
@@ -119,7 +119,7 @@ public class Student {
         viewButton.setStyle("-fx-background-color: transparent; -fx-cursor: hand;");
         viewButton.setOnAction(e -> {
             Stage stage = new Stage();
-            FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("/com/example/studentmn/ViewController/ViewStudentForm.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("/com/example/studentmn/StudentManagementController/ViewStudentForm.fxml"));
             try {
                 Parent root = fxmlLoader.load();
                 ViewStudentController controller = fxmlLoader.getController();

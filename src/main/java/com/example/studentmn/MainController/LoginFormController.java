@@ -1,6 +1,7 @@
 package com.example.studentmn.MainController;
 
 import com.example.studentmn.ConnectJDBC;
+import com.example.studentmn.HelloApplication;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -13,6 +14,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -88,6 +90,15 @@ public class LoginFormController {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public void forgorPassword() throws IOException {
+        Stage stage = new Stage();
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/com/example/studentmn/MainController/ForgotPassForm.fxml"));
+        Scene scene = new Scene(fxmlLoader.load());
+        stage.setScene(scene);
+        stage.setTitle("Change password");
+        stage.show();
     }
 
     public void close() {

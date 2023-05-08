@@ -4,186 +4,165 @@
 <?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.chart.PieChart?>
 <?import javafx.scene.chart.StackedBarChart?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Circle?>
-<?import javafx.scene.text.*?>
-<Pane xmlns:fx="http://javafx.com/fxml/1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
-      prefHeight="640.0" prefWidth="804.0" xmlns="http://javafx.com/javafx/19"
-      fx:controller="com.example.studentmn.ViewController.Subject_MainScene_Controller">
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="640.0" prefWidth="804.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.studentmn.ViewController.Subject_MainScene_Controller">
     <children>
-        <Pane fx:id="dashBoardForm" prefHeight="640.0" prefWidth="804.0" stylesheets="@../mainscene.css">
+        <Pane fx:id="dashBoardForm" prefHeight="640.0" prefWidth="804.0" stylesheets="@../mainscene.css" visible="false">
             <children>
                 <Pane layoutX="20.0" layoutY="20.0" styleClass="name" stylesheets="@../mainscene.css">
                     <children>
-                        <Label layoutX="10.0" prefHeight="45.0" prefWidth="161.0" text="Welcome back!"
-                               textFill="#f37658">
+                        <Label layoutX="10.0" prefHeight="45.0" prefWidth="161.0" text="Welcome back!" textFill="#f37658">
                             <graphic>
                                 <ImageView fitHeight="28.0" fitWidth="27.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
-                                        <Image url="@../../../../image/hand.png"/>
+                                        <Image url="@../../../../image/hand.png" />
                                     </image>
                                 </ImageView>
                             </graphic>
                             <font>
-                                <Font name="Cooper Black" size="14.0"/>
+                                <Font name="Cooper Black" size="14.0" />
                             </font>
                         </Label>
-                        <Label fx:id="name" layoutX="10.0" layoutY="40.0" prefHeight="50.0" prefWidth="396.0"
-                               text="Subject Teacher">
+                        <Label fx:id="name" layoutX="10.0" layoutY="40.0" prefHeight="50.0" prefWidth="396.0" text="Subject Teacher">
                             <font>
-                                <Font name="Tahoma Bold" size="30.0"/>
+                                <Font name="Tahoma Bold" size="30.0" />
                             </font>
                         </Label>
                         <StackedBarChart fx:id="stackedBarChart" layoutY="111.0" prefHeight="256.0" prefWidth="500.0">
                             <xAxis>
-                                <CategoryAxis side="BOTTOM" fx:id="xAxis"/>
+                                <CategoryAxis side="BOTTOM" fx:id="xAxis" />
                             </xAxis>
                             <yAxis>
-                                <NumberAxis fx:id="yAxis" side="LEFT"/>
+                                <NumberAxis fx:id="yAxis" side="LEFT" />
                             </yAxis>
                         </StackedBarChart>
                     </children>
                 </Pane>
-                <PieChart fx:id="piechart" layoutX="20.0" layoutY="404.0" prefHeight="222.0" prefWidth="500.0"
-                          styleClass="pieChart" stylesheets="@../mainscene.css"/>
-                <Pane layoutX="560.0" layoutY="20.0" prefHeight="347.0" prefWidth="222.0" styleClass="miniProfile"
-                      stylesheets="@../mainscene.css">
+                <PieChart fx:id="piechart" layoutX="20.0" layoutY="404.0" prefHeight="222.0" prefWidth="500.0" styleClass="pieChart" stylesheets="@../mainscene.css" />
+                <Pane layoutX="560.0" layoutY="20.0" prefHeight="347.0" prefWidth="222.0" styleClass="miniProfile" stylesheets="@../mainscene.css">
                     <children>
-                        <Label fx:id="name1" alignment="BASELINE_CENTER" layoutY="90.0" prefHeight="23.0"
-                               prefWidth="222.0" text="Đỗ Đức Anh" textAlignment="CENTER">
+                        <Label fx:id="name1" alignment="BASELINE_CENTER" layoutY="90.0" prefHeight="23.0" prefWidth="222.0" text="Đỗ Đức Anh" textAlignment="CENTER">
                             <font>
-                                <Font name="Tahoma" size="18.0"/>
+                                <Font name="Tahoma" size="18.0" />
                             </font>
                         </Label>
-                        <Label fx:id="type" alignment="BASELINE_CENTER" layoutY="113.0" prefHeight="17.0"
-                               prefWidth="222.0" text="Subject Teacher"/>
-                        <Text fx:id="description" layoutX="1.0" layoutY="160.0" strokeType="OUTSIDE" strokeWidth="0.0"
-                              text="Data" textAlignment="CENTER" wrappingWidth="220.5367431640625">
+                        <Label fx:id="type" alignment="BASELINE_CENTER" layoutY="113.0" prefHeight="17.0" prefWidth="222.0" text="Subject Teacher" />
+                        <Text fx:id="description" layoutX="1.0" layoutY="160.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Data" textAlignment="CENTER" wrappingWidth="220.5367431640625">
                             <font>
-                                <Font size="13.0"/>
+                                <Font size="13.0" />
                             </font>
                         </Text>
-                        <Circle fx:id="avatarImg" fill="DODGERBLUE" layoutX="111.0" layoutY="49.0" radius="35.0"
-                                stroke="BLACK" strokeType="INSIDE"/>
+                        <Circle fx:id="avatarImg" fill="DODGERBLUE" layoutX="111.0" layoutY="49.0" radius="35.0" stroke="BLACK" strokeType="INSIDE" />
                     </children>
                 </Pane>
             </children>
         </Pane>
-        <Pane fx:id="gradeForm" layoutX="20.0" layoutY="20.0" prefHeight="605.0" prefWidth="763.0"
-              styleClass="center-radius" stylesheets="@../mainscene.css" visible="false">
+        <Pane fx:id="gradeForm" layoutX="20.0" layoutY="20.0" prefHeight="605.0" prefWidth="763.0" styleClass="center-radius" stylesheets="@../mainscene.css">
             <children>
-                <ComboBox fx:id="classList" layoutX="148.0" layoutY="15.0" prefHeight="25.0" prefWidth="105.0"/>
-                <TableView fx:id="gradeViewTable" layoutX="20.0" layoutY="106.0" prefHeight="485.0" prefWidth="724.0"
-                           styleClass="tableView" stylesheets="@../mainscene.css">
+                <ComboBox fx:id="classList" layoutX="148.0" layoutY="15.0" prefHeight="25.0" prefWidth="105.0" />
+                <TableView fx:id="gradeViewTable" layoutX="20.0" layoutY="106.0" prefHeight="485.0" prefWidth="724.0" styleClass="tableView" stylesheets="@../mainscene.css">
                     <columns>
-                        <TableColumn fx:id="grade_student_id_col" prefWidth="67.20001220703125" text="Student #"/>
-                        <TableColumn fx:id="grade_student_name_col" prefWidth="193.59996795654297" text="Name"/>
-                        <TableColumn fx:id="grade_component_col" prefWidth="163.20001220703125" text="Component"/>
-                        <TableColumn fx:id="grade_mid_col" prefWidth="88.80007934570312" text="Mid"/>
-                        <TableColumn fx:id="grade_end_col" prefWidth="99.20001220703125" text="End"/>
-                        <TableColumn fx:id="grade_final_col" prefWidth="111.20001220703125" text="Final"/>
+                        <TableColumn fx:id="grade_student_id_col" prefWidth="67.20001220703125" text="Student #" />
+                        <TableColumn fx:id="grade_student_name_col" prefWidth="193.59996795654297" text="Name" />
+                        <TableColumn fx:id="grade_component_col" prefWidth="163.20001220703125" text="Component" />
+                        <TableColumn fx:id="grade_mid_col" prefWidth="88.80007934570312" text="Mid" />
+                        <TableColumn fx:id="grade_end_col" prefWidth="99.20001220703125" text="End" />
+                        <TableColumn fx:id="grade_final_col" prefWidth="111.20001220703125" text="Final" />
                     </columns>
                 </TableView>
-                <TextField fx:id="searchStudentFinalPoint" layoutX="20.0" layoutY="64.0"
-                           onKeyTyped="#searchGradeStudent" prefHeight="30.0" prefWidth="300.0" promptText="Search"
-                           styleClass="search" stylesheets="@../mainscene.css">
+                <TextField fx:id="searchStudentFinalPoint" layoutX="20.0" layoutY="64.0" onKeyPressed="#searchGradeStudent" prefHeight="30.0" prefWidth="300.0" promptText="Search" styleClass="search" stylesheets="@../mainscene.css">
                     <font>
-                        <Font size="14.0"/>
+                        <Font size="14.0" />
                     </font>
                 </TextField>
-                <Button layoutX="647.0" layoutY="16.0" mnemonicParsing="false" onAction="#exportStudentGrade"
-                        prefHeight="40.0" prefWidth="85.0" styleClass="exportButton" stylesheets="@../mainscene.css"
-                        text="Export" textFill="WHITE">
+                <Button layoutX="647.0" layoutY="16.0" mnemonicParsing="false" onAction="#exportStudentGrade" prefHeight="40.0" prefWidth="85.0" styleClass="exportButton" stylesheets="@../mainscene.css" text="Export" textFill="WHITE">
                     <font>
-                        <Font name="System Bold" size="13.0"/>
+                        <Font name="System Bold" size="13.0" />
                     </font>
                     <graphic>
                         <ImageView fitHeight="24.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
                             <image>
-                                <Image url="@../../../../image/export.png"/>
+                                <Image url="@../../../../image/export.png" />
                             </image>
                         </ImageView>
                     </graphic>
                 </Button>
                 <Label layoutX="20.0" layoutY="20.0" text="Select Class Name">
                     <font>
-                        <Font name="FontAwesome" size="14.0"/>
+                        <Font name="FontAwesome" size="14.0" />
                     </font>
                 </Label>
                 <Label layoutX="300.0" layoutY="20.0" text="Select Subject">
                     <font>
-                        <Font name="FontAwesome" size="14.0"/>
+                        <Font name="FontAwesome" size="14.0" />
                     </font>
                 </Label>
-                <ComboBox fx:id="subjectList" layoutX="410.0" layoutY="15.0" prefHeight="25.0" prefWidth="105.0"/>
+                <ComboBox fx:id="subjectList" layoutX="410.0" layoutY="15.0" prefHeight="25.0" prefWidth="105.0" />
             </children>
         </Pane>
-        <Pane fx:id="inputGradeForm" layoutX="20.0" layoutY="20.0" prefHeight="600.0" prefWidth="765.0"
-              styleClass="center-radius" stylesheets="@../mainscene.css" visible="false">
+        <Pane fx:id="inputGradeForm" layoutX="20.0" layoutY="20.0" prefHeight="600.0" prefWidth="765.0" styleClass="center-radius" stylesheets="@../mainscene.css" visible="false">
             <children>
-                <Pane layoutX="20.0" layoutY="20.0" prefHeight="548.0" prefWidth="250.0"
-                      style="-fx-background-color: #8a70d6; -fx-background-radius: 10px;"
-                      stylesheets="@../mainscene.css">
+                <Pane layoutX="20.0" layoutY="20.0" prefHeight="548.0" prefWidth="250.0" style="-fx-background-color: #8a70d6; -fx-background-radius: 10px;" stylesheets="@../mainscene.css">
                     <children>
-                        <Label layoutX="10.0" layoutY="130.0" prefHeight="25.0" prefWidth="70.0" text="Student #"
-                               textFill="WHITE"/>
-                        <Label layoutX="10.0" layoutY="169.0" prefHeight="25.0" prefWidth="70.0" text="Full name"
-                               textFill="WHITE"/>
-                        <Label layoutX="10.0" layoutY="205.0" prefHeight="25.0" prefWidth="70.0" text="Component"
-                               textFill="WHITE"/>
-                        <Label layoutX="10.0" layoutY="240.0" prefHeight="25.0" prefWidth="70.0" text="Mid"
-                               textFill="WHITE"/>
-                        <Label layoutX="10.0" layoutY="275.0" prefHeight="25.0" prefWidth="70.0" text="End"
-                               textFill="WHITE"/>
-                        <TextField fx:id="getComponentPoint" layoutX="85.0" layoutY="205.0"/>
-                        <TextField fx:id="getMidPoint" layoutX="85.0" layoutY="240.0"/>
-                        <TextField fx:id="getEndPoint" layoutX="85.0" layoutY="275.0"/>
-                        <Button fx:id="insertGrade" layoutX="23.0" layoutY="353.0" mnemonicParsing="false"
-                                onAction="#addAndUpdateGrade" prefHeight="30.0" prefWidth="70.0" text="Update"/>
-                        <Button fx:id="clearGrade" layoutX="147.0" layoutY="353.0" mnemonicParsing="false"
-                                onAction="#clearSelectedGrade" prefHeight="30.0" prefWidth="70.0" text="Clear"/>
-                        <ComboBox fx:id="getSubjectList" layoutX="84.0" layoutY="96.0" prefWidth="150.0"
-                                  promptText="Choose subject"/>
-                        <Label layoutX="10.0" layoutY="96.0" prefHeight="25.0" prefWidth="70.0" text="Subject"
-                               textFill="WHITE"/>
-                        <Label layoutX="10.0" layoutY="60.0" prefHeight="25.0" prefWidth="70.0" text="Class"
-                               textFill="WHITE"/>
-                        <ComboBox fx:id="getClassList" layoutX="84.0" layoutY="60.0" prefWidth="150.0"
-                                  promptText=" Choose class"/>
-                        <ComboBox fx:id="getGradeStudentId" layoutX="84.0" layoutY="130.0" prefWidth="150.0"
-                                  promptText="Choose "/>
-                        <ComboBox fx:id="getGradeStudentName" layoutX="84.0" layoutY="169.0" prefWidth="150.0"
-                                  promptText="Choose"/>
-                        <Label layoutX="20.0" layoutY="15.0" prefHeight="30.0" prefWidth="199.0" text="INPUT"
-                               textFill="WHITE">
+                        <Label layoutX="10.0" layoutY="130.0" prefHeight="25.0" prefWidth="70.0" text="Student #" textFill="WHITE" />
+                        <Label layoutX="10.0" layoutY="169.0" prefHeight="25.0" prefWidth="70.0" text="Full name" textFill="WHITE" />
+                        <Label layoutX="10.0" layoutY="205.0" prefHeight="25.0" prefWidth="70.0" text="Component" textFill="WHITE" />
+                        <Label layoutX="10.0" layoutY="240.0" prefHeight="25.0" prefWidth="70.0" text="Mid" textFill="WHITE" />
+                        <Label layoutX="10.0" layoutY="275.0" prefHeight="25.0" prefWidth="70.0" text="End" textFill="WHITE" />
+                        <TextField fx:id="getComponentPoint" layoutX="85.0" layoutY="205.0" />
+                        <TextField fx:id="getMidPoint" layoutX="85.0" layoutY="240.0" />
+                        <TextField fx:id="getEndPoint" layoutX="85.0" layoutY="275.0" />
+                        <Button fx:id="insertGrade" layoutX="23.0" layoutY="353.0" mnemonicParsing="false" onAction="#addAndUpdateGrade" prefHeight="30.0" prefWidth="70.0" text="Update" />
+                        <Button fx:id="clearGrade" layoutX="147.0" layoutY="353.0" mnemonicParsing="false" onAction="#clearSelectedGrade" prefHeight="30.0" prefWidth="70.0" text="Clear" />
+                        <ComboBox fx:id="getSubjectList" layoutX="84.0" layoutY="96.0" prefWidth="150.0" promptText="Choose subject" />
+                        <Label layoutX="10.0" layoutY="96.0" prefHeight="25.0" prefWidth="70.0" text="Subject" textFill="WHITE" />
+                        <Label layoutX="10.0" layoutY="60.0" prefHeight="25.0" prefWidth="70.0" text="Class" textFill="WHITE" />
+                        <ComboBox fx:id="getClassList" layoutX="84.0" layoutY="60.0" prefWidth="150.0" promptText=" Choose class" />
+                        <ComboBox fx:id="getGradeStudentId" layoutX="84.0" layoutY="130.0" prefWidth="150.0" promptText="Choose " />
+                        <ComboBox fx:id="getGradeStudentName" layoutX="84.0" layoutY="169.0" prefWidth="150.0" promptText="Choose" />
+                        <Label layoutX="20.0" layoutY="15.0" prefHeight="30.0" prefWidth="199.0" text="INPUT" textFill="WHITE">
                             <font>
-                                <Font size="14.0"/>
+                                <Font size="14.0" />
                             </font>
                         </Label>
                     </children>
                 </Pane>
-                <TableView fx:id="inputGradeTable" layoutX="300.0" layoutY="20.0" onMouseClicked="#selectedGrade"
-                           prefHeight="548.0" prefWidth="449.0" styleClass="tableView" stylesheets="@../mainscene.css">
+                <TableView fx:id="inputGradeTable" layoutX="300.0" layoutY="20.0" onMouseClicked="#selectedGrade" prefHeight="548.0" prefWidth="449.0" styleClass="tableView" stylesheets="@../mainscene.css">
                     <columns>
-                        <TableColumn fx:id="input_student_id_col" prefWidth="67.20001220703125" text="Student #"/>
-                        <TableColumn fx:id="input_student_name_col" prefWidth="112.0" text="Name"/>
-                        <TableColumn fx:id="input_component_col" prefWidth="80.80001831054688" text="Component"/>
-                        <TableColumn fx:id="input_mid_col" prefWidth="67.20001220703125" text="Mid"/>
-                        <TableColumn fx:id="input_end_col" prefWidth="54.39996337890625" text="End"/>
-                        <TableColumn fx:id="input_final_col" prefWidth="66.39990234375" text="Final"/>
+                        <TableColumn fx:id="input_student_id_col" prefWidth="67.20001220703125" text="Student #" />
+                        <TableColumn fx:id="input_student_name_col" prefWidth="112.0" text="Name" />
+                        <TableColumn fx:id="input_component_col" prefWidth="80.80001831054688" text="Component" />
+                        <TableColumn fx:id="input_mid_col" prefWidth="67.20001220703125" text="Mid" />
+                        <TableColumn fx:id="input_end_col" prefWidth="54.39996337890625" text="End" />
+                        <TableColumn fx:id="input_final_col" prefWidth="66.39990234375" text="Final" />
                     </columns>
                 </TableView>
             </children>
         </Pane>
-        <TabPane fx:id="teacherSettingForm" layoutX="20.0" layoutY="20.0" prefHeight="600.0" prefWidth="764.0"
-                 stylesheets="@../mainscene.css" tabClosingPolicy="UNAVAILABLE" visible="false">
+        <TabPane fx:id="teacherSettingForm" layoutX="20.0" layoutY="20.0" prefHeight="600.0" prefWidth="764.0" stylesheets="@../mainscene.css" tabClosingPolicy="UNAVAILABLE" visible="false">
             <tabs>
                 <Tab closable="false" onSelectionChanged="#getTeacherInfo" text="Information">
                     <content>
-                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0"
-                                    styleClass="center-setting" stylesheets="@../mainscene.css">
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" styleClass="center-setting" stylesheets="@../mainscene.css">
                             <children>
                                 <VBox layoutX="293.0" layoutY="80.0" spacing="20.0">
                                     <children>
@@ -191,26 +170,22 @@
                                             <children>
                                                 <VBox prefHeight="0.0" prefWidth="100.0">
                                                     <children>
-                                                        <Label alignment="BASELINE_LEFT" prefHeight="30.0"
-                                                               prefWidth="64.0" text="ID:" textFill="WHITE">
+                                                        <Label alignment="BASELINE_LEFT" prefHeight="30.0" prefWidth="64.0" text="ID:" textFill="WHITE">
                                                             <font>
-                                                                <Font name="System Bold" size="12.0"/>
+                                                                <Font name="System Bold" size="12.0" />
                                                             </font>
                                                         </Label>
-                                                        <TextField fx:id="getTeacherID" disable="true" prefHeight="30.0"
-                                                                   prefWidth="100.0"/>
+                                                        <TextField fx:id="getTeacherID" disable="true" prefHeight="30.0" prefWidth="100.0" />
                                                     </children>
                                                 </VBox>
                                                 <VBox prefHeight="67.0" prefWidth="275.0">
                                                     <children>
-                                                        <Label alignment="BASELINE_LEFT" prefHeight="30.0"
-                                                               prefWidth="100.0" text="Full Name:" textFill="WHITE">
+                                                        <Label alignment="BASELINE_LEFT" prefHeight="30.0" prefWidth="100.0" text="Full Name:" textFill="WHITE">
                                                             <font>
-                                                                <Font name="System Bold" size="12.0"/>
+                                                                <Font name="System Bold" size="12.0" />
                                                             </font>
                                                         </Label>
-                                                        <TextField fx:id="getTeacherName" prefHeight="30.0"
-                                                                   prefWidth="275.0"/>
+                                                        <TextField fx:id="getTeacherName" prefHeight="30.0" prefWidth="275.0" />
                                                     </children>
                                                 </VBox>
                                             </children>
@@ -219,156 +194,129 @@
                                             <children>
                                                 <VBox prefHeight="0.0" prefWidth="100.0">
                                                     <children>
-                                                        <Label alignment="BASELINE_LEFT" prefHeight="30.0"
-                                                               prefWidth="61.0" text="Gender:" textFill="WHITE">
+                                                        <Label alignment="BASELINE_LEFT" prefHeight="30.0" prefWidth="61.0" text="Gender:" textFill="WHITE">
                                                             <font>
-                                                                <Font name="System Bold" size="12.0"/>
+                                                                <Font name="System Bold" size="12.0" />
                                                             </font>
                                                         </Label>
-                                                        <ComboBox fx:id="getTeacherGender" prefHeight="30.0"
-                                                                  prefWidth="112.0"/>
+                                                        <ComboBox fx:id="getTeacherGender" prefHeight="30.0" prefWidth="112.0" />
                                                     </children>
                                                 </VBox>
                                                 <VBox prefHeight="60.0" prefWidth="276.0">
                                                     <children>
-                                                        <Label alignment="BASELINE_LEFT" prefHeight="30.0"
-                                                               prefWidth="100.0" text="Date of Birth:" textFill="WHITE">
+                                                        <Label alignment="BASELINE_LEFT" prefHeight="30.0" prefWidth="100.0" text="Date of Birth:" textFill="WHITE">
                                                             <font>
-                                                                <Font name="System Bold" size="12.0"/>
+                                                                <Font name="System Bold" size="12.0" />
                                                             </font>
                                                         </Label>
-                                                        <DatePicker fx:id="getTeacherBirth" prefHeight="30.0"
-                                                                    prefWidth="276.0"/>
+                                                        <DatePicker fx:id="getTeacherBirth" prefHeight="30.0" prefWidth="276.0" />
                                                     </children>
                                                 </VBox>
                                             </children>
                                         </HBox>
                                         <VBox prefHeight="60.0" prefWidth="406.0">
                                             <children>
-                                                <Label alignment="BASELINE_LEFT" prefHeight="30.0" prefWidth="100.0"
-                                                       text="Email:" textFill="WHITE">
+                                                <Label alignment="BASELINE_LEFT" prefHeight="30.0" prefWidth="100.0" text="Email:" textFill="WHITE">
                                                     <font>
-                                                        <Font name="System Bold" size="12.0"/>
+                                                        <Font name="System Bold" size="12.0" />
                                                     </font>
                                                 </Label>
-                                                <TextField fx:id="getTeacherEmail" prefHeight="30.0" prefWidth="250.0"
-                                                           promptText="e.x username@example.com"/>
+                                                <TextField fx:id="getTeacherEmail" prefHeight="30.0" prefWidth="250.0" promptText="e.x username@example.com" />
                                             </children>
                                         </VBox>
                                         <VBox prefHeight="60.0" prefWidth="404.0">
                                             <children>
-                                                <Label alignment="BASELINE_LEFT" prefHeight="30.0" prefWidth="100.0"
-                                                       text="Phone:" textFill="WHITE">
+                                                <Label alignment="BASELINE_LEFT" prefHeight="30.0" prefWidth="100.0" text="Phone:" textFill="WHITE">
                                                     <font>
-                                                        <Font name="System Bold" size="12.0"/>
+                                                        <Font name="System Bold" size="12.0" />
                                                     </font>
                                                 </Label>
-                                                <TextField fx:id="getTeacherPhone" prefHeight="30.0" prefWidth="250.0"
-                                                           promptText="e.x 0123456789"/>
+                                                <TextField fx:id="getTeacherPhone" prefHeight="30.0" prefWidth="250.0" promptText="e.x 0123456789" />
                                             </children>
                                         </VBox>
                                     </children>
                                 </VBox>
-                                <Button layoutX="639.0" layoutY="452.0" mnemonicParsing="false"
-                                        onAction="#updateTeacherInfo" prefHeight="35.0" prefWidth="60.0"
-                                        style="-fx-background-color: #5cb85c; -fx-cursor: hand;" text="Update"
-                                        textFill="WHITE">
+                                <Button layoutX="639.0" layoutY="452.0" mnemonicParsing="false" onAction="#updateTeacherInfo" prefHeight="35.0" prefWidth="60.0" style="-fx-background-color: #5cb85c; -fx-cursor: hand;" text="Update" textFill="WHITE">
                                     <font>
-                                        <Font name="System Bold" size="12.0"/>
+                                        <Font name="System Bold" size="12.0" />
                                     </font>
                                 </Button>
-                                <Button layoutX="554.0" layoutY="452.0" mnemonicParsing="false"
-                                        onAction="#clearTeacherInfo" prefHeight="35.0" prefWidth="58.0"
-                                        style="-fx-background-color: #00bdda; -fx-cursor: hand;" text="Clear"
-                                        textFill="WHITE">
+                                <Button layoutX="554.0" layoutY="452.0" mnemonicParsing="false" onAction="#clearTeacherInfo" prefHeight="35.0" prefWidth="58.0" style="-fx-background-color: #00bdda; -fx-cursor: hand;" text="Clear" textFill="WHITE">
                                     <font>
-                                        <Font name="System Bold" size="12.0"/>
+                                        <Font name="System Bold" size="12.0" />
                                     </font>
                                 </Button>
-                                <Label layoutX="50.0" layoutY="20.0" prefHeight="50.0" prefWidth="194.0"
-                                       text="PERSONAL DETALS" textFill="WHITE">
+                                <Label layoutX="50.0" layoutY="20.0" prefHeight="50.0" prefWidth="194.0" text="PERSONAL DETALS" textFill="WHITE">
                                     <font>
-                                        <Font name="System Bold" size="20.0"/>
+                                        <Font name="System Bold" size="20.0" />
                                     </font>
                                 </Label>
                                 <Label layoutX="50.0" layoutY="80.0" text="Profile Image" textFill="WHITE">
                                     <font>
-                                        <Font size="14.0"/>
+                                        <Font size="14.0" />
                                     </font>
                                 </Label>
-                                <Circle fx:id="circleImg" fill="DODGERBLUE" layoutX="120.0" layoutY="200.0"
-                                        radius="70.0" stroke="BLACK" strokeType="INSIDE"/>
-                                <Button fx:id="insertTeacherImg" layoutX="148.0" layoutY="227.0" mnemonicParsing="false"
-                                        onAction="#insertTeacherImg" prefHeight="40.0" prefWidth="42.0"
-                                        styleClass="insertImage">
+                                <Circle fx:id="circleImg" fill="DODGERBLUE" layoutX="120.0" layoutY="200.0" radius="70.0" stroke="BLACK" strokeType="INSIDE" />
+                                <Button fx:id="insertTeacherImg" layoutX="148.0" layoutY="227.0" mnemonicParsing="false" onAction="#insertTeacherImg" prefHeight="40.0" prefWidth="42.0" styleClass="insertImage">
                                     <graphic>
-                                        <ImageView fitHeight="31.0" fitWidth="28.0" pickOnBounds="true"
-                                                   preserveRatio="true">
+                                        <ImageView fitHeight="31.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
                                             <image>
-                                                <Image url="@../../../../image/camera.png"/>
+                                                <Image url="@../../../../image/camera.png" />
                                             </image>
                                         </ImageView>
                                     </graphic>
                                 </Button>
-                                <Text fill="WHITE" layoutX="50.0" layoutY="290.0" strokeType="OUTSIDE" strokeWidth="0.0"
-                                      text="* Only JPEG, PNG and JPG supported, * Max 3 MB Upload"
-                                      wrappingWidth="178.60003662109375"/>
+                                <Text fill="WHITE" layoutX="50.0" layoutY="290.0" strokeType="OUTSIDE" strokeWidth="0.0" text="* Only JPEG, PNG and JPG supported, * Max 3 MB Upload" wrappingWidth="178.60003662109375" />
                             </children>
                         </AnchorPane>
                     </content>
                 </Tab>
                 <Tab closable="false" text="Security">
                     <content>
-                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="619.0"
-                                    styleClass="center-setting" stylesheets="@../mainscene.css">
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="619.0" styleClass="center-setting" stylesheets="@../mainscene.css">
                             <children>
                                 <VBox layoutX="50.0" layoutY="20.0" prefHeight="333.0" prefWidth="259.0" spacing="5.0">
                                     <children>
-                                        <Label prefHeight="78.0" prefWidth="259.0" text="CHANGE PASSWORD"
-                                               textFill="WHITE">
+                                        <Label prefHeight="78.0" prefWidth="259.0" text="CHANGE PASSWORD" textFill="WHITE">
                                             <font>
-                                                <Font name="System Bold" size="20.0"/>
+                                                <Font name="System Bold" size="20.0" />
                                             </font>
                                         </Label>
                                         <VBox prefHeight="70.0" prefWidth="396.0" spacing="10.0">
                                             <children>
                                                 <Label text="Current Password" textFill="WHITE">
                                                     <font>
-                                                        <Font name="System Bold" size="12.0"/>
+                                                        <Font name="System Bold" size="12.0" />
                                                     </font>
                                                 </Label>
-                                                <PasswordField fx:id="currentTeacherPass" prefHeight="32.0"
-                                                               prefWidth="245.0"/>
+                                                <PasswordField fx:id="currentTeacherPass" prefHeight="32.0" prefWidth="245.0" />
                                             </children>
                                         </VBox>
                                         <VBox prefHeight="70.0" prefWidth="410.0" spacing="10.0">
                                             <children>
                                                 <Label text="New Password" textFill="WHITE">
                                                     <font>
-                                                        <Font name="System Bold" size="12.0"/>
+                                                        <Font name="System Bold" size="12.0" />
                                                     </font>
                                                 </Label>
-                                                <PasswordField fx:id="newTeacherPass" prefHeight="32.0"/>
+                                                <PasswordField fx:id="newTeacherPass" prefHeight="32.0" />
                                             </children>
                                         </VBox>
                                         <VBox prefHeight="70.0" prefWidth="259.0" spacing="10.0">
                                             <children>
                                                 <Label text="Confirm New Password " textFill="WHITE">
                                                     <font>
-                                                        <Font name="System Bold" size="12.0"/>
+                                                        <Font name="System Bold" size="12.0" />
                                                     </font>
                                                 </Label>
-                                                <PasswordField fx:id="confirmTeacherPass" prefHeight="32.0"/>
+                                                <PasswordField fx:id="confirmTeacherPass" prefHeight="32.0" />
                                             </children>
                                         </VBox>
                                     </children>
                                 </VBox>
-                                <Button layoutX="50.0" layoutY="371.0" mnemonicParsing="false"
-                                        onAction="#changeTeacherPassword" prefHeight="35.0" prefWidth="78.0"
-                                        style="-fx-background-color: #00bdda; -fx-cursor: hand;" text="Change"
-                                        textFill="WHITE">
+                                <Button layoutX="50.0" layoutY="371.0" mnemonicParsing="false" onAction="#changeTeacherPassword" prefHeight="35.0" prefWidth="78.0" style="-fx-background-color: #00bdda; -fx-cursor: hand;" text="Change" textFill="WHITE">
                                     <font>
-                                        <Font name="System Bold" size="12.0"/>
+                                        <Font name="System Bold" size="12.0" />
                                     </font>
                                 </Button>
                             </children>

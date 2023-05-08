@@ -1,34 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19"
-            fx:controller="com.example.studentmn.MainController.LoginFormController">
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.studentmn.MainController.LoginFormController">
     <children>
         <BorderPane prefHeight="400.0" prefWidth="600.0">
             <left>
-                <Pane prefHeight="400.0" prefWidth="292.0" styleClass="left" stylesheets="@../login.css"
-                      BorderPane.alignment="CENTER"/>
+                <Pane prefHeight="400.0" prefWidth="292.0" styleClass="left" stylesheets="@../login.css" BorderPane.alignment="CENTER" />
             </left>
             <center>
                 <Pane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                     <children>
                         <Label layoutX="40.0" layoutY="60.0" text="Sign In">
                             <font>
-                                <Font name="System Bold" size="24.0"/>
+                                <Font name="System Bold" size="24.0" />
                             </font>
                         </Label>
-                        <TextField fx:id="getUsername" layoutX="40.0" layoutY="141.0" onAction="#login"
-                                   prefHeight="30.0" prefWidth="220.0" promptText="Username"/>
-                        <Button fx:id="signInBut" layoutX="170.0" layoutY="274.0" mnemonicParsing="false"
-                                onAction="#login" prefHeight="30.0" prefWidth="90.0" styleClass="signInBut"
-                                stylesheets="@../login.css" text="Sign in"/>
-                        <Label layoutX="40.0" layoutY="281.0" text="Forgort Password?"/>
-                        <PasswordField fx:id="getPassword" layoutX="40.0" layoutY="207.0" onAction="#login"
-                                       prefHeight="30.0" prefWidth="220.0" promptText="Password"/>
-                        <Button layoutX="256.0" mnemonicParsing="false" onAction="#close" prefHeight="27.0"
-                                prefWidth="52.0" styleClass="close" stylesheets="@../login.css" text="X"/>
+                        <TextField fx:id="getUsername" layoutX="40.0" layoutY="141.0" onAction="#login" prefHeight="30.0" prefWidth="220.0" promptText="Username" />
+                        <Button fx:id="signInBut" layoutX="170.0" layoutY="274.0" mnemonicParsing="false" onAction="#login" prefHeight="30.0" prefWidth="90.0" styleClass="signInBut" stylesheets="@../login.css" text="Sign in" />
+                        <Label layoutX="40.0" layoutY="281.0" onMouseClicked="#forgorPassword" text="Forgort Password?" />
+                        <PasswordField fx:id="getPassword" layoutX="40.0" layoutY="207.0" onAction="#login" prefHeight="30.0" prefWidth="220.0" promptText="Password" />
+                        <Button layoutX="256.0" mnemonicParsing="false" onAction="#close" prefHeight="27.0" prefWidth="52.0" styleClass="close" stylesheets="@../login.css" text="X" />
                     </children>
                 </Pane>
             </center>

@@ -1,12 +1,15 @@
 package com.example.studentmn.ViewController;
 
 import com.example.studentmn.Component.Grade;
+import com.example.studentmn.Component.Student;
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
@@ -934,8 +937,22 @@ public class Subject_MainScene_Controller implements Initializable {
     }
 
     public void searchGradeStudent() {
-
+        FilteredList<Grade> filter = new FilteredList<>(gradeList, e -> true);
+        searchStudentFinalPoint.textProperty().addListener((Observable, oldValue, newValue) -> {
+            filter.setPredicate(grade -> {
+                if (newValue == null || newValue.isEmpty()) {
+                    return true;
+                }
+                String searchKey = newValue.toLowerCase();
+                return String.valueOf(grade.getStudent_id()).contains(searchKey)
+                        || grade.getStudent_name().toLowerCase().contains(searchKey);
+            });
+        });
+        SortedList<Grade> sortList = new SortedList<>(filter);
+        sortList.comparatorProperty().bind(gradeViewTable.comparatorProperty());
+        gradeViewTable.setItems(sortList);
     }
+
 
     public void exportStudentGrade() {
         // Create a new document
@@ -1159,10 +1176,7 @@ public class Subject_MainScene_Controller implements Initializable {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-    }
 
-
-    public void setPiechart() {
         String pieQuery = "SELECT COUNT(DISTINCT teach.subject_id) AS num_subjects, COUNT(DISTINCT teach.class_id) AS num_classes "
                 + "FROM teach "
                 + "WHERE teach.teacher_id = " + username;
