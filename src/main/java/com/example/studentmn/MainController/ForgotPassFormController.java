@@ -15,6 +15,7 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -44,24 +45,49 @@ public class ForgotPassFormController implements Initializable {
 
     public void forgotPassword(){
         Alert alert;
+        LocalDate present = LocalDate.now();
         if(getAccountId.getText().isEmpty()
-            || getAccountName.getText().isEmpty()
-            || getAccountGender.getValue() == null
-            || getAccountBirth.getValue() == null
-            || getAccountEmail.getText().isEmpty()
-            || getAccountPhone.getText().isEmpty()){
+                || getAccountName.getText().isEmpty()
+                || getAccountGender.getValue() == null
+                || getAccountBirth.getValue() == null
+                || getAccountEmail.getText().isEmpty()
+                || getAccountPhone.getText().isEmpty()) {
             alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error Message");
             alert.setHeaderText(null);
             alert.setContentText("Please fill all blank!");
             alert.showAndWait();
-        }else {
-            try{
+        } else if (!getAccountId.getText().matches("^[0-9]+$")) {
+            alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error message");
+            alert.setHeaderText(null);
+            alert.setContentText("Invalid Student ID!");
+            alert.showAndWait();
+        } else if (getAccountBirth.getValue().isAfter(present)) {
+            alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error message");
+            alert.setHeaderText(null);
+            alert.setContentText("Invalid date!");
+            alert.showAndWait();
+        } else if (!getAccountEmail.getText().matches("[a-zA-Z0-9]+@[a-zA-Z]+\\.[a-zA-Z]+")) {
+            alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error message");
+            alert.setHeaderText(null);
+            alert.setContentText("Invalid email!");
+            alert.showAndWait();
+        } else if (!getAccountPhone.getText().matches("\\d{10,11}")) {
+            alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error message");
+            alert.setHeaderText(null);
+            alert.setContentText("Invalid phone number!");
+            alert.showAndWait();
+        } else {
+            try {
                 String query = "SELECT * FROM account WHERE username = " + getAccountId.getText();
                 Statement statement = connection.createStatement();
                 ResultSet resultSet = statement.executeQuery(query);
-                if (resultSet.next()){
-                    if (resultSet.getInt("student") == 1){
+                if (resultSet.next()) {
+                    if (resultSet.getInt("student") == 1) {
                         String checkData = "SELECT * FROM student " +
                                 "WHERE student_id = ? AND name = ? AND gender = ? AND date_of_birth = ? AND email = ? AND phone = ?";
                         PreparedStatement preparedStatement = connection.prepareStatement(checkData);
@@ -135,10 +161,15 @@ public class ForgotPassFormController implements Initializable {
                     alert.setContentText("Your account doesn't exist");
                     alert.showAndWait();
                 }
-            }catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
+    }
+
+    public void close() {
+        Stage currentStage = (Stage) getAccountId.getScene().getWindow();
+        currentStage.close();
     }
 
     public void addGenderList() {

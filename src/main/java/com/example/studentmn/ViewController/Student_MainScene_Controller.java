@@ -424,13 +424,13 @@ public class Student_MainScene_Controller implements Initializable, ViewStudent 
     public void updateStudentInfo() {
         //TO-DO: update info của học sinh lên nhé
         Alert alert;
-        if (getStudentEmail.getText().isEmpty()) {
+        if (getStudentEmail.getText() == null || getStudentEmail.getText().isEmpty()) {
             alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error Message");
             alert.setHeaderText(null);
             alert.setContentText("Please fill email field!");
             alert.showAndWait();
-        } else if (getStudentPhone.getText().isEmpty()) {
+        } else if (getStudentPhone.getText() == null || getStudentPhone.getText().isEmpty()) {
             alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error Message");
             alert.setHeaderText(null);

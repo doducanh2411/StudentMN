@@ -1,7 +1,6 @@
 package com.example.studentmn.MainController;
 
 import com.example.studentmn.ConnectJDBC;
-import com.example.studentmn.HelloApplication;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -97,7 +96,7 @@ public class LoginFormController {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/com/example/studentmn/MainController/ForgotPassForm.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         stage.setScene(scene);
-        stage.setTitle("Change password");
+        stage.initStyle(StageStyle.TRANSPARENT);
         stage.show();
     }
 

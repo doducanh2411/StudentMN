@@ -82,8 +82,6 @@ public class AddStudentController implements Initializable {
                 "(student_id, name, gender, date_of_birth, email, phone, class_id) " +
                 "VALUES(?,?,?,?,?,?,?)";
         try {
-
-
             Alert alert;
             LocalDate present = LocalDate.now();
             if (getStudentId.getText().isEmpty()

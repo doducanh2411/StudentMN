@@ -84,20 +84,20 @@
     -fx-cursor: hand;
 }
 .exportButton{
-    -fx-background-color: #8DE98D;
+    -fx-background-color: #5acc5a;
     -fx-background-radius: 5px;
     -fx-cursor: hand;
 }
-.search{
+.search {
     -fx-background-radius: 8px;
     -fx-border-width: .8px;
     -fx-border-radius: 8px;
-    -fx-border-color: #8a70d6;
+    -fx-border-color: linear-gradient(to bottom left, #8732aa, #aa00ff);
 }
-.search:focused{
+.search:focused {
     -fx-border-width: 1.8px;
     -fx-border-radius: 8px;
-    -fx-border-color: #8a70d6;
+    -fx-background-color: #fff;
 }
 .tableView{
     -fx-background-radius: 8px;
@@ -105,10 +105,10 @@
     -fx-border-radius: 8px;
     -fx-border-color: #8a70d6;
 }
-.tableView .column-header-background{
-    -fx-background-color: #8a70d6;
+.tableView .column-header-background {
+    -fx-background-color: linear-gradient(to bottom left, #8732aa, #aa00ff);
     -fx-background-radius: 8px 8px 0px 0px;
-    -fx-background-inset:0 0 0 0;
+    -fx-background-inset: 0 0 0 0;
 }
 .tableView .column-header, .filter{
     -fx-background-color: transparent;
@@ -121,9 +121,8 @@
 /* End student form css */
 
 /* This is setting form css */
-.center-setting{
-    -fx-background-color: #8a70d6;
-
+.center-gradient {
+    -fx-background-color: linear-gradient(to bottom left, #8732aa, #aa00ff);
 }
 /* End setting form css */
 
@@ -154,27 +153,35 @@
     -fx-background-radius: 10px;
 }
 
-.tab{
+.tab {
     -fx-background-color: #e9e3ff;
     -fx-border-width: 1;
     -fx-border-color: #e9e3ff;
     -fx-cursor: hand;
-
+    -fx-text-fill: #fff;
 }
 .tab:selected {
-    -fx-background-color: #8a70d6;
+    -fx-background-color: linear-gradient(to bottom left, #8732aa, #aa00ff);
     -fx-border-width: 1;
     -fx-border-color: #8a70d6;
-
+    -fx-text-fill: #fff;
 }
 
 .tab-pane .tab-header-area .tab-header-background {
     -fx-background-color: #e9e3ff;
 }
 
-.insertImage{
+.insertImage {
     -fx-background-radius: 100px;
     -fx-background-color: #e9e3ff;
     -fx-cursor: hand;
 }
+
+.combo-box {
+    -fx-border-color: linear-gradient(to bottom left, #8732aa, #aa00ff);
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+    -fx-background-color: #fff;
+}
+
 /* End center css */

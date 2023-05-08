@@ -1,23 +1,29 @@
-.close{
-	-fx-background-color: transparent;
-	-fx-cursor: hand;
+.close {
+    -fx-background-color: transparent;
+    -fx-cursor: hand;
 }
-.close:hover{
-	-fx-background-color: #fb3d63;
+
+.gradientPane {
+    -fx-background-color: linear-gradient(to bottom left, #8732aa, #aa00ff);
 }
-.left{
-    -fx-background-color: linear-gradient(to bottom left, #0087c2, #00bcda);
-}
-.signInBut{
-    -fx-background-color: #00bcda;
+
+.signInBut {
+    -fx-background-color: #8a70d6;
     -fx-text-fill: #ffffff;
 }
-.signInBut:hover{
+
+.signInBut:hover {
     -fx-text-fill: #6F4CBB;
 }
-.signInBut:pressed{
-    -fx-text-fill: #80AFF5;
+
+.signInBut:pressed {
+    -fx-text-fill: #8a70d6;
 }
-.signInBut:active{
-    -fx-text-fill: #80AFF5;
+
+.forgotPass {
+    -fx-cursor: hand;
+}
+
+.resetPassBut {
+    -fx-background-color: #00bdda;
 }

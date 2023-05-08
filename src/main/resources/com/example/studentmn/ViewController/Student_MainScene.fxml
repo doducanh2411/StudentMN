@@ -13,7 +13,8 @@
       prefHeight="640.0" prefWidth="804.0" xmlns="http://javafx.com/javafx/19"
       fx:controller="com.example.studentmn.ViewController.Student_MainScene_Controller">
     <children>
-        <Pane fx:id="dashBoardForm" prefHeight="643.0" prefWidth="804.0" stylesheets="@../mainscene.css">
+        <Pane fx:id="dashBoardForm" prefHeight="643.0" prefWidth="804.0" stylesheets="@../mainscene.css"
+              visible="false">
             <children>
                 <Pane layoutX="20.0" layoutY="20.0" styleClass="name" stylesheets="@../mainscene.css">
                     <children>
@@ -73,7 +74,7 @@
             </children>
         </Pane>
         <Pane fx:id="gradeForm" layoutX="20.0" layoutY="20.0" prefHeight="600.0" prefWidth="764.0"
-              styleClass="center-radius" stylesheets="@../mainscene.css">
+              styleClass="center-radius" stylesheets="@../mainscene.css" visible="false">
             <children>
                 <TableView fx:id="gradeViewTable" layoutX="20.0" layoutY="70.0" prefHeight="510.0" prefWidth="722.0"
                            styleClass="tableView" stylesheets="@../mainscene.css"/>
@@ -94,13 +95,12 @@
             </children>
         </Pane>
         <TabPane fx:id="studentSettingForm" layoutX="20.0" layoutY="20.0" prefHeight="610.0" prefWidth="764.0"
-                 styleClass="center-radius" stylesheets="@../mainscene.css" tabClosingPolicy="UNAVAILABLE"
-                 visible="false">
+                 styleClass="center-radius" stylesheets="@../mainscene.css" tabClosingPolicy="UNAVAILABLE">
             <tabs>
                 <Tab closable="false" text="Information">
                     <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0"
-                                    styleClass="center-setting" stylesheets="@../mainscene.css">
+                                    styleClass="center-gradient" stylesheets="@../mainscene.css">
                             <children>
                                 <Label layoutX="50.0" layoutY="20.0" prefHeight="50.0" prefWidth="194.0"
                                        text="PERSONAL DETAILS" textFill="WHITE">
@@ -328,7 +328,7 @@
                 <Tab closable="false" text="Security">
                     <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="619.0"
-                                    styleClass="center-setting">
+                                    styleClass="center-gradient">
                             <children>
                                 <VBox layoutX="50.0" layoutY="20.0" prefHeight="333.0" prefWidth="259.0" spacing="5.0">
                                     <children>
