@@ -35,7 +35,7 @@ import static com.example.studentmn.MainController.LoginFormController.connectio
 import static com.example.studentmn.MainController.LoginFormController.username;
 
 
-public class Student_MainScene_Controller implements Initializable {
+public class Student_MainScene_Controller implements Initializable, ViewStudent {
 
     @FXML
     private Circle avatarImg;

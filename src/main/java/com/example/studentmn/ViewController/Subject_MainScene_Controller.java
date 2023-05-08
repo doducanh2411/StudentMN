@@ -40,7 +40,7 @@ import static com.example.studentmn.MainController.LoginFormController.connectio
 import static com.example.studentmn.MainController.LoginFormController.username;
 import static java.sql.Types.NULL;
 
-public class Subject_MainScene_Controller implements Initializable {
+public class Subject_MainScene_Controller implements Initializable,ViewTeacher {
     public static ObservableList<Grade> gradeList = FXCollections.observableArrayList();
     AtomicBoolean updating = new AtomicBoolean(false);
     @FXML

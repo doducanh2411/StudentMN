@@ -47,7 +47,7 @@ import java.util.stream.Stream;
 import static com.example.studentmn.MainController.LoginFormController.connection;
 import static com.example.studentmn.MainController.LoginFormController.username;
 
-public class Homeroom_MainScene_Controller implements Initializable {
+public class Homeroom_MainScene_Controller implements Initializable, ViewTeacher {
 
     public static ObservableList<Student> listStudents;
     @FXML
