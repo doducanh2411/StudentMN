@@ -390,7 +390,7 @@ public class Subject_MainScene_Controller implements Initializable,ViewTeacher {
                     if (empty || item == -1) {
                         setText(null);
                     } else {
-                        setText(item.toString());
+                        setText(String.format("%.2f", item));
                     }
                 }
             };
@@ -405,7 +405,7 @@ public class Subject_MainScene_Controller implements Initializable,ViewTeacher {
                     if (empty || item == -1) {
                         setText(null);
                     } else {
-                        setText(item.toString());
+                        setText(String.format("%.2f", item));
                     }
                 }
             };
@@ -420,7 +420,7 @@ public class Subject_MainScene_Controller implements Initializable,ViewTeacher {
                     if (empty || item == -1) {
                         setText(null);
                     } else {
-                        setText(item.toString());
+                        setText(String.format("%.2f", item));
                     }
                 }
             };
@@ -437,7 +437,7 @@ public class Subject_MainScene_Controller implements Initializable,ViewTeacher {
                             || getTableRow().getItem().getEnd_point() == -1) {
                         setText(null);
                     } else {
-                        setText(item.toString());
+                        setText(String.format("%.2f", item));
                     }
                 }
             };
@@ -525,7 +525,7 @@ public class Subject_MainScene_Controller implements Initializable,ViewTeacher {
                     if (empty || item == -1) {
                         setText(null);
                     } else {
-                        setText(item.toString());
+                        setText(String.format("%.2f", item));
                     }
                 }
             };
@@ -540,7 +540,7 @@ public class Subject_MainScene_Controller implements Initializable,ViewTeacher {
                     if (empty || item == -1) {
                         setText(null);
                     } else {
-                        setText(item.toString());
+                        setText(String.format("%.2f", item));
                     }
                 }
             };
@@ -555,7 +555,7 @@ public class Subject_MainScene_Controller implements Initializable,ViewTeacher {
                     if (empty || item == -1) {
                         setText(null);
                     } else {
-                        setText(item.toString());
+                        setText(String.format("%.2f", item));
                     }
                 }
             };
@@ -572,7 +572,7 @@ public class Subject_MainScene_Controller implements Initializable,ViewTeacher {
                             || getTableRow().getItem().getEnd_point() == -1) {
                         setText(null);
                     } else {
-                        setText(item.toString());
+                        setText(String.format("%.2f", item));
                     }
                 }
             };
