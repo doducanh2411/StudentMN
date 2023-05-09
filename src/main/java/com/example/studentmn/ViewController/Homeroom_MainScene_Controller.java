@@ -1,6 +1,5 @@
 package com.example.studentmn.ViewController;
 
-
 import com.example.studentmn.Component.Student;
 import com.example.studentmn.HelloApplication;
 import com.itextpdf.text.*;
@@ -877,7 +876,6 @@ public class Homeroom_MainScene_Controller implements Initializable, ViewTeacher
             e.printStackTrace();
         }
     }
-
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {

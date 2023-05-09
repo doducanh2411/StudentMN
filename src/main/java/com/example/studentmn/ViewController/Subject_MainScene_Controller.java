@@ -1,7 +1,6 @@
 package com.example.studentmn.ViewController;
 
 import com.example.studentmn.Component.Grade;
-import com.example.studentmn.Component.Student;
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfPTable;
