@@ -1115,13 +1115,22 @@ public class Subject_MainScene_Controller implements Initializable,ViewTeacher {
     public void showChart() {
         try {
             // Prepare the SQL statement
-            String barQuery = "SELECT class.class_name, AVG(CASE WHEN grade.component_point >= 0 AND grade.mid_point >= 0 AND grade.end_point >= 0 THEN 0.1 * grade.component_point + 0.3 * grade.mid_point + 0.6 * grade.end_point ELSE NULL END) AS avg_grade, subject.subject_name " +
+            /*String barQuery = "SELECT class.class_name, AVG(CASE WHEN grade.component_point >= 0 AND grade.mid_point >= 0 AND grade.end_point >= 0 THEN 0.1 * grade.component_point + 0.3 * grade.mid_point + 0.6 * grade.end_point ELSE NULL END) AS avg_grade, subject.subject_name " +
                     "FROM teach " +
                     "INNER JOIN grade ON teach.subject_id = grade.subject_id " +
                     "INNER JOIN subject ON teach.subject_id = subject.subject_id " +
                     "INNER JOIN class ON teach.class_id = class.class_id " +
                     "WHERE teach.teacher_id = " + username + " " +
-                    "GROUP BY teach.class_id, teach.teacher_id, subject.subject_id, class.class_id";
+                    "GROUP BY teach.class_id, teach.teacher_id, subject.subject_id, class.class_id";*/
+
+            String barQuery = "SELECT class.class_name, subject.subject_name, AVG(CASE WHEN grade.component_point >= 0 AND grade.mid_point >= 0 AND grade.end_point>=0 THEN 0.1 * grade.component_point + 0.3 * grade.mid_point + 0.6 * grade.end_point ELSE NULL END) AS avg_grade \n" +
+                    "FROM grade \n" +
+                    "INNER JOIN teach ON grade.subject_id = teach.subject_id \n" +
+                    "INNER JOIN class ON teach.class_id = class.class_id \n" +
+                    "INNER JOIN subject ON teach.subject_id = subject.subject_id \n" +
+                    "WHERE grade.student_id IN (SELECT student_id FROM student WHERE class_id = teach.class_id) \n" +
+                    "    AND teach.teacher_id = 2 \n" +
+                    "GROUP BY class.class_name, subject.subject_name;";
 
             Statement stmt = connection.createStatement();
 
@@ -1168,7 +1177,6 @@ public class Subject_MainScene_Controller implements Initializable,ViewTeacher {
 
             // Update the data on the chart
             stackedBarChart.setData(data);
-            stackedBarChart.setTitle("Average Grades by Class and Subject for Teacher " + 2);
             xAxis.setLabel("Subject");
             yAxis.setLabel("Average Grade");
 

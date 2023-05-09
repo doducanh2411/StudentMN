@@ -287,7 +287,7 @@ public class Student_MainScene_Controller implements Initializable, ViewStudent 
                     if (empty || item == -1) {
                         setText(null);
                     } else {
-                        setText(item.toString());
+                        setText(String.format("%.2f", item));
                     }
                 }
             };
@@ -307,7 +307,7 @@ public class Student_MainScene_Controller implements Initializable, ViewStudent 
                     if (empty || item == -1) {
                         setText(null);
                     } else {
-                        setText(item.toString());
+                        setText(String.format("%.2f", item));
                     }
                 }
             };
@@ -326,7 +326,7 @@ public class Student_MainScene_Controller implements Initializable, ViewStudent 
                     if (empty || item == -1) {
                         setText(null);
                     } else {
-                        setText(item.toString());
+                        setText(String.format("%.2f", item));
                     }
                 }
             };
@@ -356,7 +356,7 @@ public class Student_MainScene_Controller implements Initializable, ViewStudent 
                     if (empty || item == null || item == -1) {
                         setText(null);
                     } else {
-                        setText(item.toString());
+                        setText(String.format("%.2f", item));
                     }
                 }
             };

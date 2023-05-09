@@ -26,7 +26,7 @@
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="640.0" prefWidth="804.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.studentmn.ViewController.Subject_MainScene_Controller">
     <children>
-        <Pane fx:id="dashBoardForm" prefHeight="640.0" prefWidth="804.0" stylesheets="@../mainscene.css" visible="false">
+        <Pane fx:id="dashBoardForm" prefHeight="640.0" prefWidth="804.0" stylesheets="@../mainscene.css">
             <children>
                 <Pane layoutX="20.0" layoutY="20.0" styleClass="name" stylesheets="@../mainscene.css">
                     <children>
@@ -47,7 +47,7 @@
                                 <Font name="Tahoma Bold" size="30.0" />
                             </font>
                         </Label>
-                        <StackedBarChart fx:id="stackedBarChart" layoutY="111.0" prefHeight="256.0" prefWidth="500.0">
+                        <StackedBarChart fx:id="stackedBarChart" layoutY="111.0" prefHeight="256.0" prefWidth="500.0" title="Average scores of subjects of classes">
                             <xAxis>
                                 <CategoryAxis side="BOTTOM" fx:id="xAxis" />
                             </xAxis>
@@ -57,7 +57,7 @@
                         </StackedBarChart>
                     </children>
                 </Pane>
-                <PieChart fx:id="piechart" layoutX="20.0" layoutY="404.0" prefHeight="222.0" prefWidth="500.0" styleClass="pieChart" stylesheets="@../mainscene.css" />
+                <PieChart fx:id="piechart" layoutX="20.0" layoutY="404.0" prefHeight="222.0" prefWidth="500.0" styleClass="pieChart" stylesheets="@../mainscene.css" title="Number of classes and subjects taught" />
                 <Pane layoutX="560.0" layoutY="20.0" prefHeight="347.0" prefWidth="222.0" styleClass="miniProfile" stylesheets="@../mainscene.css">
                     <children>
                         <Label fx:id="name1" alignment="BASELINE_CENTER" layoutY="90.0" prefHeight="23.0" prefWidth="222.0" text="Đỗ Đức Anh" textAlignment="CENTER">
@@ -76,7 +76,7 @@
                 </Pane>
             </children>
         </Pane>
-        <Pane fx:id="gradeForm" layoutX="20.0" layoutY="20.0" prefHeight="605.0" prefWidth="763.0" styleClass="center-radius" stylesheets="@../mainscene.css">
+        <Pane fx:id="gradeForm" layoutX="20.0" layoutY="20.0" prefHeight="605.0" prefWidth="763.0" styleClass="center-radius" stylesheets="@../mainscene.css" visible="false">
             <children>
                 <ComboBox fx:id="classList" layoutX="148.0" layoutY="15.0" prefHeight="25.0" prefWidth="105.0" promptText="Choose" />
                 <TableView fx:id="gradeViewTable" layoutX="20.0" layoutY="106.0" prefHeight="485.0" prefWidth="724.0" styleClass="tableView" stylesheets="@../mainscene.css">
