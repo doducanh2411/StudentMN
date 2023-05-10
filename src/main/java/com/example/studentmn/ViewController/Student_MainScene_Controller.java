@@ -197,7 +197,7 @@ public class Student_MainScene_Controller implements Initializable, ViewStudent 
             }
 
             barChart.getData().add(series);
-            barChart.setAnimated(true);
+            barChart.setLegendVisible(false);
 
         } catch (Exception e) {
             e.printStackTrace();

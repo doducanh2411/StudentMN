@@ -126,7 +126,8 @@ public class Homeroom_MainScene_Controller implements Initializable, ViewTeacher
     private Circle circleImg;
 
     public void showData() {
-        String classQuery = "SELECT * FROM class c INNER JOIN teacher t ON c.teacher_id = t.teacher_id";
+        String classQuery = "SELECT * FROM class c INNER JOIN teacher t ON c.teacher_id = t.teacher_id" +
+                            " WHERE t.teacher_id = " + username;
         try {
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(classQuery);
@@ -291,7 +292,8 @@ public class Homeroom_MainScene_Controller implements Initializable, ViewTeacher
 
                 // Check if any of the points is missing
                 if (component_point != -1 && mid_point != -1 && end_point != -1) {
-                    final_point = (float) (0.1 * component_point + 0.3 * mid_point + 0.6 * end_point);
+                    final_point = (float) ((0.1 * component_point + 0.3 * mid_point + 0.6 * end_point));
+                    final_point = Float.parseFloat(String.format("%.2f", final_point));
                 }
 
                 if (!finalPoints.containsKey(student_id)) {
@@ -318,7 +320,7 @@ public class Homeroom_MainScene_Controller implements Initializable, ViewTeacher
             for (Map<String, Object> studentPoints : finalPoints.values()) {
                 float totalPoints = (float) studentPoints.getOrDefault("total_points", 0f);
                 int numSubjects = (int) studentPoints.getOrDefault("num_subjects", 0);
-                if (numSubjects > 0) {
+                if (numSubjects > 0 && totalPoints > 0) { //FIX HERE
                     float finalGradePoint = totalPoints / numSubjects;
                     if (finalGradePoint < 5) {
                         countBelowAvg++;
@@ -338,6 +340,8 @@ public class Homeroom_MainScene_Controller implements Initializable, ViewTeacher
 
             TableColumn<Map.Entry<Integer, Map<String, Object>>, Integer> studentIdCol = new TableColumn<>("Student#");
             studentIdCol.setCellValueFactory(data -> new SimpleObjectProperty<>(data.getValue().getKey()));
+
+
             //gradeViewTable.getColumns().add(studentIdCol);
 
             TableColumn<Map.Entry<Integer, Map<String, Object>>, String> studentNameCol = new TableColumn<>("Name");
@@ -351,7 +355,7 @@ public class Homeroom_MainScene_Controller implements Initializable, ViewTeacher
             for (String subject : subjects) {
                 if (subject != null && !subject.equals("name") && !subject.equals("num_subjects") && !subject.equals("total_points") && !subject.equals("final_grade_point")) {
                     TableColumn<Map.Entry<Integer, Map<String, Object>>, Number> subjectPointCol = new TableColumn<>(subject);
-                    subjectPointCol.setCellValueFactory(data -> new SimpleObjectProperty<>((Number) data.getValue().getValue().get(subject)));
+                    subjectPointCol.setCellValueFactory(data -> new SimpleObjectProperty<>(data.getValue().getValue().get(subject) != null ? Float.parseFloat(String.format("%.2f", (Float) data.getValue().getValue().get(subject))) : null));
                     if (updateTable) {
                         gradeViewTable.getColumns().add(subjectPointCol);
                     }
@@ -362,7 +366,8 @@ public class Homeroom_MainScene_Controller implements Initializable, ViewTeacher
             gradeViewTable.getItems().setAll(finalPoints.entrySet());
 
             TableColumn<Map.Entry<Integer, Map<String, Object>>, Float> finalGradePointCol = new TableColumn<>("Final Point");
-            finalGradePointCol.setCellValueFactory(data -> new SimpleObjectProperty<>((Float) data.getValue().getValue().get("final_grade_point")));
+            finalGradePointCol.setCellValueFactory(data -> new SimpleObjectProperty<>(data.getValue().getValue().get("final_grade_point") != null ? Float.parseFloat(String.format("%.2f", (Float) data.getValue().getValue().get("final_grade_point"))) : null));
+
 
             if (updateTable) {
                 gradeViewTable.getColumns().add(finalGradePointCol);

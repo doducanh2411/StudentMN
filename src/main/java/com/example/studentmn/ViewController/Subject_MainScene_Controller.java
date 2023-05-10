@@ -1141,7 +1141,7 @@ public class Subject_MainScene_Controller implements Initializable,ViewTeacher {
                 stackPane.getChildren().addAll(new Rectangle(0, 0, 50, 0), label);
                 stackPane.setAlignment(Pos.TOP_CENTER);
                 dataPoint.setNode(stackPane);
-
+                dataPoint.getNode().setStyle("-fx-bar-fill: #8a70d6;");
                 series.getData().add(dataPoint);
             }
 
