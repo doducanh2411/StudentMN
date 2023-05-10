@@ -216,6 +216,7 @@ public class Homeroom_MainScene_Controller implements Initializable, ViewTeacher
                 series.getData().add(data1);
             }
             barChart.getData().add(series);
+            barChart.setLegendVisible(false);
         } catch (Exception e) {
             e.printStackTrace();
         }
