@@ -47,7 +47,7 @@
                                 <Font name="Tahoma Bold" size="30.0" />
                             </font>
                         </Label>
-                  <BarChart fx:id="barChart" layoutY="111.0" prefHeight="256.0" prefWidth="500.0">
+                  <BarChart fx:id="barChart" layoutY="111.0" prefHeight="256.0" prefWidth="500.0" title="Average scores of subjects of classes">
                     <xAxis>
                       <CategoryAxis side="BOTTOM" />
                     </xAxis>
