@@ -629,6 +629,24 @@ public class Subject_MainScene_Controller implements Initializable,ViewTeacher {
                 alert.setHeaderText(null);
                 alert.setContentText("Please select all blank fields");
                 alert.showAndWait();
+            } else if (!getComponentPoint.getText().matches("/^(10(\\.0{1,2})?|[0-9](\\.[0-9]{1,2})?)$/gm")) {
+                alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error message");
+                alert.setHeaderText(null);
+                alert.setContentText("Invalid component point!");
+                alert.showAndWait();
+            } else if (!getMidPoint.getText().matches("/^(10(\\.0{1,2})?|[0-9](\\.[0-9]{1,2})?)$/gm")) {
+                alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error message");
+                alert.setHeaderText(null);
+                alert.setContentText("Invalid mid point!");
+                alert.showAndWait();
+            } else if (!getEndPoint.getText().matches("/^(10(\\.0{1,2})?|[0-9](\\.[0-9]{1,2})?)$/gm")) {
+                alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error message");
+                alert.setHeaderText(null);
+                alert.setContentText("Invalid end point!");
+                alert.showAndWait();
             } else {
                 Statement statement = connection.createStatement();
                 ResultSet rs = statement.executeQuery(checkData);
