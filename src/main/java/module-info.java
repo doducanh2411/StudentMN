@@ -15,4 +15,6 @@ module com.example.demo {
     opens com.example.studentmn.ViewController to javafx.fxml;
     exports com.example.studentmn.StudentManagementController;
     opens com.example.studentmn.StudentManagementController to javafx.fxml;
+    exports com.example.studentmn.TeacherManagementController;
+    opens com.example.studentmn.TeacherManagementController to javafx.fxml;
 }

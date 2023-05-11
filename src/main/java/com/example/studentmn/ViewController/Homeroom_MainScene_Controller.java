@@ -439,7 +439,7 @@ public class Homeroom_MainScene_Controller implements Initializable, ViewTeacher
 
     public void addStudent() throws IOException {
         Stage stage = new Stage();
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("/com/example/studentmn/StudentManagementController/AddStudentForm.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("/com/example/studentmn/TeacherManagementController/AddTeacherForm.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         stage.setScene(scene);
         stage.setTitle("ADD STUDENT");

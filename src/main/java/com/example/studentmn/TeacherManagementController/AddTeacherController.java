@@ -1,9 +1,10 @@
-package com.example.studentmn.StudentManagementController;
-
+package com.example.studentmn.TeacherManagementController;
 
 import com.example.studentmn.Component.Student;
+import com.example.studentmn.Component.Teacher;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
@@ -22,108 +23,86 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
-import static com.example.studentmn.MainController.LoginFormController.*;
-import static com.example.studentmn.ViewController.Homeroom_MainScene_Controller.listStudents;
+import static com.example.studentmn.MainController.LoginFormController.connection;
+import static com.example.studentmn.ViewController.Admin_MainScene_Controller.listTeachers;
 import static java.sql.Types.NULL;
 
-public class AddStudentController implements Initializable {
+public class AddTeacherController implements Initializable {
 
     @FXML
-    private DatePicker getStudentBirth;
+    private DatePicker getTeacherBirth;
 
     @FXML
-    private TextField getStudentEmail;
+    private TextField getTeacherEmail;
 
     @FXML
-    private ComboBox<String> getStudentGender;
+    private ComboBox<String> getTeacherGender;
 
     @FXML
-    private TextField getStudentId;
+    private TextField getTeacherId;
 
     @FXML
-    private TextField getStudentName;
+    private TextField getTeacherName;
 
     @FXML
-    private TextField getStudentPhone;
-
-    private Student student;
-
-    public static int getTeacherClass() {
-        int result = 0;
-        if (isHomeroom == 1) {
-            String query = "SELECT class_id FROM class WHERE teacher_id = " + username;
-            try {
-                Statement st = connection.createStatement();
-                ResultSet rs = st.executeQuery(query);
-                if (rs.next()) {
-                    result = rs.getInt("class_id");
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        return result;
-    }
-
-    public void setStudent(Student student) {
-        this.student = student;
-    }
+    private TextField getTeacherPhone;
 
     public void addGenderList() {
         List<String> listGender = new ArrayList<>();
         listGender.add("Male");
         listGender.add("Female");
         ObservableList ObList = FXCollections.observableArrayList(listGender);
-        getStudentGender.setItems(ObList);
+        getTeacherGender.setItems(ObList);
     }
 
-    public void addStudent() {
-        String query = "INSERT INTO student " +
-                "(student_id, name, gender, date_of_birth, email, phone, class_id) " +
-                "VALUES(?,?,?,?,?,?,?)";
-        try {
-            Alert alert;
-            LocalDate present = LocalDate.now();
-            if (getStudentId.getText().isEmpty()
-                    || getStudentName.getText().isEmpty()
-                    || getStudentGender.getSelectionModel().getSelectedItem() == null
-                    || getStudentBirth.getValue() == null
-                    || getStudentEmail.getText().isEmpty()
-                    || getStudentPhone.getText().isEmpty()) {
+    @FXML
+    void addTeacher(ActionEvent event) {
+        String query = "INSERT INTO teacher " +
+                "(teacher_id, name, gender, date_of_birth, email, phone) " +
+                "VALUES(?,?,?,?,?,?)";
+        Alert alert;
+        LocalDate present = LocalDate.now();
+        try{
+            if (getTeacherId.getText().isEmpty()
+                    || getTeacherName.getText().isEmpty()
+                    || getTeacherGender.getSelectionModel().getSelectedItem() == null
+                    || getTeacherBirth.getValue() == null
+                    || getTeacherEmail.getText().isEmpty()
+                    || getTeacherPhone.getText().isEmpty()) {
                 alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Error Message");
                 alert.setHeaderText(null);
                 alert.setContentText("Please fill all blank!");
                 alert.showAndWait();
-            } else if (!getStudentId.getText().matches("^[0-9]+$")) {
+            }else if (!getTeacherId.getText().matches("^[0-9]+$")) {
                 alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Error message");
                 alert.setHeaderText(null);
-                alert.setContentText("Invalid Student ID!");
+                alert.setContentText("Invalid Teacher ID!");
                 alert.showAndWait();
-            } else if (getStudentBirth.getValue().isAfter(present)) {
+            }else if (getTeacherBirth.getValue().isAfter(present)) {
                 alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Error message");
                 alert.setHeaderText(null);
                 alert.setContentText("Invalid date!");
                 alert.showAndWait();
-            } else if (!getStudentEmail.getText().matches("[a-zA-Z0-9]+@[a-zA-Z]+\\.[a-zA-Z]+")) {
+            }else if (!getTeacherEmail.getText().matches("[a-zA-Z0-9]+@[a-zA-Z]+\\.[a-zA-Z]+")) {
                 alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Error message");
                 alert.setHeaderText(null);
                 alert.setContentText("Invalid email!");
                 alert.showAndWait();
-            } else if (!getStudentPhone.getText().matches("\\d{10,11}")) {
+            }else if (!getTeacherPhone.getText().matches("\\d{10,11}")) {
                 alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Error message");
                 alert.setHeaderText(null);
                 alert.setContentText("Invalid phone number!");
                 alert.showAndWait();
-            } else {
+            }else {
                 boolean flag = true;
 
-                String checkData = "SELECT student_id FROM student WHERE student_id = '"
-                        + getStudentId.getText() + "'";
+                String checkData = "SELECT teacher_id FROM teacher WHERE teacher_id = '"
+                        + getTeacherId.getText() + "'";
                 Statement st = connection.createStatement();
                 ResultSet rs = st.executeQuery(checkData);
                 if (rs.next()) {
@@ -131,13 +110,13 @@ public class AddStudentController implements Initializable {
                     alert = new Alert(Alert.AlertType.ERROR);
                     alert.setTitle("Error Message");
                     alert.setHeaderText(null);
-                    alert.setContentText("Student #" + getStudentId.getText() + " was already exist!");
+                    alert.setContentText("Teacher #" + getTeacherId.getText() + " was already exist!");
                     alert.showAndWait();
                 }
                 if (flag) {
                     try {
                         Statement stmt = connection.createStatement();
-                        ResultSet resultSet = stmt.executeQuery("SELECT email FROM student WHERE email = '" + getStudentEmail.getText() + "'");
+                        ResultSet resultSet = stmt.executeQuery("SELECT email FROM teacher WHERE email = '" + getTeacherEmail.getText() + "'");
                         if (resultSet.next()) {
                             flag = false;
                             alert = new Alert(Alert.AlertType.ERROR);
@@ -155,7 +134,7 @@ public class AddStudentController implements Initializable {
                 if (flag) {
                     try {
                         Statement stmt = connection.createStatement();
-                        ResultSet resultSet = stmt.executeQuery("SELECT phone FROM student WHERE phone = '" + getStudentPhone.getText() + "'");
+                        ResultSet resultSet = stmt.executeQuery("SELECT phone FROM teacher WHERE phone = '" + getTeacherPhone.getText() + "'");
                         if (resultSet.next()) {
                             flag = false;
                             alert = new Alert(Alert.AlertType.ERROR);
@@ -172,40 +151,38 @@ public class AddStudentController implements Initializable {
                 }
                 if (flag) {
                     PreparedStatement ps = connection.prepareStatement(query);
-                    if (getStudentId.getText().isEmpty()) {
+                    if (getTeacherId.getText().isEmpty()) {
                         ps.setInt(1, NULL);
                     } else {
-                        ps.setInt(1, Integer.parseInt(getStudentId.getText()));
+                        ps.setInt(1, Integer.parseInt(getTeacherId.getText()));
                     }
 
-                    ps.setString(2, getStudentName.getText());
-                    ps.setString(3, getStudentGender.getSelectionModel().getSelectedItem());
-                    ps.setString(4, String.valueOf(getStudentBirth.getValue()));
-                    ps.setString(5, getStudentEmail.getText());
-                    ps.setString(6, getStudentPhone.getText());
-                    ps.setInt(7, getTeacherClass());
+                    ps.setString(2, getTeacherName.getText());
+                    ps.setString(3, getTeacherGender.getSelectionModel().getSelectedItem());
+                    ps.setString(4, String.valueOf(getTeacherBirth.getValue()));
+                    ps.setString(5, getTeacherEmail.getText());
+                    ps.setString(6, getTeacherPhone.getText());
 
                     ps.executeUpdate();
 
-                    listStudents.add(new Student(
-                            Integer.parseInt(getStudentId.getText()),
-                            getStudentName.getText(),
-                            getStudentGender.getSelectionModel().getSelectedItem(),
-                            getStudentBirth.getValue(),
-                            getStudentEmail.getText(),
-                            getStudentPhone.getText(),
-                            getTeacherClass()
+                    listTeachers.add(new Teacher(
+                            Integer.parseInt(getTeacherId.getText()),
+                            getTeacherName.getText(),
+                            getTeacherGender.getSelectionModel().getSelectedItem(),
+                            getTeacherBirth.getValue(),
+                            getTeacherEmail.getText(),
+                            getTeacherPhone.getText()
                     ));
 
                     String addStudentAccount = "INSERT INTO account "
                             + "(username, password, homeroom_teacher, subject_teacher, student) "
                             + "VALUES(?,?,?,?,?)";
                     PreparedStatement preparedStatement = connection.prepareStatement(addStudentAccount);
-                    preparedStatement.setString(1, getStudentId.getText());
-                    preparedStatement.setString(2, getStudentBirth.getValue().format(DateTimeFormatter.ofPattern("ddMMyyyy")));
-                    preparedStatement.setInt(3, 0);
-                    preparedStatement.setInt(4, 0);
-                    preparedStatement.setInt(5, 1);
+                    preparedStatement.setString(1, getTeacherId.getText());
+                    preparedStatement.setString(2, getTeacherBirth.getValue().format(DateTimeFormatter.ofPattern("ddMMyyyy")));
+                    preparedStatement.setInt(3, 1);
+                    preparedStatement.setInt(4, 1);
+                    preparedStatement.setInt(5, 0);
 
                     preparedStatement.executeUpdate();
 
@@ -217,18 +194,18 @@ public class AddStudentController implements Initializable {
                     clearSelected();
                 }
             }
-        } catch (Exception e) {
+        }catch (Exception e){
             e.printStackTrace();
         }
-    }
 
+    }
     public void clearSelected() {
-        getStudentName.setText("");
-        getStudentId.setText("");
-        getStudentGender.getSelectionModel().clearSelection();
-        getStudentPhone.setText("");
-        getStudentEmail.setText("");
-        getStudentBirth.setValue(null);
+        getTeacherName.setText("");
+        getTeacherId.setText("");
+        getTeacherGender.getSelectionModel().clearSelection();
+        getTeacherPhone.setText("");
+        getTeacherEmail.setText("");
+        getTeacherBirth.setValue(null);
     }
 
     @Override

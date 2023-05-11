@@ -1,5 +1,6 @@
 package com.example.studentmn.MainController;
 
+import com.example.studentmn.HelloApplication;
 import com.example.studentmn.ViewController.Homeroom_MainScene_Controller;
 import com.example.studentmn.ViewController.Student_MainScene_Controller;
 import com.example.studentmn.ViewController.Subject_MainScene_Controller;

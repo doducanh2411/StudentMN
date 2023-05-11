@@ -74,7 +74,9 @@ public class UpdateStudentController implements Initializable {
             if (getStudentName.getText().isEmpty()
                     || getStudentGender.getSelectionModel().getSelectedItem() == null
                     || getStudentBirth.getValue() == null
-                    || getStudentId.getText().isEmpty()) {
+                    || getStudentId.getText().isEmpty()
+                    || getStudentEmail.getText().isEmpty()
+                    || getStudentPhone.getText().isEmpty()) {
                 alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Error Message");
                 alert.setHeaderText(null);

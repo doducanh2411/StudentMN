@@ -59,7 +59,12 @@ public class LoginFormController {
 
                     signInBut.getScene().getWindow().hide();
 
-                    Parent root = FXMLLoader.load(getClass().getResource("/com/example/studentmn/MainController/MainScene.fxml"));
+                    Parent root;
+                    if (isHomeroom == 1 || isSubject == 1 || isStudent == 1){
+                        root = FXMLLoader.load(getClass().getResource("/com/example/studentmn/MainController/MainScene.fxml"));
+                    }else{
+                        root = FXMLLoader.load(getClass().getResource("/com/example/studentmn/ViewController/Admin_MainScene.fxml"));
+                    }
                     Stage stage = new Stage();
                     Scene scene = new Scene(root);
 

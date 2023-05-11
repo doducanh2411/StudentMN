@@ -27,7 +27,7 @@
     <children>
         <Pane fx:id="dashBoardForm" prefHeight="643.0" prefWidth="804.0" stylesheets="@../mainscene.css">
             <children>
-                <Pane layoutX="20.0" layoutY="20.0" styleClass="name" stylesheets="@../mainscene.css">
+                <Pane layoutX="20.0" layoutY="20.0" prefHeight="411.0" prefWidth="764.0" styleClass="name" stylesheets="@../mainscene.css">
                     <children>
                         <Label layoutX="10.0" prefHeight="45.0" prefWidth="161.0" text="Welcome back!" textFill="#f37658">
                             <graphic>
@@ -46,33 +46,33 @@
                                 <Font name="Tahoma Bold" size="30.0" />
                             </font>
                         </Label>
-                        <BarChart fx:id="barChart" layoutY="110.0" prefHeight="263.0" prefWidth="504.0" title="Scores of subjects">
+                        <BarChart fx:id="barChart" layoutY="137.0" prefHeight="274.0" prefWidth="764.0" title="Scores of subjects">
                             <xAxis>
-                                <CategoryAxis side="BOTTOM" />
+                                <CategoryAxis prefHeight="0.0" prefWidth="708.0" side="BOTTOM" />
                             </xAxis>
                             <yAxis>
                                 <NumberAxis side="LEFT" />
                             </yAxis>
                         </BarChart>
+                      <Pane layoutX="515.0" prefHeight="143.0" prefWidth="235.0" styleClass="miniProfile" stylesheets="@../mainscene.css">
+                          <children>
+                              <Label fx:id="name1" alignment="TOP_CENTER" layoutY="60.0" prefHeight="23.0" prefWidth="235.0" text="Đỗ Đức Anh" textAlignment="CENTER">
+                                  <font>
+                                      <Font name="Tahoma" size="18.0" />
+                                  </font>
+                              </Label>
+                              <Label fx:id="type" alignment="BASELINE_CENTER" layoutY="84.0" prefHeight="17.0" prefWidth="235.0" text="Student" />
+                              <Text fx:id="description" layoutY="115.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Data" textAlignment="CENTER" wrappingWidth="235.0">
+                                  <font>
+                                      <Font size="13.0" />
+                                  </font>
+                              </Text>
+                              <Circle fx:id="avatarImg" fill="DODGERBLUE" layoutX="118.0" layoutY="30.0" radius="30.0" stroke="BLACK" strokeType="INSIDE" />
+                          </children>
+                      </Pane>
                     </children>
                 </Pane>
-                <PieChart fx:id="piechart" layoutX="20.0" layoutY="404.0" prefHeight="222.0" prefWidth="504.0" styleClass="pieChart" stylesheets="@../mainscene.css" title="Scoring evaluation" />
-                <Pane layoutX="560.0" layoutY="20.0" prefHeight="373.0" prefWidth="222.0" styleClass="miniProfile" stylesheets="@../mainscene.css">
-                    <children>
-                        <Label fx:id="name1" alignment="BASELINE_CENTER" layoutY="90.0" prefHeight="23.0" prefWidth="222.0" text="Đỗ Đức Anh" textAlignment="CENTER">
-                            <font>
-                                <Font name="Tahoma" size="18.0" />
-                            </font>
-                        </Label>
-                        <Label fx:id="type" alignment="BASELINE_CENTER" layoutY="113.0" prefHeight="17.0" prefWidth="222.0" text="Student" />
-                        <Text fx:id="description" layoutX="1.0" layoutY="160.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Data" textAlignment="CENTER" wrappingWidth="220.5367431640625">
-                            <font>
-                                <Font size="13.0" />
-                            </font>
-                        </Text>
-                        <Circle fx:id="avatarImg" fill="DODGERBLUE" layoutX="111.0" layoutY="49.0" radius="35.0" stroke="BLACK" strokeType="INSIDE" />
-                    </children>
-                </Pane>
+                <PieChart fx:id="piechart" layoutX="20.0" layoutY="448.0" prefHeight="178.0" prefWidth="764.0" styleClass="pieChart" stylesheets="@../mainscene.css" title="Scoring evaluation" />
             </children>
         </Pane>
         <Pane fx:id="gradeForm" layoutX="20.0" layoutY="20.0" prefHeight="600.0" prefWidth="764.0" styleClass="center-radius" stylesheets="@../mainscene.css" visible="false">
