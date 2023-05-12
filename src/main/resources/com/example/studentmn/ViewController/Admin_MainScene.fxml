@@ -2,6 +2,7 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
@@ -9,13 +10,78 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
 <BorderPane prefHeight="720.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.studentmn.ViewController.Admin_MainScene_Controller">
    <left>
-      <Pane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+      <Pane prefHeight="200.0" prefWidth="220.0" BorderPane.alignment="CENTER">
          <children>
-            <Button layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#close" prefHeight="26.0" prefWidth="30.0" style="-fx-background-color: transparent; -fx-cursor: hand;">
+            <VBox layoutX="20.0" layoutY="138.0">
+               <children>
+                  <Button fx:id="teacherBut" alignment="BASELINE_LEFT" mnemonicParsing="false" onAction="#switchForm" prefHeight="50.0" prefWidth="180.0" style="-fx-background-color: #e9e3ff; -fx-font-weight: bold; -fx-background-radius: 10px;" styleClass="left-button" stylesheets="@../mainscene.css" text="Teacher">
+                     <font>
+                        <Font name="FontAwesome" size="13.0" />
+                     </font>
+                     <graphic>
+                        <ImageView fitHeight="30.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../../image/student.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <padding>
+                        <Insets left="30.0" />
+                     </padding>
+                  </Button>
+                  <Button fx:id="homeroomBut" alignment="BASELINE_LEFT" mnemonicParsing="false" onAction="#switchForm" prefHeight="50.0" prefWidth="180.0" styleClass="left-button" stylesheets="@../mainscene.css" text="Homeroom">
+                     <font>
+                        <Font name="FontAwesome" size="13.0" />
+                     </font>
+                     <graphic>
+                        <ImageView fitHeight="30.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../../image/student.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <padding>
+                        <Insets left="30.0" />
+                     </padding>
+                  </Button>
+                  <Button fx:id="subjectBut" alignment="BASELINE_LEFT" mnemonicParsing="false" onAction="#switchForm" prefHeight="50.0" prefWidth="180.0" styleClass="left-button" stylesheets="@../mainscene.css" text="Subject">
+                     <font>
+                        <Font name="FontAwesome" size="13.0" />
+                     </font>
+                     <graphic>
+                        <ImageView fitHeight="30.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../../image/grade.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <padding>
+                        <Insets left="30.0" />
+                     </padding>
+                  </Button>
+               </children>
+            </VBox>
+            <Label alignment="CENTER" prefHeight="111.0" prefWidth="220.0" stylesheets="@../mainscene.css" text=" Studify" textAlignment="CENTER">
+               <font>
+                  <Font name="Tahoma Bold" size="18.0" />
+               </font>
+               <graphic>
+                  <ImageView fitHeight="51.0" fitWidth="67.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../../image/logo.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <padding>
+                  <Insets top="20.0" />
+               </padding>
+            </Label>
+            <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#close" prefHeight="26.0" prefWidth="30.0" style="-fx-background-color: transparent; -fx-cursor: hand;">
                <graphic>
                   <ImageView fitHeight="21.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -24,7 +90,7 @@
                   </ImageView>
                </graphic>
             </Button>
-            <Button layoutX="37.0" layoutY="10.0" mnemonicParsing="false" onAction="#minimize" style="-fx-background-color: transparent; -fx-cursor: hand;">
+            <Button layoutX="41.0" layoutY="14.0" mnemonicParsing="false" onAction="#minimize" style="-fx-background-color: transparent; -fx-cursor: hand;">
                <graphic>
                   <ImageView fitHeight="21.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -33,35 +99,20 @@
                   </ImageView>
                </graphic>
             </Button>
-            <Button fx:id="teacherBut" alignment="BASELINE_LEFT" layoutX="15.0" layoutY="90.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="180.0" style="-fx-background-color: #e9e3ff; -fx-font-weight: bold; -fx-background-radius: 10px;" stylesheets="@../mainscene.css" text="Teacher">
-               <font>
-                  <Font name="FontAwesome" size="13.0" />
-               </font>
-               <graphic>
-                  <ImageView fitHeight="30.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../../../../image/student.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
-               <padding>
-                  <Insets left="30.0" />
-               </padding>
-            </Button>
          </children>
       </Pane>
    </left>
    <center>
       <Pane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
-            <Pane fx:id="studentForm" layoutX="20.0" layoutY="20.0" prefHeight="681.0" prefWidth="781.0" styleClass="center-radius" stylesheets="@../mainscene.css">
+            <Pane fx:id="teacherForm" layoutX="20.0" layoutY="87.0" prefHeight="616.0" prefWidth="764.0" styleClass="center-radius" stylesheets="@../mainscene.css" visible="false">
                <children>
-                  <TextField fx:id="searchStudent" layoutX="20.0" layoutY="20.0" onKeyPressed="#searchStudent" prefHeight="25.0" prefWidth="260.0" promptText="Search" styleClass="search" stylesheets="@../mainscene.css">
+                  <TextField fx:id="searchTeacher" layoutX="20.0" layoutY="20.0" onKeyPressed="#searchTeacher" prefHeight="25.0" prefWidth="260.0" promptText="Search" styleClass="search" stylesheets="@../mainscene.css">
                      <font>
                         <Font name="Tahoma" size="14.0" />
                      </font>
                   </TextField>
-                  <TableView fx:id="teacherViewTable" layoutX="20.0" layoutY="70.0" prefHeight="593.0" prefWidth="743.0" styleClass="tableView" stylesheets="@../mainscene.css">
+                  <TableView fx:id="teacherViewTable" layoutX="20.0" layoutY="70.0" prefHeight="530.0" prefWidth="725.0" styleClass="tableView" stylesheets="@../mainscene.css">
                      <columns>
                         <TableColumn fx:id="teacher_id_col" prefWidth="84.79998779296875" text="Teacher #" />
                         <TableColumn fx:id="teacher_name_col" prefWidth="132.800048828125" text="Full Name" />
@@ -72,7 +123,64 @@
                         <TableColumn fx:id="action" prefWidth="109.60009765625" text="Action" />
                      </columns>
                   </TableView>
-                  <Button fx:id="createTeacher" layoutX="646.0" layoutY="15.0" mnemonicParsing="false" onAction="#createTeacher" prefHeight="40.0" prefWidth="117.0" styleClass="createButton" stylesheets="@../mainscene.css" text="Create New" textFill="WHITE">
+                  <Button fx:id="createTeacher" layoutX="628.0" layoutY="15.0" mnemonicParsing="false" onAction="#createTeacher" prefHeight="40.0" prefWidth="117.0" styleClass="createButton" stylesheets="@../mainscene.css" text="Create New" textFill="WHITE">
+                     <graphic>
+                        <ImageView fitHeight="24.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../../image/plus.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <font>
+                        <Font name="System Bold" size="13.0" />
+                     </font>
+                  </Button>
+               </children>
+            </Pane>
+            <Pane prefHeight="80.0" prefWidth="804.0" style="-fx-background-color: #f7f7f7;">
+               <children>
+                  <Label fx:id="PaneLable" layoutX="20.0" prefHeight="80.0" prefWidth="240.0" text="TEACHER">
+                     <font>
+                        <Font name="Gill Sans MT" size="30.0" />
+                     </font>
+                  </Label>
+               </children>
+            </Pane>
+            <Pane fx:id="homeroomForm" layoutX="20.0" layoutY="87.0" prefHeight="616.0" prefWidth="764.0" styleClass="center-radius" stylesheets="@../mainscene.css">
+               <children>
+                  <TableView fx:id="classViewTable" layoutX="20.0" layoutY="70.0" prefHeight="530.0" prefWidth="725.0" styleClass="tableView" stylesheets="@../mainscene.css">
+                     <columns>
+                        <TableColumn fx:id="class_id_col" prefWidth="84.79998779296875" text="Class ID" />
+                        <TableColumn fx:id="class_name_col" prefWidth="166.4000244140625" text="Class Name" />
+                        <TableColumn fx:id="teacher_name_class_col" prefWidth="390.39996337890625" text="Teacher" />
+                        <TableColumn fx:id="class_action" prefWidth="82.4000244140625" text="Action" />
+                     </columns>
+                  </TableView>
+                  <Button layoutX="628.0" layoutY="15.0" mnemonicParsing="false" onAction="#createClass" prefHeight="40.0" prefWidth="117.0" styleClass="createButton" stylesheets="@../mainscene.css" text="Create New" textFill="WHITE">
+                     <graphic>
+                        <ImageView fitHeight="24.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../../image/plus.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <font>
+                        <Font name="System Bold" size="13.0" />
+                     </font>
+                  </Button>
+               </children>
+            </Pane>
+            <Pane fx:id="subjectForm" layoutX="20.0" layoutY="80.0" prefHeight="616.0" prefWidth="764.0" styleClass="center-radius" stylesheets="@../mainscene.css" visible="false">
+               <children>
+                  <TableView fx:id="teachViewTable" layoutX="20.0" layoutY="70.0" prefHeight="530.0" prefWidth="725.0" styleClass="tableView" stylesheets="@../mainscene.css">
+                     <columns>
+                        <TableColumn fx:id="teach_id" prefWidth="84.79998779296875" text="Teach ID" />
+                        <TableColumn fx:id="teacher_name_teach_col" prefWidth="207.20001220703125" text="Teacher" />
+                        <TableColumn fx:id="subject_name_class_col" prefWidth="255.20001220703125" text="Subject" />
+                        <TableColumn fx:id="class_name_teach_col" prefWidth="177.60003662109375" text="Class" />
+                     </columns>
+                  </TableView>
+                  <Button fx:id="createTeacher11" layoutX="628.0" layoutY="15.0" mnemonicParsing="false" onAction="#createTeacher" prefHeight="40.0" prefWidth="117.0" styleClass="createButton" stylesheets="@../mainscene.css" text="Create New" textFill="WHITE">
                      <graphic>
                         <ImageView fitHeight="24.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
                            <image>

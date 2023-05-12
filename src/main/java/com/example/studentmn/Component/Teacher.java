@@ -133,7 +133,7 @@ public class Teacher {
                 alert = new Alert(Alert.AlertType.CONFIRMATION);
                 alert.setTitle("Confirmation Message");
                 alert.setHeaderText(null);
-                alert.setContentText("Are you sure you want to DELETE Student #" + teacher_id + "?");
+                alert.setContentText("Are you sure you want to DELETE Teacher #" + teacher_id + "?");
 
                 Optional<ButtonType> option = alert.showAndWait();
 

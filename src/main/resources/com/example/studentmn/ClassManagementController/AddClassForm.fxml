@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="600.0" styleClass="center-gradient" stylesheets="@../mainscene.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.studentmn.ClassManagementController.AddClassController">
+   <children>
+      <Label layoutX="105.0" layoutY="68.0" prefHeight="30.0" prefWidth="90.0" text="Class ID" textFill="WHITE">
+         <font>
+            <Font size="13.0" />
+         </font>
+      </Label>
+      <Button layoutX="420.0" layoutY="83.0" mnemonicParsing="false" onAction="#createClass" prefHeight="40.0" prefWidth="80.0" style="-fx-background-color: #00bdda;" text="Insert" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Button>
+      <TextField fx:id="getClassId" layoutX="195.0" layoutY="68.0" prefHeight="30.0" prefWidth="205.0" />
+      <Label layoutX="105.0" layoutY="103.0" prefHeight="30.0" prefWidth="90.0" text="Class name" textFill="WHITE">
+         <font>
+            <Font size="13.0" />
+         </font>
+      </Label>
+      <TextField fx:id="getClassName" layoutX="195.0" layoutY="103.0" prefHeight="30.0" prefWidth="205.0" />
+   </children>
+</Pane>
