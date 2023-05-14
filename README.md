@@ -26,4 +26,6 @@ This project has the following main features
 * Student: See grade.
 * Change profile and change password.
 * Export grade to pdf
+## Document
+[Document.pdf](https://github.com/doducanh2411/StudentMN/files/11472260/Document.pdf)
 
